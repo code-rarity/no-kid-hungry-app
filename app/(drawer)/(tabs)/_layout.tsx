@@ -10,7 +10,6 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { BlurView } from 'expo-blur';
 
-
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const [isApplePaySupported, setIsApplePaySupported] = useState(false);

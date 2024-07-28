@@ -11,8 +11,6 @@ export default function StoryScreen() {
   const { width } = useWindowDimensions();
   const { title, date, content, image } = route.params.story;
 
-  console.log(content);
-
   const source = {
     html: content
   };

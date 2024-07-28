@@ -7,8 +7,8 @@ import AWS from 'aws-sdk';
 
 AWS.config.update({
   region: 'us-east-1', // replace with your region
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID, // replace with your access key
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // replace with your secret key
+  accessKeyId: 'AKIATPYABGGAZIFRLNGE', //process.env.AWS_ACCESS_KEY_ID, // replace with your access key
+  secretAccessKey: 'bF6iW/FNN1jw0aOuZ/DtnTY/UgYxicMoHdFm+xLs', //process.env.AWS_SECRET_ACCESS_KEY, // replace with your secret key
 });
 
 const lambda = new AWS.Lambda();

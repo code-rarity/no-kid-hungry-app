@@ -9,6 +9,10 @@ export type StripePaymentIntentResponse = {
 };
 
 export type PaymentSheetConfig = {
+  applePay: {
+    merchantCountryCode: string,
+    currencyCode: string,
+  },
   merchantDisplayName: string;
   customerId: string;
   paymentIntentClientSecret: string;
