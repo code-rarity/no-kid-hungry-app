@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Image, StyleSheet, Platform, TouchableOpacity, FlatList } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function StoriesScreen() {
+  const navigation = useNavigation();
+
   const [posts, setPosts] = useState([]);
   const [images, setImages] = useState([]);
   const [offset, setOffset] = useState(0);
@@ -51,6 +54,7 @@ export default function StoriesScreen() {
     <ThemedView style={styles.container}>
       <FlatList
         data={posts}
+        style={{padding:15}}
         ListHeaderComponent={() => (
           <ThemedView>
             <ThemedText style={styles.h1}>No Kid Hungry</ThemedText>
@@ -63,7 +67,7 @@ export default function StoriesScreen() {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         renderItem={({item, index}) => (
-          <TouchableOpacity onPress={() => ''} style={styles.card}>
+          <TouchableOpacity onPress={() => navigation.push('story', {story: item})} style={styles.card}>
             <Image source={{ uri: item.image }} style={styles.img} />
             <ThemedView style={styles.carddetails}>
               <ThemedText style={styles.small}>{item.date}</ThemedText>
@@ -80,7 +84,6 @@ export default function StoriesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
   },
   h1: {
     fontSize: 100,
