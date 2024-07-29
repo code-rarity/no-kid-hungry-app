@@ -115,8 +115,8 @@ const styles = StyleSheet.create({
   },
   card: {
     flex:1,
-    marginTop: 25,
-    marginBottom:25,
+    marginTop: 15,
+    marginBottom:15,
   },
   carddetails: {
     paddingTop:15,

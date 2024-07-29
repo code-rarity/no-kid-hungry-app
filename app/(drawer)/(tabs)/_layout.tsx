@@ -1,6 +1,7 @@
 import { Tabs, router } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { Button, Image, StyleSheet } from "react-native";
+import { Button, Image, StyleSheet, Modal } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { PlatformPayButton, isPlatformPaySupported, confirmPlatformPayPayment } from '@stripe/stripe-react-native';
@@ -11,6 +12,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { BlurView } from 'expo-blur';
 
 export default function TabLayout() {
+  const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const [isApplePaySupported, setIsApplePaySupported] = useState(false);
 
@@ -69,7 +71,7 @@ export default function TabLayout() {
       return;
     }
 
-    router.navigate("/completion");
+    navigation.push('thankyou', {details: requestBody});
   }
 
   return (
