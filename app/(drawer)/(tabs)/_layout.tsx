@@ -90,7 +90,7 @@ export default function TabLayout() {
         ),
       }}>
       <Tabs.Screen
-        name="index"
+        name="(stories)"
         options={{
           title: 'Stories',
           headerTitle: '',
@@ -119,7 +119,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="blank"
+        name="donate"
         listeners = {({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
