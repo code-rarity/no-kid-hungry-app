@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, Platform, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import { StyleSheet, Image, Platform, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useNavigationSearch } from '@/hooks/useNavigationSearch';
+import { episodeTitleFilter } from '@/helpers/filters';
 
 const parseString = require('react-native-xml2js').parseString;
 
 export default function PodcastScreen() {
-  const search = useNavigationSearch({
-    searchBarOptions: {
-      placeholder:'Find an episode',
-    }
-  });
-
   const [episodes, setEpisodes] = useState([]);
   const [images, setImages] = useState([]);
   const [offset, setOffset] = useState(0);
@@ -49,6 +44,18 @@ export default function PodcastScreen() {
     }
   }
 
+  const search = useNavigationSearch({
+    searchBarOptions: {
+      placeholder:'Find an episode',
+    }
+  });
+
+  const filteredEpisodes = useMemo(() => {
+    if(!search) return episodes;
+
+    return episodes.filter(episodeTitleFilter(search));
+  }, [search, episodes]);
+
   const ItemDivider = () => {
     <ThemedView style={{marginVertical: 9, marginLeft:60}} />
   }
@@ -56,14 +63,10 @@ export default function PodcastScreen() {
   return (
     <ThemedView style={styles.container}>
       <FlatList
-        data={episodes}
+        data={filteredEpisodes}
         style={{padding:15}}
+        contentContainerStyle={{paddingTop:180, paddingBottom:128}}
         ItemSeparatorComponent={ItemDivider}
-        ListHeaderComponent={() => (
-          <ThemedView>
-            <ThemedText style={styles.h2}>Continue Listening</ThemedText>
-          </ThemedView>
-        )}
         ListFooterComponent={() => (
           <ThemedText>Load More</ThemedText>
         )}

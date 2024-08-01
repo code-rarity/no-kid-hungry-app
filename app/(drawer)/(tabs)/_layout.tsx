@@ -150,10 +150,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="podcast"
         options={{
-          title: 'Podcast',
-          headerTitle: '',
-          headerLeft: () => <DrawerToggleButton tintColor='#fff' activeTintColor="#e3dd2b" />,
-          headerStyle: {backgroundColor:'#1d77ae'},
+          headerShown: false,
           tabBarStyle: {backgroundColor: '#1d77ae'},
           tabBarActiveTintColor: "#e3dd2b",
           tabBarInactiveTintColor: "#fff",

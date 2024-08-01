@@ -1,7 +1,6 @@
 import { StackScreenWithSearchBar } from '@/constants/Layout'
-import { defaultStyles } from '@/styles'
+import { DrawerToggleButton } from '@react-navigation/drawer';
 import { Stack } from 'expo-router'
-import { View } from 'react-native'
 
 const PodcastScreenLayout = () => {
   return (
@@ -10,10 +9,11 @@ const PodcastScreenLayout = () => {
         name="index"
         options={{
           ...StackScreenWithSearchBar,
-          headerTitle: 'Podcast',
+          headerTitle: 'Add Passion & Stir',
+          headerLeft: () => <DrawerToggleButton tintColor='#000' activeTintColor="#e3dd2b" />,
         }}
       />
-      <Stack.Screen name="episode" options={{ headerShown: false}} />
+      <Stack.Screen name="episode" options={{headerShown: false}} />
     </Stack>
   )
 }
