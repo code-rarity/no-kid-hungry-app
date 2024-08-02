@@ -1,8 +1,4 @@
-import {
-  StripePaymentIntentRequestBody,
-  StripePaymentIntentResponse,
-} from "@/helpers/types";
-
+import { StripePaymentIntentRequestBody, StripePaymentIntentResponse } from "@/helpers/types";
 import AWS from 'aws-sdk';
 
 AWS.config.update({

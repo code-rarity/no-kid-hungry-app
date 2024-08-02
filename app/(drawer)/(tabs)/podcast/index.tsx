@@ -59,7 +59,7 @@ export default function PodcastScreen() {
   }, [search, episodes]);
 
   return (
-    <ThemedView>
+    <ThemedView style={{backgroundColor:'#000'}}>
       <ScrollView contentInsetAdjustmentBehavior="automatic"
         style={{ paddingHorizontal: screenPadding.horizontal }}>
         <TrackList scrollEnabled={false} tracks={filteredEpisodes} />
@@ -67,50 +67,3 @@ export default function PodcastScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  h1: {
-    fontSize: 100,
-    fontWeight: 'bold',
-    lineHeight: 'normal',
-  },
-  h2: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    lineHeight: 36,
-  },
-  h3: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    lineHeight: 32,
-  },
-  p: {
-    fontSize: 16,
-  },
-  small: {
-    fontSize:14,
-  },
-  episodecontainer: {
-    flex:1,
-  },
-  episodecard: {
-    flex:1,
-    marginTop:10,
-    marginBottom:10,
-    flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center',
-  },
-  episodeimg: {
-    width: 60,
-    height:60,
-    marginRight:15,
-    borderRadius:20
-  },
-  episodecarddetails: {
-    flex:1,
-  },
-});

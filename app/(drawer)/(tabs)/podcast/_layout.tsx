@@ -12,7 +12,14 @@ const PodcastScreenLayout = () => {
         options={{
           ...StackScreenWithSearchBar,
           headerTitle: 'Add Passion & Stir',
-          headerLeft: () => <DrawerToggleButton tintColor='#000' activeTintColor="#e3dd2b" />,
+          headerLargeStyle: {
+            backgroundColor: '#000',
+          },
+          headerLargeTitleStyle: {
+            color: '#fff',
+          },
+          headerTintColor: '#fff',
+          headerLeft: () => <DrawerToggleButton tintColor='#fff' activeTintColor="#e3dd2b" />,
         }}
       />
       <Stack.Screen name="episode" options={{headerShown: false}} />

@@ -13,16 +13,17 @@ export const TrackListItem = ({track}: TrackListItemProps) => {
   return (
      <TouchableHighlight style={{marginVertical:10}}>
       <ThemedView style={styles.trackItemContainer}>
-        <ThemedView>
+        <ThemedView style={{
+            ...styles.trackImageContainer
+          }}>
           <Image source={{ 
             uri: track.image 
-          }} 
-          style={{
+          }} style={{
             ...styles.trackImage,
             opacity: isActiveTrack ? 0.6 : 1
           }} />
         </ThemedView>
-        <ThemedView style={{width:'100%'}}>
+        <ThemedView style={{width:'100%', marginLeft:15}}>
           <ThemedText numberOfLines={1} style={{
             ...styles.trackTitleText,
             color: isActiveTrack ? Colors.light.text: Colors.dark.text
@@ -38,16 +39,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columngap: 14,
     alignItems: 'center',
-    paddingRight:20,
+    backgroundColor:'#000',
+    overflow:'hidden',
+  },
+  trackImageContainer: {
+    borderRadius:20,
+    overflow:'hidden',
   },
   trackImage: {
     width:60,
-    height:60,
-    borderRadius:15,
+    height:60
   },
   trackTitleText: {
     fontSize: 14,
     fontWeight:'bold',
     maxWidth: '90%',
+    backgroundColor:'#000'
   }
 })

@@ -16,7 +16,7 @@ export const TrackList = ({tracks, ...flatlistProps}: TrackListProps) => {
       ItemSeparatorComponent={ItemDivider}
       renderItem={({item: track}) => (
         <TrackListItem 
-          track={track} 
+          track={track}
         /> 
       )}
       {...flatlistProps}

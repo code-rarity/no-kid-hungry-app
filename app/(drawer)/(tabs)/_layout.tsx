@@ -95,7 +95,7 @@ export default function TabLayout() {
           title: 'Stories',
           headerTitle: '',
           headerStyle: {backgroundColor:'#fff'},
-          tabBarActiveTintColor: "#fff",
+          tabBarActiveTintColor: "#f27622",
           tabBarInactiveTintColor: "#000",
           headerLeft: () => <DrawerToggleButton tintColor='#000' />,
           tabBarIcon: ({ color, focused }) => (
@@ -139,7 +139,7 @@ export default function TabLayout() {
           title: 'Fundraise',
           headerTitle: '',
           headerStyle: {backgroundColor:'#fff'},
-          tabBarActiveTintColor: "#fff",
+          tabBarActiveTintColor: "#f27622",
           tabBarInactiveTintColor: "#000",
           headerLeft: () => <DrawerToggleButton tintColor='#000' />,
           tabBarIcon: ({ color, focused }) => (
@@ -152,7 +152,7 @@ export default function TabLayout() {
         options={{
           headerShown: false,
           title: 'Podcast',
-          tabBarStyle: {backgroundColor: '#1d77ae'},
+          tabBarStyle: {backgroundColor: '#000'},
           tabBarActiveTintColor: "#e3dd2b",
           tabBarInactiveTintColor: "#fff",
           tabBarIcon: ({ color, focused }) => (
