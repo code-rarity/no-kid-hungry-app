@@ -14,3 +14,7 @@ export const StackScreenWithSearchBar: NativeStackNavigationOptions = {
   headerBlurEffect: 'prominent',
   headerShadowVisible: false
 }
+
+export const screenPadding = {
+  horizontal: 15,
+}

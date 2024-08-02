@@ -151,6 +151,7 @@ export default function TabLayout() {
         name="podcast"
         options={{
           headerShown: false,
+          title: 'Podcast',
           tabBarStyle: {backgroundColor: '#1d77ae'},
           tabBarActiveTintColor: "#e3dd2b",
           tabBarInactiveTintColor: "#fff",

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { StyleSheet, Image, Platform, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Image, Platform, FlatList, TouchableHighlight, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useNavigationSearch } from '@/hooks/useNavigationSearch';
+import { TrackList } from '@/components/TrackList';
+import { screenPadding } from '@/constants/Layout';
 import { episodeTitleFilter } from '@/helpers/filters';
 
 const parseString = require('react-native-xml2js').parseString;
@@ -56,31 +58,12 @@ export default function PodcastScreen() {
     return episodes.filter(episodeTitleFilter(search));
   }, [search, episodes]);
 
-  const ItemDivider = () => {
-    <ThemedView style={{marginVertical: 9, marginLeft:60}} />
-  }
-
   return (
-    <ThemedView style={styles.container}>
-      <FlatList
-        data={filteredEpisodes}
-        style={{padding:15}}
-        contentContainerStyle={{paddingTop:180, paddingBottom:128}}
-        ItemSeparatorComponent={ItemDivider}
-        ListFooterComponent={() => (
-          <ThemedText>Load More</ThemedText>
-        )}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item, index}) => (
-          <TouchableOpacity onPress={() => navigation.push('episode', {episode: item})} style={styles.episodecard}>
-            <Image source={{ uri: item.image }} style={styles.episodeimg} />
-            <ThemedView style={styles.episodecarddetails}>
-              <ThemedText style={styles.small}>{item.title}</ThemedText>
-            </ThemedView>
-          </TouchableOpacity>
-        )}
-      />
+    <ThemedView>
+      <ScrollView contentInsetAdjustmentBehavior="automatic"
+        style={{ paddingHorizontal: screenPadding.horizontal }}>
+        <TrackList scrollEnabled={false} tracks={filteredEpisodes} />
+      </ScrollView>
     </ThemedView>
   );
 }
@@ -110,13 +93,16 @@ const styles = StyleSheet.create({
   small: {
     fontSize:14,
   },
+  episodecontainer: {
+    flex:1,
+  },
   episodecard: {
     flex:1,
+    marginTop:10,
+    marginBottom:10,
     flexDirection:'row',
     justifyContent:'center',
     alignItems:'center',
-    marginTop:10,
-    marginBottom:10,
   },
   episodeimg: {
     width: 60,
