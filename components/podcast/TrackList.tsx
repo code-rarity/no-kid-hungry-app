@@ -1,8 +1,11 @@
 import { FlatList } from 'react-native';
-import { TrackListItem } from '@/components/TrackListItem';
+import { TrackListItem } from '@/components/podcast/TrackListItem';
 import { ThemedView } from '@/components/ThemedView';
+import { Track } from 'react-native-track-player';
 
-export type TrackListProps = Partial<FlatListProps<unknown>>
+export type TrackListProps = Partial<FlatListProps<Track>> & {
+  tracks: Track[]
+}
 
 const ItemDivider = () => {
   <ThemedView style={{marginVertical: 9, marginLeft:60}} />

@@ -5,7 +5,7 @@ export const StackScreenWithSearchBar: NativeStackNavigationOptions = {
   headerLargeTitle: true,
   headerTransparent: true,
   headerBlurEffect: 'prominent',
-  headerShadowVisible: false
+  headerShadowVisible: false,
 }
 
 export const screenPadding = {

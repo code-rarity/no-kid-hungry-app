@@ -1,17 +1,25 @@
-import { DarkTheme, DefaultTheme, ThemeProvider, useNavigation } from '@react-navigation/native';
+import { useEffect, useCallback } from 'react';
 import { Stack } from 'expo-router';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { useFonts } from 'expo-font';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer';
 import 'react-native-reanimated';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const navigation = useNavigation();
+const App = () => {
+  /*const handleTrackPlayerLoaded = useCallback(() => {
+    SplashScreen.hideAsync();
+  }, [])
+
+  useSetupTrackPlayer({
+    onLoad: handleTrackPlayerLoaded,
+  })*/
+
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     GothamBlack: require('../assets/fonts/Gotham-Black.ttf'),
@@ -41,3 +49,5 @@ export default function RootLayout() {
     </StripeProvider>
   );
 }
+
+export default App

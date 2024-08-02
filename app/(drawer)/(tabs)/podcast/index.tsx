@@ -3,7 +3,7 @@ import { StyleSheet, Image, Platform, FlatList, TouchableHighlight, ScrollView }
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useNavigationSearch } from '@/hooks/useNavigationSearch';
-import { TrackList } from '@/components/TrackList';
+import { TrackList } from '@/components/podcast/TrackList';
 import { screenPadding } from '@/constants/Layout';
 import { episodeTitleFilter } from '@/helpers/filters';
 
@@ -49,6 +49,8 @@ export default function PodcastScreen() {
   const search = useNavigationSearch({
     searchBarOptions: {
       placeholder:'Find an episode',
+      textColor: "white",
+      placeholderTextColor: "white",
     }
   });
 

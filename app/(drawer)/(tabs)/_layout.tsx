@@ -77,14 +77,23 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarStyle: { position:'absolute' },
+        tabBarStyle: { 
+          position:'absolute',
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          borderTopWidth: 0,
+          elevation: 0,          
+          paddingTop: 8,
+        },
         tabBarBackground: () => (
           <BlurView 
             intensity={80} 
             style={{
               ...StyleSheet.absoluteFillObject, 
               overflow:'hidden', 
-              backgroundColor:'transparent'
+              backgroundColor:'transparent',
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
             }}
           />
         ),
@@ -152,7 +161,7 @@ export default function TabLayout() {
         options={{
           headerShown: false,
           title: 'Podcast',
-          tabBarStyle: {backgroundColor: '#000'},
+          //tabBarStyle: {backgroundColor: '#000'},
           tabBarActiveTintColor: "#e3dd2b",
           tabBarInactiveTintColor: "#fff",
           tabBarIcon: ({ color, focused }) => (

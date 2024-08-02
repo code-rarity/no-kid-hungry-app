@@ -1,10 +1,11 @@
 import { TouchableHighlight, Image, StyleSheet } from 'react-native';
+import { Track } from 'react-native-track-player';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
 
 export type TrackListItemProps = {
-  track: {title: string, image?: string,  }
+  track: Track
 }
 
 export const TrackListItem = ({track}: TrackListItemProps) => {
@@ -24,7 +25,7 @@ export const TrackListItem = ({track}: TrackListItemProps) => {
           }} />
         </ThemedView>
         <ThemedView style={{width:'100%', marginLeft:15}}>
-          <ThemedText numberOfLines={1} style={{
+          <ThemedText numberOfLines={2} style={{
             ...styles.trackTitleText,
             color: isActiveTrack ? Colors.light.text: Colors.dark.text
           }}>{track.title}</ThemedText>
