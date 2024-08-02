@@ -6,7 +6,7 @@ import { DrawerToggleButton } from '@react-navigation/drawer';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { PlatformPayButton, isPlatformPaySupported, confirmPlatformPayPayment } from '@stripe/stripe-react-native';
 import { initPaymentSheet, presentPaymentSheet } from "@/providers/stripe/stripeFunctions";
-import { createPaymentIntentClientSecret } from "@/scripts/helpers";
+import { createPaymentIntentClientSecret } from "@/helpers/restAPI";
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { BlurView } from 'expo-blur';

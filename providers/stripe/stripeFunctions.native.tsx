@@ -1,4 +1,4 @@
-import { PaymentSheetConfig } from "@/types";
+import { PaymentSheetConfig } from "@/helpers/types";
 import {
   initPaymentSheet as nativeInitPaymentSheet,
   presentPaymentSheet as nativePresentPaymentSheet,

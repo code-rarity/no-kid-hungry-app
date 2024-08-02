@@ -1,7 +1,7 @@
 import {
   StripePaymentIntentRequestBody,
   StripePaymentIntentResponse,
-} from "@/types";
+} from "@/helpers/types";
 
 import AWS from 'aws-sdk';
 
