@@ -1,16 +1,16 @@
 import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useActiveTrack } from 'react-native-track-player';
+import { useLastActiveTrack } from '@/hooks/useLastActiveTrack';
 import { PlayPauseButton, SkipToNextButton } from '@/components/podcast/PlayerControls';
+import { MovingText } from '@/components/podcast/MovingText';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 
 export const FloatingPlayer = ({style}: ViewProps) => {
   const activeTrack = useActiveTrack();
-  //const lastActiveTrack = useLastActiveTrack();
+  const lastActiveTrack = useLastActiveTrack();
 
-  const displayedTrack: Track = activeTrack ?? {
-    title: 'This is an episode'
-  };
+  const displayedTrack = activeTrack ?? lastActiveTrack;
 
   if(!displayedTrack) {
     return null;
@@ -25,11 +25,11 @@ export const FloatingPlayer = ({style}: ViewProps) => {
         />
       </>
       <ThemedView style={styles.trackTitleContainer}>
-        <ThemedText style={styles.trackTitle}>{displayedTrack.title}</ThemedText>
+        <MovingText style={styles.trackTitle} text={displayedTrack.title} animationThreshold={25} />
       </ThemedView>
       <ThemedView style={styles.trackControlsContainer}>
-        <PlayPauseButton iconSize={36} style={{backgroundColor:"#252525"}} />
-        <SkipToNextButton iconSize={30} />
+        <PlayPauseButton iconSize={50} style={{backgroundColor:"#252525"}} />
+        <SkipToNextButton iconSize={36} />
       </ThemedView>
     </TouchableOpacity>
   )
@@ -39,13 +39,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection:'row',
     alignItems:'center',
-    padding:8,
-    borderRadius:12,
-    paddingVertical: 10,
+    padding:10,
+    borderRadius:15,
+    paddingVertical: 0,
   },
   trackArtworkImage: {
-    width:50,
-    height:50,
+    width:40,
+    height:40,
     borderRadius:8,
   },
   trackTitleContainer: {
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     marginLeft:10,
   },
   trackTitle: {
-    fontSize:16,
+    fontSize:10,
     fontWeight:'bold',
     paddingLeft:10,
     color:'#fff',
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   trackControlsContainer: {
     flexDirection:'row',
     alignItems:'center',
-    columnGap:4,
+    columnGap:5,
     marginRight:16,
     paddingLeft:16,
     backgroundColor:'#252525',

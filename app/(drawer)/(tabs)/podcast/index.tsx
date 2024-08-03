@@ -31,13 +31,14 @@ export default function PodcastScreen() {
               {
                 title: episode.title[0],
                 date: episode.pubDate[0],
-                image: res.rss.channel[0].item[0]['itunes:image'][0].$.href,
+                image: episode['itunes:image'][0].$.href,
                 desc: episode.description[0],
+                duration: episode['itunes:duration'][0],
                 url: episode.enclosure[0].$.url,
               }
             ]);
           });
-          //console.log(res.rss.channel[0].item[0]['itunes:image'][0].$.href);
+          console.log(res.rss.channel[0].item[0]);//['itunes:image'][0].$.href);
           //console.log(res.rss.channel[0].item[0].enclosure[0].$.url);
         });
       })

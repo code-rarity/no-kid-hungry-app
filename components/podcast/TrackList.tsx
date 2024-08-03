@@ -1,7 +1,9 @@
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { TrackListItem } from '@/components/podcast/TrackListItem';
 import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
 import TrackPlayer, { Track } from 'react-native-track-player';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export type TrackListProps = Partial<FlatListProps<Track>> & {
   tracks: Track[]
@@ -23,6 +25,13 @@ export const TrackList = ({tracks, ...flatlistProps}: TrackListProps) => {
       data={tracks}
       contentContainerStyle={{ paddingTop: 0, paddingBottom: 128 }}
       ItemSeparatorComponent={ItemDivider}
+      ListEmptyComponent={
+        <ThemedView style={styles.emptyContainer}>
+          <ThemedText style={styles.emptyContainerText}>No episodes found!</ThemedText>
+          <MaterialCommunityIcons name="podcast" size={100} color={"#fff"} />
+
+        </ThemedView>
+      }
       renderItem={({item: track}) => (
         <TrackListItem 
           track={track}
@@ -33,3 +42,20 @@ export const TrackList = ({tracks, ...flatlistProps}: TrackListProps) => {
     />
   )
 }
+
+const styles = StyleSheet.create({
+  emptyContainer: {
+    flex:1,
+    height:'100%',
+    backgroundColor:"#000",
+    justifyContent:'center',
+    alignItems: 'center',
+  },
+  emptyContainerText: {
+    backgroundColor:"#000",
+    color:"#fff",
+    textAlign:'center',
+    marginTop:20,
+    marginBottom:20
+  }
+})

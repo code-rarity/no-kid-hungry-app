@@ -1,8 +1,9 @@
 import { TouchableHighlight, Image, StyleSheet } from 'react-native';
-import { Track, useActiveTrack } from 'react-native-track-player';
+import { Track, useActiveTrack, useIsPlaying } from 'react-native-track-player';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import LoaderKit from 'react-native-loader-kit';
 import { Colors } from '@/constants/Colors';
 
 export type TrackListItemProps = {
@@ -11,6 +12,7 @@ export type TrackListItemProps = {
 }
 
 export const TrackListItem = ({track, onTrackSelect: handleTrackSelect}: TrackListItemProps) => {
+  const {playing} = useIsPlaying();
   const isActiveTrack = useActiveTrack()?.url === track.url;
 
   return (
@@ -23,8 +25,14 @@ export const TrackListItem = ({track, onTrackSelect: handleTrackSelect}: TrackLi
             uri: track.image 
           }} style={{
             ...styles.trackImage,
-            opacity: isActiveTrack ? 0.8 : 1
+            opacity: isActiveTrack ? 0.4 : 1
           }} />
+
+          {isActiveTrack && ( playing ? (
+            <LoaderKit style={styles.trackPlayingIconIndicator} name="AudioEqualizer" color="#000" />
+            ) : (
+            <MaterialCommunityIcons style={styles.trackPausedIndicator} name="play" size={32} color="#000" /> 
+          ))}
         </ThemedView>
         <ThemedView style={{
             flex: 1,
@@ -34,10 +42,22 @@ export const TrackListItem = ({track, onTrackSelect: handleTrackSelect}: TrackLi
             backgroundColor:'#000'
           }}>
           <ThemedView style={{ flex:1, backgroundColor:'#000', width:'100%', paddingLeft:15}}>
-            <ThemedText numberOfLines={2} style={{
-              ...styles.trackTitleText,
-              color: isActiveTrack ? "#e3dd2b": "#fff"
-            }}>{track.title}</ThemedText>
+            <ThemedText 
+              numberOfLines={1} 
+              style={{
+                ...styles.trackTitleText,
+                color: isActiveTrack ? "#e3dd2b": "#fff"
+              }}>
+              {track.title}
+            </ThemedText>
+            <ThemedText 
+              numberOfLines={1} 
+              style={{
+                ...styles.trackDateText,
+                color: isActiveTrack ? "#e3dd2b": "#fff"
+              }}>
+              {track.date}
+            </ThemedText>
           </ThemedView>
           <MaterialCommunityIcons name="dots-horizontal" size={25} color={'#fff'} />
         </ThemedView>
@@ -54,6 +74,19 @@ const styles = StyleSheet.create({
     backgroundColor:'#000',
     overflow:'hidden',
   },
+  trackPlayingIconIndicator: {
+    position:'absolute',
+    fontWeight:'bold',
+    top:15,
+    left:18,
+    width:24,
+    height:24,
+  },
+  trackPausedIndicator: {
+    position:'absolute',
+    top:14,
+    left:14,
+  },
   trackImageContainer: {
     borderRadius:20,
     overflow:'hidden',
@@ -62,8 +95,14 @@ const styles = StyleSheet.create({
     width:60,
     height:60
   },
+  trackDateText: {
+    fontSize: 12,
+    fontWeight:'bold',
+    maxWidth: '90%',
+    backgroundColor:'#000'
+  },
   trackTitleText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight:'bold',
     maxWidth: '90%',
     backgroundColor:'#000'
