@@ -9,6 +9,7 @@ import 'react-native-reanimated';
 import { useFonts } from 'expo-font';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer';
+import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -20,15 +21,23 @@ const App = () => {
     GothamBlack: require('../assets/fonts/Gotham-Black.ttf'),
   });
 
-  const handleTrackPlayerLoaded = 'something';//useSetupTrackPlayer();
+  const handleTrackPlayerLoaded = useCallback(() => {
+    SplashScreen.hideAsync()
+  }, [])
+
+  useSetupTrackPlayer({
+    onLoad: handleTrackPlayerLoaded,
+  })
+
+  useLogTrackPlayerState();
 
   useEffect(() => {
-    if (fontsLoaded && handleTrackPlayerLoaded) {
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, handleTrackPlayerLoaded]);
+  }, [fontsLoaded]);
 
-  if (!fontsLoaded || !handleTrackPlayerLoaded) {
+  if (!fontsLoaded) {
     return null;
   }
 

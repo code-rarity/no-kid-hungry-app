@@ -33,7 +33,7 @@ export default function PodcastScreen() {
                 date: episode.pubDate[0],
                 image: res.rss.channel[0].item[0]['itunes:image'][0].$.href,
                 desc: episode.description[0],
-                mp3: episode.enclosure[0].$.url,
+                url: episode.enclosure[0].$.url,
               }
             ]);
           });

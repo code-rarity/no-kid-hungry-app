@@ -7,6 +7,7 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { PlatformPayButton, isPlatformPaySupported, confirmPlatformPayPayment } from '@stripe/stripe-react-native';
 import { initPaymentSheet, presentPaymentSheet } from "@/providers/stripe/stripeFunctions";
 import { createPaymentIntentClientSecret } from "@/helpers/restAPI";
+import { FloatingPlayer } from "@/components/podcast/FloatingPlayer";
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { BlurView } from 'expo-blur';
@@ -75,100 +76,110 @@ export default function TabLayout() {
   }
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarStyle: { 
-          position:'absolute',
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          borderTopWidth: 0,
-          elevation: 0,          
-          paddingTop: 8,
-        },
-        tabBarBackground: () => (
-          <BlurView 
-            intensity={80} 
-            style={{
-              ...StyleSheet.absoluteFillObject, 
-              overflow:'hidden', 
-              backgroundColor:'transparent',
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-            }}
-          />
-        ),
-      }}>
-      <Tabs.Screen
-        name="(stories)"
-        options={{
-          title: 'Stories',
-          headerTitle: '',
-          headerStyle: {backgroundColor:'#fff'},
-          tabBarActiveTintColor: "#f27622",
-          tabBarInactiveTintColor: "#000",
-          headerLeft: () => <DrawerToggleButton tintColor='#000' />,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'book-open-variant' : 'book-open-variant'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="events"
-        options={{
-          title: 'Events',
-          headerTitle: '',
-          headerLeft: () => <DrawerToggleButton tintColor='#fff' />,
-          headerStyle: {backgroundColor:'#000'},
-          tabBarStyle: {backgroundColor: '#000'},
-          tabBarActiveTintColor: "#fff",
-          tabBarInactiveTintColor: "#f27622",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'calendar-today' : 'calendar-today'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="donate"
-        listeners = {({ navigation }) => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            presentPayScreen();
+    <>
+      <Tabs
+        screenOptions={{
+          tabBarStyle: { 
+            position:'absolute',
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            borderTopWidth: 0,
+            elevation: 0,          
+            paddingTop: 8,
           },
-        })}
-        options={{
-          title: 'Donate',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'cart-heart' : 'cart-heart'} color={color} />
+          tabBarBackground: () => (
+            <BlurView 
+              intensity={80} 
+              style={{
+                ...StyleSheet.absoluteFillObject, 
+                overflow:'hidden', 
+                backgroundColor:'transparent',
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }}
+            />
           ),
-        }}
-      />
-      <Tabs.Screen
-        name="fundraise"
-        options={{
-          title: 'Fundraise',
-          headerTitle: '',
-          headerStyle: {backgroundColor:'#fff'},
-          tabBarActiveTintColor: "#f27622",
-          tabBarInactiveTintColor: "#000",
-          headerLeft: () => <DrawerToggleButton tintColor='#000' />,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'wallet-giftcard' : 'wallet-giftcard'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="podcast"
-        options={{
-          headerShown: false,
-          title: 'Podcast',
-          //tabBarStyle: {backgroundColor: '#000'},
-          tabBarActiveTintColor: "#e3dd2b",
-          tabBarInactiveTintColor: "#fff",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'podcast' : 'podcast'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+        }}>
+        <Tabs.Screen
+          name="(stories)"
+          options={{
+            title: 'Stories',
+            headerTitle: '',
+            headerStyle: {backgroundColor:'#fff'},
+            tabBarActiveTintColor: "#f27622",
+            tabBarInactiveTintColor: "#000",
+            headerLeft: () => <DrawerToggleButton tintColor='#000' />,
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? 'book-open-variant' : 'book-open-variant'} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="events"
+          options={{
+            title: 'Events',
+            headerTitle: '',
+            headerLeft: () => <DrawerToggleButton tintColor='#fff' />,
+            headerStyle: {backgroundColor:'#000'},
+            tabBarStyle: {backgroundColor: '#000'},
+            tabBarActiveTintColor: "#fff",
+            tabBarInactiveTintColor: "#f27622",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? 'calendar-today' : 'calendar-today'} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="donate"
+          listeners = {({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              presentPayScreen();
+            },
+          })}
+          options={{
+            title: 'Donate',
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? 'cart-heart' : 'cart-heart'} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="fundraise"
+          options={{
+            title: 'Fundraise',
+            headerTitle: '',
+            headerStyle: {backgroundColor:'#fff'},
+            tabBarActiveTintColor: "#f27622",
+            tabBarInactiveTintColor: "#000",
+            headerLeft: () => <DrawerToggleButton tintColor='#000' />,
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? 'wallet-giftcard' : 'wallet-giftcard'} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="podcast"
+          options={{
+            headerShown: false,
+            title: 'Podcast',
+            //tabBarStyle: {backgroundColor: '#000'},
+            tabBarActiveTintColor: "#e3dd2b",
+            tabBarInactiveTintColor: "#fff",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? 'podcast' : 'podcast'} color={color} />
+            ),
+          }}
+        />
+      </Tabs>
+
+      <FloatingPlayer style={{
+        position:'absolute',
+        left:8,
+        right:8,
+        bottom:78,
+        backgroundColor:'#252525'
+      }} />
+    </>
   );
 }
