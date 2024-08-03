@@ -1,37 +1,34 @@
 import { useEffect, useCallback } from 'react';
 import { Stack } from 'expo-router';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import * as SplashScreen from 'expo-splash-screen';
 import { StripeProvider } from '@stripe/stripe-react-native';
+
+import * as SplashScreen from 'expo-splash-screen';
+import 'react-native-reanimated';
+
 import { useFonts } from 'expo-font';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer';
-import 'react-native-reanimated';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
-  /*const handleTrackPlayerLoaded = useCallback(() => {
-    SplashScreen.hideAsync();
-  }, [])
-
-  useSetupTrackPlayer({
-    onLoad: handleTrackPlayerLoaded,
-  })*/
-
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+
+  const [fontsLoaded] = useFonts({
     GothamBlack: require('../assets/fonts/Gotham-Black.ttf'),
   });
 
+  const handleTrackPlayerLoaded = 'something';//useSetupTrackPlayer();
+
   useEffect(() => {
-    if (loaded) {
+    if (fontsLoaded && handleTrackPlayerLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded, handleTrackPlayerLoaded]);
 
-  if (!loaded) {
+  if (!fontsLoaded || !handleTrackPlayerLoaded) {
     return null;
   }
 
@@ -50,4 +47,4 @@ const App = () => {
   );
 }
 
-export default App
+export default App;

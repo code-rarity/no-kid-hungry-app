@@ -11,7 +11,8 @@ const setupPlayer = async () => {
 }
 
 export const useSetupTrackPlayer = ({onLoad}: {onLoad?: () => void}) => {
-	const isInitialized = useRef(false)
+	const isInitialized = useRef(false);
+	
 	useEffect(() => {
 		setupPlayer().then(() => {
 			isInitialized.current = true

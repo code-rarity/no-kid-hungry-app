@@ -15,7 +15,7 @@ export const TrackList = ({tracks, ...flatlistProps}: TrackListProps) => {
   return (
     <FlatList 
       data={tracks}
-      contentContainerStyle={{ paddingTop: 10, paddingBottom: 128 }}
+      contentContainerStyle={{ paddingTop: 0, paddingBottom: 128 }}
       ItemSeparatorComponent={ItemDivider}
       renderItem={({item: track}) => (
         <TrackListItem 
