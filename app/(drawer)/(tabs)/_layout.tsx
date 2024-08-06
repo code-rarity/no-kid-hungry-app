@@ -6,7 +6,7 @@ import { DrawerToggleButton } from '@react-navigation/drawer';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { PlatformPayButton, isPlatformPaySupported, confirmPlatformPayPayment } from '@stripe/stripe-react-native';
 import { initPaymentSheet, presentPaymentSheet } from "@/providers/stripe/stripeFunctions";
-import { createPaymentIntentClientSecret } from "@/helpers/restAPI";
+import { createPaymentIntentClientSecret } from "@/helpers/services";
 import { FloatingPlayer } from "@/components/podcast/FloatingPlayer";
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -177,8 +177,8 @@ export default function TabLayout() {
         position:'absolute',
         left:8,
         right:8,
-        bottom:85,
-        backgroundColor:'#252525'
+        bottom:79,
+        backgroundColor:'#f27622',
       }} />
     </>
   );

@@ -22,7 +22,6 @@ const PodcastScreenLayout = () => {
             headerLeft: () => ( <DrawerToggleButton tintColor='#fff' activeTintColor="#e3dd2b" /> ),
           }}
         />
-        <Stack.Screen name="episode" options={{headerShown: false}} />
       </Stack>
     </ThemedView>
   )

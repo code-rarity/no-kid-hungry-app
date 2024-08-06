@@ -2,35 +2,40 @@ import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useActiveTrack } from 'react-native-track-player';
 import { useLastActiveTrack } from '@/hooks/useLastActiveTrack';
 import { PlayPauseButton, SkipToNextButton } from '@/components/podcast/PlayerControls';
+import { useRouter } from 'expo-router';
 import { MovingText } from '@/components/podcast/MovingText';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 
 export const FloatingPlayer = ({style}: ViewProps) => {
+  const router = useRouter();
   const activeTrack = useActiveTrack();
   const lastActiveTrack = useLastActiveTrack();
-
   const displayedTrack = activeTrack ?? lastActiveTrack;
+
+  const handlePress = () => {
+    router.navigate('player')
+  }
 
   if(!displayedTrack) {
     return null;
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.9} style={[styles.container, style]}>
+    <TouchableOpacity onPress={handlePress} activeOpacity={0.9} style={[styles.container, style]}>
       <>
         <Image 
           source={{ uri: displayedTrack.image }} 
-          style={style.trackArtworkImage}
+          style={styles.trackArtworkImage}
         />
+        <ThemedView style={styles.trackTitleContainer}>
+          <MovingText style={styles.trackTitle} text={displayedTrack.title} animationThreshold={25} />
+        </ThemedView>
+        <ThemedView style={styles.trackControlsContainer}>
+          <PlayPauseButton iconSize={42} style={{backgroundColor:'#f27622'}} />
+          <SkipToNextButton iconSize={36} />
+        </ThemedView>
       </>
-      <ThemedView style={styles.trackTitleContainer}>
-        <MovingText style={styles.trackTitle} text={displayedTrack.title} animationThreshold={25} />
-      </ThemedView>
-      <ThemedView style={styles.trackControlsContainer}>
-        <PlayPauseButton iconSize={50} style={{backgroundColor:"#252525"}} />
-        <SkipToNextButton iconSize={36} />
-      </ThemedView>
     </TouchableOpacity>
   )
 }
@@ -41,7 +46,8 @@ const styles = StyleSheet.create({
     alignItems:'center',
     padding:10,
     borderRadius:15,
-    paddingVertical: 0,
+    paddingVertical: 10, 
+    backgroundColor: '#f27622',
   },
   trackArtworkImage: {
     width:40,
@@ -52,20 +58,23 @@ const styles = StyleSheet.create({
     flex:1,
     overflow:'hidden',
     marginLeft:10,
+    backgroundColor: '#f27622',
+
   },
   trackTitle: {
-    fontSize:10,
+    backgroundColor:'transparent',
+    fontSize:16,
     fontWeight:'bold',
     paddingLeft:10,
     color:'#fff',
-    backgroundColor:'#252525',
   },
   trackControlsContainer: {
     flexDirection:'row',
     alignItems:'center',
-    columnGap:5,
-    marginRight:16,
+    columnGap:2,
+    marginRight:6,
     paddingLeft:16,
-    backgroundColor:'#252525',
+    backgroundColor: '#f27622',
+
   }
 })
