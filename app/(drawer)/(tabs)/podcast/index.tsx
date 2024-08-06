@@ -5,6 +5,10 @@ import { ThemedView } from '@/components/ThemedView';
 import { useNavigationSearch } from '@/hooks/useNavigationSearch';
 import { TrackList } from '@/components/podcast/TrackList';
 import { screenPadding } from '@/constants/Layout';
+
+// place this in first layout file or before to pre-load data
+import { fetchMP3DataFromXML } from '@/helpers/services';
+
 import { episodeTitleFilter } from '@/helpers/filters';
 const parseString = require('react-native-xml2js').parseString;
 
@@ -17,30 +21,41 @@ export default function PodcastScreen() {
     fetchEpisodes();
   }, []);
 
+
   const fetchEpisodes = async () => {
     const mediaArray = [];
+    const audioArray = await fetchMP3DataFromXML();
+
+    if(!audioArray) {
+      console.log("Figure out a way to change empty container text in component");
+    }
+
     try {
-      await fetch("https://shareourstrength.org/feed/podcast/")
-      .then(response => response.text())
-      .then((result) => {
-        parseString(result, function(err, res) {
-          (res.rss.channel[0].item).map((episode, index) => {
-            setEpisodes(prevEpisodes => [
-              ...prevEpisodes,
-              {
-                title: episode.title[0],
-                date: episode.pubDate[0],
-                image: episode['itunes:image'][0].$.href,
-                desc: episode.description[0],
-                duration: episode['itunes:duration'][0],
-                url: episode.enclosure[0].$.url,
+      await fetch(`https://dev-share-our-strength1.pantheonsite.io/wp-json/wp/v2/podcast`)
+      .then(rep1 => rep1.json())
+      .then(res1 => {
+        (res1).map((episode, i) => {
+          fetch(`https://dev-share-our-strength1.pantheonsite.io/wp-json/wp/v2/media/${episode.featured_media}`)
+          .then(rep2 => rep2.json())
+          .then(res2 => {
+            (audioArray).map((audioFile, j) => {
+              if(audioFile.title == episode.title.rendered) {
+                setEpisodes(prevEpisodes => [
+                  ...prevEpisodes,
+                  {
+                    title: episode.title.rendered,
+                    date: (episode.date).split("T")[0],
+                    link: episode.link,
+                    image: (res2.source_url ? res2.source_url : audioFile.image),
+                    content: episode.content.rendered,
+                    url: audioFile.url,
+                  }
+                ]);
               }
-            ]);
-          });
-          //console.log(res.rss.channel[0].item[0]['itunes:image'][0].$.href);
-          //console.log(res.rss.channel[0].item[0].enclosure[0].$.url);
+            });
+          })
         });
-      })
+      });
     } catch (error) {
       console.error(error);
     }
@@ -61,7 +76,7 @@ export default function PodcastScreen() {
   }, [search, episodes]);
 
   return (
-    <ThemedView style={{backgroundColor:'#000'}}>
+    <ThemedView style={{height:'100%', backgroundColor:'#000'}}>
       <ScrollView contentInsetAdjustmentBehavior="automatic"
         style={{ paddingHorizontal: screenPadding.horizontal }}>
         <TrackList scrollEnabled={false} tracks={filteredEpisodes} />

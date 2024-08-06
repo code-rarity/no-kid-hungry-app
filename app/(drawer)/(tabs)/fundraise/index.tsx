@@ -18,7 +18,6 @@ export default function FundraiseScreen() {
   const fetchCampaigns = async () => {
     const mediaArray = [];
     try {
-      // Need to set this to prod site on live and enabled JSON:API module in Drupal
       await fetch(`https://fundraise.nokidhungry.org/wp-json/wp/v2/campaign`)
       .then(rep1 => rep1.json())
       .then(res1 => {
