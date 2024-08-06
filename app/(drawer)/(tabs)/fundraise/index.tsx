@@ -32,7 +32,7 @@ export default function FundraiseScreen() {
                 title: campaign.title.rendered,
                 date: campaign.date,
                 link: campaign.link,
-                image: res2.source_url,
+                image: (res2.source_url ? res2.source_url : 'https://www.nokidhungry.org/sites/default/files/styles/mobile_2x_scale/public/2023-03/homepage_hero_v3.jpg.webp?itok=R0XglCQC'),
                 content: campaign.content.rendered,
               }
             ]);

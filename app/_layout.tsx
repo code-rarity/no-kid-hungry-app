@@ -2,10 +2,9 @@ import { useEffect, useCallback } from 'react';
 import { Stack } from 'expo-router';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { StripeProvider } from '@stripe/stripe-react-native';
-
+import { screenPadding } from '@/constants/Layout';
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-reanimated';
-
 import { useFonts } from 'expo-font';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer';
@@ -21,11 +20,7 @@ const App = () => {
     GothamBlack: require('../assets/fonts/Gotham-Black.ttf'),
   });
 
-  const handleTrackPlayerLoaded = useCallback(() => {
-    SplashScreen.hideAsync()
-  }, [])
-
-  useSetupTrackPlayer({
+  const handleTrackPlayerLoaded = useSetupTrackPlayer({
     onLoad: handleTrackPlayerLoaded,
   })
 
@@ -46,6 +41,7 @@ const App = () => {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+          <Stack.Screen name="player" options={{ presentation: 'card', gestureEnabled:true, gestureDirection:'vertical', animationDuration: 400, headerShown: false}} />
           <Stack.Screen name="thankyou" options={{ headerTitle: '', headerStyle:{backgroundColor:'#64BD44'}}} />
           <Stack.Screen name="settings" options={{ headerTitle: 'Settings'}} />
           <Stack.Screen name="faqs" options={{ headerTitle: 'Faqs'}} />

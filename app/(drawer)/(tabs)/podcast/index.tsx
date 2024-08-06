@@ -6,7 +6,6 @@ import { useNavigationSearch } from '@/hooks/useNavigationSearch';
 import { TrackList } from '@/components/podcast/TrackList';
 import { screenPadding } from '@/constants/Layout';
 import { episodeTitleFilter } from '@/helpers/filters';
-
 const parseString = require('react-native-xml2js').parseString;
 
 export default function PodcastScreen() {
@@ -38,7 +37,7 @@ export default function PodcastScreen() {
               }
             ]);
           });
-          console.log(res.rss.channel[0].item[0]);//['itunes:image'][0].$.href);
+          //console.log(res.rss.channel[0].item[0]['itunes:image'][0].$.href);
           //console.log(res.rss.channel[0].item[0].enclosure[0].$.url);
         });
       })
