@@ -5,6 +5,7 @@ import { screenPadding } from '@/constants/Layout';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useActiveTrack } from 'react-native-track-player';
 import { MovingText } from '@/components/podcast/MovingText';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const DismissPlayerSymbol = () => {
   const {top, bottom} = useSafeAreaInsets();
@@ -19,6 +20,10 @@ const DismissPlayerSymbol = () => {
 const PlayerScreen = () => {
   const {top, bottom} = useSafeAreaInsets();
   const activeTrack = useActiveTrack();
+  const isFavorite = false;
+  const toggleFavorite = () => {
+
+  }
 
   if(!activeTrack) {
     return (
@@ -40,9 +45,12 @@ const PlayerScreen = () => {
           <ThemedView style={{marginTop:'auto', backgroundColor:'transparent'}}>
             <ThemedView style={{height:60, backgroundColor:'transparent'}}>
               <ThemedView style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center', backgroundColor:'transparent'}}>
+
                 <ThemedView style={styles.trackTitleContainer}>
                   <MovingText text={activeTrack.title ?? ''} animationThreshold={30} style={styles.trackTitleText} />
                 </ThemedView>
+
+                <MaterialCommunityIcons name={isFavorite ? 'heart' : 'heart-outline'} size={24} color={isFavorite ? "green" : "#fff"} style={{marginHorizontal:14}} onPress={toggleFavorite} />
               </ThemedView>
             </ThemedView>
           </ThemedView>        
@@ -85,6 +93,7 @@ const styles = StyleSheet.create({
   trackTitleText: {
     fontSize:22,
     fontWeight:'700',
+    color:"#fff",
     backgroundColor:'transparent',    
 
   },

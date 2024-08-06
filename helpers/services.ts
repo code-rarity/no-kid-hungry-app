@@ -10,7 +10,7 @@ AWS.config.update({
 });
 
 const lambda = new AWS.Lambda();
-const podcastURL = 'https://shareourstrength.org/feed/podcast/';
+const xmlPodcastURL = 'https://shareourstrength.org/feed/podcast/';
 
 export const createPaymentIntentClientSecret = async ({
   amount,
@@ -45,11 +45,35 @@ export const createPaymentIntentClientSecret = async ({
   }
 };
 
-/*export const dataFetchAndLoadServices = {
-  fetchEpisodes: async () => {
+export const fetchMP3DataFromXML = async () => {
+  const audioArray = [];
+  try {
+    await fetch(xmlPodcastURL)
+    .then(response => response.text())
+    .then((result) => {
+      parseString(result, function(err, res) {
+        (res.rss.channel[0].item).map((episode, index) => {
+          audioArray.push({
+            title: episode.title[0], 
+            url: episode.enclosure[0].$.url,
+            image: episode['itunes:image'][0].$.href,
+          });
+        });
+        //console.log(res.rss.channel[0].item[0]['itunes:image'][0].$.href);
+        //console.log(res.rss.channel[0].item[0].enclosure[0].$.url);
+      });
+    });
+    return audioArray;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+/* The Full Function Designed Before in the Podcast Index file
+  const fetchEpisodes = async () => {
     const mediaArray = [];
     try {
-      await fetch(podcastURL)
+      await fetch("https://shareourstrength.org/feed/podcast/")
       .then(response => response.text())
       .then((result) => {
         parseString(result, function(err, res) {
@@ -58,7 +82,7 @@ export const createPaymentIntentClientSecret = async ({
               ...prevEpisodes,
               {
                 title: episode.title[0],
-                date: episode.pubDate[0],
+                date: (episode.pubDate[0]).substr(0,16),
                 image: episode['itunes:image'][0].$.href,
                 desc: episode.description[0],
                 duration: episode['itunes:duration'][0],
@@ -74,4 +98,4 @@ export const createPaymentIntentClientSecret = async ({
       console.error(error);
     }
   }
-};*/
+*/
