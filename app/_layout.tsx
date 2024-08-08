@@ -1,4 +1,5 @@
 import { useEffect, useCallback } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Stack } from 'expo-router';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { StripeProvider } from '@stripe/stripe-react-native';
@@ -27,6 +28,7 @@ const App = () => {
   useLogTrackPlayerState();
 
   useEffect(() => {
+    
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
@@ -38,16 +40,18 @@ const App = () => {
 
   return (
     <StripeProvider publishableKey="pk_test_sCOFwBgBiNBBtMFnCogmpkp900QgzWio5i" merchantIdentifier="merchant.com.shareourstrength">
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
-          <Stack.Screen name="player" options={{ presentation: 'card', gestureEnabled:true, gestureDirection:'vertical', animationDuration: 400, headerShown: false}} />
-          <Stack.Screen name="thankyou" options={{ headerTitle: '', headerStyle:{backgroundColor:'#64BD44'}}} />
-          <Stack.Screen name="settings" options={{ headerTitle: 'Settings'}} />
-          <Stack.Screen name="faqs" options={{ headerTitle: 'Faqs'}} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </ThemeProvider>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack>
+            <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+            <Stack.Screen name="player" options={{ presentation: 'card', gestureEnabled:true, gestureDirection:'vertical', animationDuration: 400, headerShown: false}} />
+            <Stack.Screen name="thankyou" options={{ headerTitle: '', headerStyle:{backgroundColor:'#64BD44'}}} />
+            <Stack.Screen name="settings" options={{ headerTitle: 'Settings'}} />
+            <Stack.Screen name="faqs" options={{ headerTitle: 'Faqs'}} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ThemeProvider>
+      </GestureHandlerRootView>
     </StripeProvider>
   );
 }

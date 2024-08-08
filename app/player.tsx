@@ -5,6 +5,10 @@ import { screenPadding } from '@/constants/Layout';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useActiveTrack } from 'react-native-track-player';
 import { MovingText } from '@/components/podcast/MovingText';
+import { PlayerProgressBar } from '@/components/podcast/PlayerProgressBar';
+import { PlayerVolumeBar } from '@/components/podcast/PlayerVolumeBar';
+import { PlayerControls } from '@/components/podcast/PlayerControls';
+import { PlayerRepeatToggle } from '@/components/podcast/PlayerRepeatToggle';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const DismissPlayerSymbol = () => {
@@ -40,7 +44,6 @@ const PlayerScreen = () => {
         <ThemedView style={styles.artworkImageContainer}>
           <Image source={{ uri: activeTrack.image }} resizeMode="cover" style={styles.artworkImage} />
         </ThemedView>
-
         <ThemedView style={{flex:1, backgroundColor:'transparent'}}>
           <ThemedView style={{marginTop:'auto', backgroundColor:'transparent'}}>
             <ThemedView style={{height:60, backgroundColor:'transparent'}}>
@@ -53,9 +56,19 @@ const PlayerScreen = () => {
                 <MaterialCommunityIcons name={isFavorite ? 'heart' : 'heart-outline'} size={24} color={isFavorite ? "green" : "#fff"} style={{marginHorizontal:14}} onPress={toggleFavorite} />
               </ThemedView>
             </ThemedView>
-          </ThemedView>        
-        </ThemedView>
 
+            <PlayerProgressBar style={{marginTop: 32, backgroundColor:'transparent'}} />
+
+            <PlayerControls style={{marginTop: 40}} />
+          </ThemedView>
+
+          <PlayerVolumeBar style={{marginTop: 'auto', marginBottom: 30, backgroundColor:'transparent'}} />
+
+          <ThemedView style={styles.centeredRow}>
+            <PlayerRepeatToggle size={30} style={{marginBottom:6}} />
+          </ThemedView>
+
+        </ThemedView>
       </ThemedView>
     </ThemedView>
   );
@@ -95,8 +108,13 @@ const styles = StyleSheet.create({
     fontWeight:'700',
     color:"#fff",
     backgroundColor:'transparent',    
-
   },
+  centeredRow: {
+    flexDirection:'row',
+    justifyContent: 'center',
+    alignItems:'center',
+    backgroundColor:'transparent',
+  }
 });
 
 export default PlayerScreen;

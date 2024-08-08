@@ -15,6 +15,7 @@ const parseString = require('react-native-xml2js').parseString;
 export default function PodcastScreen() {
   const [episodes, setEpisodes] = useState([]);
   const [images, setImages] = useState([]);
+  const [page, setPage] = useState(1);
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function PodcastScreen() {
     }
 
     try {
-      await fetch(`https://dev-share-our-strength1.pantheonsite.io/wp-json/wp/v2/podcast`)
+      await fetch(`https://dev-share-our-strength1.pantheonsite.io/wp-json/wp/v2/podcast?filter[orderby]=date&order=desc&page=${page}&per_page=10&offset=${offset}`)
       .then(rep1 => rep1.json())
       .then(res1 => {
         (res1).map((episode, i) => {
@@ -55,6 +56,8 @@ export default function PodcastScreen() {
             });
           })
         });
+        setPage(prevPage => prevPage + 1);
+        setPage(prevOffset => prevOffset + 10);
       });
     } catch (error) {
       console.error(error);
