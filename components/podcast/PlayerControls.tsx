@@ -1,4 +1,4 @@
-import { TouchableOpacity, ViewStyle } from "react-native";
+import { TouchableOpacity, ViewStyle, StyleSheet } from "react-native";
 import TrackPlayer, { useIsPlaying } from "react-native-track-player";
 import { ThemedView } from "@/components/ThemedView";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -11,6 +11,20 @@ type PlayerButtonProps = {
   style?: ViewStyle
   iconSize?: number
 }
+
+export const PlayerControls = ({style, iconSize}: PlayerControlsProps) => {
+  return (
+    <ThemedView style={[styles.container, style]}>
+      <ThemedView style={styles.row}>
+        <SkipToPreviousButton />
+
+        <PlayPauseButton iconSize={80} style={{backgroundColor:'#f27622'}} />
+
+        <SkipToNextButton />
+      </ThemedView>
+    </ThemedView>
+  )
+};
 
 export const PlayPauseButton = ({style, iconSize}: PlayerButtonProps) => {
   const {playing} = useIsPlaying();
@@ -35,7 +49,20 @@ export const SkipToNextButton = ({iconSize = 30}: PlayerButtonProps) => {
 export const SkipToPreviousButton = ({iconSize = 30}: PlayerButtonProps) => {
   return (
     <TouchableOpacity activeOpacity={0.7} onPress={() => TrackPlayer.skipToPrevious()}>
-      <MaterialCommunityIcons name="backward" size={iconSize} color={"#fff"} />
+      <MaterialCommunityIcons name="skip-backward" size={iconSize} color={"#fff"} />
     </TouchableOpacity>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width:'100%',
+    backgroundColor:'transparent',
+  },
+  row: {
+    flexDirection:'row',
+    justifyContent:'space-evenly',
+    alignItems:'center',
+    backgroundColor:'transparent',
+  }
+});

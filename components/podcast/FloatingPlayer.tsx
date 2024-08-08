@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f27622',
   },
   trackArtworkImage: {
-    width:40,
-    height:40,
+    width:50,
+    height:50,
     borderRadius:8,
   },
   trackTitleContainer: {
