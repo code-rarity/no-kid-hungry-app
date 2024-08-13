@@ -22,7 +22,6 @@ export default function PodcastScreen() {
     fetchEpisodes();
   }, []);
 
-
   const fetchEpisodes = async () => {
     const mediaArray = [];
     const audioArray = await fetchMP3DataFromXML();
@@ -57,7 +56,7 @@ export default function PodcastScreen() {
           })
         });
         setPage(prevPage => prevPage + 1);
-        setPage(prevOffset => prevOffset + 10);
+        setOffset(prevOffset => prevOffset + 10);
       });
     } catch (error) {
       console.error(error);
@@ -67,6 +66,7 @@ export default function PodcastScreen() {
   const search = useNavigationSearch({
     searchBarOptions: {
       placeholder:'Find an episode',
+      tintColor: "white",
       textColor: "white",
       placeholderTextColor: "white",
     }
@@ -79,7 +79,7 @@ export default function PodcastScreen() {
   }, [search, episodes]);
 
   return (
-    <ThemedView style={{height:'100%', backgroundColor:'#000'}}>
+    <ThemedView style={{flex:1, backgroundColor:'#000'}}>
       <ScrollView contentInsetAdjustmentBehavior="automatic"
         style={{ paddingHorizontal: screenPadding.horizontal }}>
         <TrackList scrollEnabled={false} tracks={filteredEpisodes} />

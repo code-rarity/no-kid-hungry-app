@@ -42,7 +42,13 @@ const App = () => {
     <StripeProvider publishableKey="pk_test_sCOFwBgBiNBBtMFnCogmpkp900QgzWio5i" merchantIdentifier="merchant.com.shareourstrength">
       <GestureHandlerRootView style={{flex: 1}}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
+          <Stack screenOptions={{
+            headerStyle: {
+              elevation: 0,
+              shadowOpacity: 0,
+              borderBottomWidth: 0,
+            }
+          }}>
             <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen name="player" options={{ presentation: 'card', gestureEnabled:true, gestureDirection:'vertical', animationDuration: 400, headerShown: false}} />
             <Stack.Screen name="thankyou" options={{ headerTitle: '', headerStyle:{backgroundColor:'#64BD44'}}} />
