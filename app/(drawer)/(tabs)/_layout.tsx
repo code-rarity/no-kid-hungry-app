@@ -79,6 +79,11 @@ export default function TabLayout() {
     <>
       <Tabs
         screenOptions={{
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
           tabBarStyle: { 
             position:'absolute',
             borderTopLeftRadius: 20,
@@ -93,7 +98,6 @@ export default function TabLayout() {
               style={{
                 ...StyleSheet.absoluteFillObject, 
                 overflow:'hidden', 
-                backgroundColor:'transparent',
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
               }}
@@ -119,7 +123,7 @@ export default function TabLayout() {
           options={{
             title: 'Events',
             headerTitle: '',
-            headerLeft: () => <DrawerToggleButton tintColor='#fff' />,
+            headerShown: false,
             headerStyle: {backgroundColor:'#000'},
             tabBarStyle: {backgroundColor: '#000'},
             tabBarActiveTintColor: "#fff",
@@ -161,9 +165,13 @@ export default function TabLayout() {
         <Tabs.Screen
           name="podcast"
           options={{
-            headerShown: false,
             title: 'Podcast',
-            //tabBarStyle: {backgroundColor: '#000'},
+            headerTitle: '',
+            headerShown: false,
+            headerStyle: {
+              backgroundColor:'#000',
+            },
+            tabBarStyle: {backgroundColor: '#000'},
             tabBarActiveTintColor: "#e3dd2b",
             tabBarInactiveTintColor: "#fff",
             tabBarIcon: ({ color, focused }) => (
