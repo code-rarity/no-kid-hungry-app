@@ -18,6 +18,7 @@ const EventsScreenLayout = () => {
           options={{
             ...StackScreenWithSearchBar,
             headerTitle: 'Explore Events',
+            headerShown:true,
             headerLargeStyle: {
               backgroundColor: '#000',
             },
@@ -28,7 +29,8 @@ const EventsScreenLayout = () => {
             headerLeft: () => 
               <ThemedView style={{marginLeft:-16, marginRight:16, backgroundColor:'transparent'}}>
                 <DrawerToggleButton tintColor='#fff' />
-              </ThemedView>,          }}
+              </ThemedView>,
+            }}
         />
         <Stack.Screen name="event" options={{ headerShown: false }} />
       </Stack>

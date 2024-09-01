@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 100,
     fontWeight: 'bold',
-    lineHeight: 'normal',
+    lineHeight: 100,
     color: '#F26722',
   },
   h2: {
