@@ -79,7 +79,7 @@ export default function PodcastScreen() {
   }, [search, episodes]);
 
   return (
-    <ThemedView style={{flex:1, backgroundColor:'#000'}}>
+    <ThemedView style={{flex:1}}>
       <ScrollView contentInsetAdjustmentBehavior="automatic"
         style={{ paddingHorizontal: screenPadding.horizontal }}>
         <TrackList scrollEnabled={false} tracks={filteredEpisodes} />

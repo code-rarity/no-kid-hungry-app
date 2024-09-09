@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Linking } from 'react-native';
 import { Drawer } from 'expo-router/drawer';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { router } from "expo-router";
@@ -10,6 +10,16 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 const CustomDrawerContent = (props) => {
   return (
     <DrawerContentScrollView {...props}>
+      <DrawerItem 
+        icon={({color, size}) => (
+          <MaterialCommunityIcons name="account-child" size={27} />
+        )} 
+        label={"About Us"}
+        labelStyle={styles.navItemLabel}
+        onPress={() => {
+          Linking.openURL("https://annualreport.nokidhungry.org");
+        }}
+      />
       <DrawerItem 
         icon={({color, size}) => (
           <MaterialCommunityIcons name="lightbulb" size={25} />

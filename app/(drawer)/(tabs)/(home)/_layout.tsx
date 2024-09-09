@@ -1,9 +1,9 @@
-import { StackScreenWithSearchBar } from '@/constants/Layout'
-import { defaultStyles } from '@/styles'
-import { Stack } from 'expo-router'
-import { View } from 'react-native'
+import { StackScreenWithSearchBar } from '@/constants/Layout';
+import { defaultStyles } from '@/styles';
+import { Stack } from 'expo-router';
+import { View } from 'react-native';
 
-const StoriesScreenLayout = () => {
+const HomeScreenLayout = () => {
   return (
     <Stack>
       <Stack.Screen
@@ -23,4 +23,4 @@ const StoriesScreenLayout = () => {
   )
 }
 
-export default StoriesScreenLayout
+export default HomeScreenLayout;

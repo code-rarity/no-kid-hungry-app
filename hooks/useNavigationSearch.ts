@@ -4,7 +4,7 @@ import { SearchBarProps } from 'react-native-screens';
 import { Colors } from '@/constants/Colors';
 
 const defaultSearchOptions: SearchBarProps={
-	tintColor: '#000',
+	tintColor: '#fff',
 	hideWhenScrolling: false,
 }
 

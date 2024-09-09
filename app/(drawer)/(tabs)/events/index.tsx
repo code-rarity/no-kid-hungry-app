@@ -23,7 +23,7 @@ export default function EventsScreen() {
   const search = useNavigationSearch({
     searchBarOptions: {
       placeholder:'Find an event',
-      textColor: "white",
+      textColor: "#000",
     }
   });
 
@@ -91,10 +91,10 @@ export default function EventsScreen() {
   }
 
   return (
-    <ThemedView style={{flex:1, backgroundColor:'#000'}}>
+    <ThemedView style={styles.container}>
       <ScrollView contentInsetAdjustmentBehavior="automatic"
         style={{ paddingHorizontal: screenPadding.horizontal }}>
-        <ThemedText style={{color:'#fff', fontWeight:'bold', paddingLeft:5, paddingBottom:20}}>FEATURED</ThemedText>
+        <ThemedText style={{color:'#000', fontWeight:'bold', paddingLeft:5, paddingBottom:20}}>FEATURED</ThemedText>
         <Carousel
             width={width*0.72}
             height={320}
@@ -106,7 +106,7 @@ export default function EventsScreen() {
             renderItem={({ item: event }) => (
               <TouchableOpacity style={{flex:1}}>
                 <Image source={{ uri: event.image }} style={{width:width/1.5, height:width/1.5, borderRadius: 25}} />
-                <ThemedView style={{position:'absolute', width:60, left:(width/1.5 - 80), top:10, padding:5, borderRadius:20, backgroundColor:'#fff'}}>
+                <ThemedView style={{position:'absolute', width:60, left:(width/1.5 - 80), top:10, padding:5, borderRadius:20, backgroundColor:'#000'}}>
                   <ThemedText style={{textAlign:'center'}}>{event.event_month}</ThemedText>
                   <ThemedText style={{textAlign:'center', fontWeight:'bold', fontSize:22}}>{event.event_day}</ThemedText>
                 </ThemedView>
@@ -116,7 +116,7 @@ export default function EventsScreen() {
               </TouchableOpacity>
             )}
         />
-        <ThemedText style={{color:'#fff', fontWeight:'bold', paddingLeft:5, paddingBottom:20}}>ALL EVENTS</ThemedText>
+        <ThemedText style={{color:'#000', fontWeight:'bold', paddingLeft:5, paddingBottom:20}}>ALL EVENTS</ThemedText>
         <EventList scrollEnabled={false} events={filteredEvents} />
       </ScrollView>
     </ThemedView>
@@ -124,14 +124,17 @@ export default function EventsScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex:1,
+  },
   emptyContainer: {
     flex:1,
     height: Dimensions.get('window').height,
-    backgroundColor:"#000",
+    backgroundColor:"#fff",
     alignItems: 'center',
   },
   emptyContainerText: {
-    backgroundColor:"#000",
+    backgroundColor:"#fff",
     fontSize: 24,
     fontWeight:'bold',
     color:"#fff",

@@ -27,14 +27,14 @@ export const EventListItem = ({event}: EventListItemProps) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor:'#000'
+            backgroundColor:'#fff'
           }}>
-          <ThemedView style={{ flex:1, backgroundColor:'#000', width:'100%', paddingLeft:15}}>
+          <ThemedView style={{ flex:1, backgroundColor:'#fff', width:'100%', paddingLeft:15}}>
             <ThemedText 
               numberOfLines={1} 
               style={{
                 ...styles.eventTitleText,
-                color:'#fff'
+                color:'#000'
               }}>
               {event.title}
             </ThemedText>
@@ -42,7 +42,7 @@ export const EventListItem = ({event}: EventListItemProps) => {
               numberOfLines={1} 
               style={{
                 ...styles.eventDateText,
-                color:'#fff'
+                color:'#000'
               }}>
               {event.event_day} {event.event_month} {event.event_year}
             </ThemedText>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columngap: 14,
     alignItems: 'center',
-    backgroundColor:'#000',
+    backgroundColor:'#fff',
     overflow:'hidden',
   },
   eventPlayingIconIndicator: {
@@ -86,12 +86,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight:'bold',
     maxWidth: '90%',
-    backgroundColor:'#000'
+    backgroundColor:'#fff'
   },
   eventTitleText: {
     fontSize: 16,
     fontWeight:'bold',
     maxWidth: '90%',
-    backgroundColor:'#000'
+    backgroundColor:'#fff'
   }
 })

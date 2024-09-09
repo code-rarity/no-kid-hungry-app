@@ -47,14 +47,14 @@ const styles = StyleSheet.create({
   emptyContainer: {
     flex:1,
     height: Dimensions.get('window').height,
-    backgroundColor:"#000",
+    backgroundColor:"#fff",
     alignItems: 'center',
   },
   emptyContainerText: {
-    backgroundColor:"#000",
+    backgroundColor:"#fff",
     fontSize: 24,
     fontWeight:'bold',
-    color:"#fff",
+    color:"#000",
     textAlign:'center',
   },
   tracksLoadingIconIndicator: {

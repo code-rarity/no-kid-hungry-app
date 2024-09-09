@@ -20,12 +20,12 @@ const EventsScreenLayout = () => {
             headerTitle: 'Explore Events',
             headerShown:true,
             headerLargeStyle: {
-              backgroundColor: '#000',
+              backgroundColor: '#fff',
             },
             headerLargeTitleStyle: {
-              color: '#fff',
+              color: '#000',
             },
-            headerTintColor: '#fff',
+            headerTintColor: '#000',
             headerLeft: () => 
               <ThemedView style={{marginLeft:-16, marginRight:16, backgroundColor:'transparent'}}>
                 <DrawerToggleButton tintColor='#fff' />
