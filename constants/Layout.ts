@@ -4,7 +4,7 @@ import { Colors } from '@/constants/Colors';
 export const StackScreenWithSearchBar: NativeStackNavigationOptions = {
 	headerLargeTitle: true,
 	headerLargeStyle: {
-		backgroundColor:'#000',
+		backgroundColor:'#fff',
 		//position: 'relative', // <==== Comment this out and the header would show
 		top: 100,
 		left: 0,
@@ -12,9 +12,9 @@ export const StackScreenWithSearchBar: NativeStackNavigationOptions = {
 		bottom: 0,
 	},
 	headerLargeTitleStyle: {
-		color: "#fff",
+		color: "#000",
 	},
-	headerTintColor: "#fff",
+	headerTintColor: "#000",
 	headerTransparent: true,
 	headerBlurEffect: 'regular',
 	headerShadowVisible: false,

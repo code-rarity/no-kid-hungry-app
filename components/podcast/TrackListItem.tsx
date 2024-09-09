@@ -29,9 +29,9 @@ export const TrackListItem = ({track, onTrackSelect: handleTrackSelect}: TrackLi
           }} />
 
           {isActiveTrack && ( playing ? (
-            <LoaderKit style={styles.trackPlayingIconIndicator} name="AudioEqualizer" color="#000" />
+            <LoaderKit style={styles.trackPlayingIconIndicator} name="AudioEqualizer" color="#fff" />
             ) : (
-            <MaterialCommunityIcons style={styles.trackPausedIndicator} name="play" size={32} color="#000" /> 
+            <MaterialCommunityIcons style={styles.trackPausedIndicator} name="play" size={32} color="#fff" /> 
           ))}
         </ThemedView>
         <ThemedView style={{
@@ -39,14 +39,14 @@ export const TrackListItem = ({track, onTrackSelect: handleTrackSelect}: TrackLi
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor:'#000'
+            backgroundColor:'#fff'
           }}>
-          <ThemedView style={{ flex:1, backgroundColor:'#000', width:'100%', paddingLeft:15}}>
+          <ThemedView style={{ flex:1, backgroundColor:'#fff', width:'100%', paddingLeft:15}}>
             <ThemedText 
               numberOfLines={1} 
               style={{
                 ...styles.trackTitleText,
-                color: isActiveTrack ? "#e3dd2b": "#fff"
+                color: isActiveTrack ? "#e3dd2b": "#000"
               }}>
               {track.title}
             </ThemedText>
@@ -54,12 +54,12 @@ export const TrackListItem = ({track, onTrackSelect: handleTrackSelect}: TrackLi
               numberOfLines={1} 
               style={{
                 ...styles.trackDateText,
-                color: isActiveTrack ? "#e3dd2b": "#fff"
+                color: isActiveTrack ? "#e3dd2b": "#000"
               }}>
               {track.date}
             </ThemedText>
           </ThemedView>
-          <MaterialCommunityIcons name="dots-horizontal" size={25} color={'#fff'} />
+          <MaterialCommunityIcons name="dots-horizontal" size={25} color={'#000'} />
         </ThemedView>
       </ThemedView>
     </TouchableHighlight>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columngap: 14,
     alignItems: 'center',
-    backgroundColor:'#000',
+    backgroundColor:'#fff',
     overflow:'hidden',
   },
   trackPlayingIconIndicator: {
@@ -99,12 +99,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight:'bold',
     maxWidth: '90%',
-    backgroundColor:'#000'
+    backgroundColor:'#fff'
   },
   trackTitleText: {
     fontSize: 16,
     fontWeight:'bold',
     maxWidth: '90%',
-    backgroundColor:'#000'
+    backgroundColor:'#fff'
   }
 })

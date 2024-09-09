@@ -1,15 +1,15 @@
-import { Tabs, router } from 'expo-router';
+import { Tabs } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { Button, Image, StyleSheet, Modal } from "react-native";
+import { StyleSheet } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { PlatformPayButton, isPlatformPaySupported, confirmPlatformPayPayment } from '@stripe/stripe-react-native';
+import { isPlatformPaySupported } from '@stripe/stripe-react-native';
 import { initPaymentSheet, presentPaymentSheet } from "@/providers/stripe/stripeFunctions";
 import { createPaymentIntentClientSecret } from "@/helpers/services";
 import { FloatingPlayer } from "@/components/podcast/FloatingPlayer";
-import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import CustomTabButton from '@/components/CustomTabButton';
 import { BlurView } from 'expo-blur';
 
 export default function TabLayout() {
@@ -82,6 +82,7 @@ export default function TabLayout() {
           headerStyle: {
             elevation: 0,
             shadowOpacity: 0,
+            borderTopWidth: 0,
             borderBottomWidth: 0,
           },
           tabBarStyle: { 
@@ -90,7 +91,7 @@ export default function TabLayout() {
             borderTopRightRadius: 20,
             borderTopWidth: 0,
             elevation: 0,          
-            paddingTop: 8,
+            paddingTop: 0,
           },
           tabBarBackground: () => (
             <BlurView 
@@ -105,16 +106,16 @@ export default function TabLayout() {
           ),
         }}>
         <Tabs.Screen
-          name="(stories)"
+          name="(home)"
           options={{
-            title: 'Stories',
+            title: 'Home',
             headerTitle: '',
             headerStyle: {backgroundColor:'#fff'},
             tabBarActiveTintColor: "#f27622",
             tabBarInactiveTintColor: "#000",
             headerLeft: () => <DrawerToggleButton tintColor='#000' />,
             tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon name={focused ? 'book-open-variant' : 'book-open-variant'} color={color} />
+              <TabBarIcon name={focused ? 'home-outline' : 'home-outline'} color={color} />
             ),
           }}
         />
@@ -124,10 +125,9 @@ export default function TabLayout() {
             title: 'Events',
             headerTitle: '',
             headerShown: false,
-            headerStyle: {backgroundColor:'#000'},
-            tabBarStyle: {backgroundColor: '#000'},
-            tabBarActiveTintColor: "#fff",
-            tabBarInactiveTintColor: "#f27622",
+            headerStyle: {backgroundColor:'#fff'},
+            tabBarActiveTintColor: "#f27622",
+            tabBarInactiveTintColor: "#000",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'calendar-today' : 'calendar-today'} color={color} />
             ),
@@ -135,17 +135,10 @@ export default function TabLayout() {
         />
         <Tabs.Screen
           name="donate"
-          listeners = {({ navigation }) => ({
-            tabPress: (e) => {
-              e.preventDefault();
-              presentPayScreen();
-            },
-          })}
           options={{
             title: 'Donate',
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon name={focused ? 'cart-heart' : 'cart-heart'} color={color} />
-            ),
+            tabBarStyle: {backgroundColor: 'transparent'},
+            tabBarButton: (props) => <CustomTabButton bgColor={"#000"} presentPayScreen={presentPayScreen} {...props} />
           }}
         />
         <Tabs.Screen
@@ -171,9 +164,9 @@ export default function TabLayout() {
             headerStyle: {
               backgroundColor:'#000',
             },
-            tabBarStyle: {backgroundColor: '#000'},
-            tabBarActiveTintColor: "#e3dd2b",
-            tabBarInactiveTintColor: "#fff",
+            //tabBarStyle: {backgroundColor: '#000'},
+            tabBarActiveTintColor: "#f27622",
+            tabBarInactiveTintColor: "#000",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'podcast' : 'podcast'} color={color} />
             ),

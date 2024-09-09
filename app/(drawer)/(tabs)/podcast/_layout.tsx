@@ -23,12 +23,12 @@ const PodcastScreenLayout = () => {
               backgroundColor: '#000',
             },*/
             headerLargeTitleStyle: {
-              color: '#fff',
+              color: '#000',
             },
-            headerTintColor: '#fff',
+            headerTintColor: '#000',
             headerLeft: () => 
               <ThemedView style={{marginLeft:-16, marginRight:16, backgroundColor:'transparent'}}>
-                <DrawerToggleButton tintColor='#fff' />
+                <DrawerToggleButton tintColor='#000' />
               </ThemedView>,
           }}
         />
