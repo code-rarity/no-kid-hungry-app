@@ -106,7 +106,7 @@ export default function EventsScreen() {
             renderItem={({ item: event }) => (
               <TouchableOpacity style={{flex:1}}>
                 <Image source={{ uri: event.image }} style={{width:width/1.5, height:width/1.5, borderRadius: 25}} />
-                <ThemedView style={{position:'absolute', width:60, left:(width/1.5 - 80), top:10, padding:5, borderRadius:20, backgroundColor:'#000'}}>
+                <ThemedView style={{position:'absolute', width:60, left:(width/1.5 - 80), top:10, padding:5, borderRadius:20, backgroundColor:'#ededed'}}>
                   <ThemedText style={{textAlign:'center'}}>{event.event_month}</ThemedText>
                   <ThemedText style={{textAlign:'center', fontWeight:'bold', fontSize:22}}>{event.event_day}</ThemedText>
                 </ThemedView>
