@@ -5,7 +5,7 @@ import { ThemedView } from '@/components/ThemedView';
 
 const PodcastScreenLayout = () => {
   return (
-    <ThemedView style={{flex:1, backgroundColor:'#000'}}>
+    <ThemedView style={{flex:1}}>
       <Stack screenOptions={{
         headerStyle: {
           elevation: 0,
@@ -19,15 +19,12 @@ const PodcastScreenLayout = () => {
           options={{
             ...StackScreenWithSearchBar,
             headerTitle: 'Add Passion & Stir',
-            /*headerLargeStyle: {
-              backgroundColor: '#000',
-            },*/
             headerLargeTitleStyle: {
               color: '#000',
             },
             headerTintColor: '#000',
             headerLeft: () => 
-              <ThemedView style={{marginLeft:-16, marginRight:16, backgroundColor:'transparent'}}>
+              <ThemedView style={{marginLeft:-20, marginRight:20, backgroundColor:'transparent'}}>
                 <DrawerToggleButton tintColor='#000' />
               </ThemedView>,
           }}

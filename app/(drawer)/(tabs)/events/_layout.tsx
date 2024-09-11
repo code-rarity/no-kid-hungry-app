@@ -27,8 +27,8 @@ const EventsScreenLayout = () => {
             },
             headerTintColor: '#000',
             headerLeft: () => 
-              <ThemedView style={{marginLeft:-16, marginRight:16, backgroundColor:'transparent'}}>
-                <DrawerToggleButton tintColor='#fff' />
+              <ThemedView style={{marginLeft:-20, marginRight:20, backgroundColor:'transparent'}}>
+                <DrawerToggleButton tintColor='#000' />
               </ThemedView>,
             }}
         />

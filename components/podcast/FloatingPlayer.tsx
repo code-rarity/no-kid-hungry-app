@@ -29,10 +29,10 @@ export const FloatingPlayer = ({style}: ViewProps) => {
           style={styles.trackArtworkImage}
         />
         <ThemedView style={styles.trackTitleContainer}>
-          <MovingText style={styles.trackTitle} text={displayedTrack.title} animationThreshold={25} />
+          <MovingText style={styles.trackTitle} text={displayedTrack.title} animationThreshold={50} />
         </ThemedView>
         <ThemedView style={styles.trackControlsContainer}>
-          <PlayPauseButton iconSize={42} style={{backgroundColor:'#f27622'}} />
+          <PlayPauseButton iconSize={42} style={{backgroundColor:'transparent'}} />
           <SkipToNextButton iconSize={36} />
         </ThemedView>
       </>
@@ -44,10 +44,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection:'row',
     alignItems:'center',
-    padding:10,
+    padding:8,
     borderRadius:15,
-    paddingVertical: 10, 
-    backgroundColor: '#f27622',
+    paddingVertical: 5, 
+    backgroundColor: 'transparent',
   },
   trackArtworkImage: {
     width:50,
@@ -58,12 +58,11 @@ const styles = StyleSheet.create({
     flex:1,
     overflow:'hidden',
     marginLeft:10,
-    backgroundColor: '#f27622',
-
+    backgroundColor: 'transparent',
   },
   trackTitle: {
     backgroundColor:'transparent',
-    fontSize:16,
+    fontSize:12,
     fontWeight:'bold',
     paddingLeft:10,
     color:'#fff',
@@ -74,7 +73,6 @@ const styles = StyleSheet.create({
     columnGap:2,
     marginRight:6,
     paddingLeft:16,
-    backgroundColor: '#f27622',
-
+    backgroundColor: 'transparent',
   }
 })
