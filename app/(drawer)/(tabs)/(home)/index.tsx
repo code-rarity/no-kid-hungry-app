@@ -9,22 +9,21 @@ import Carousel from 'react-native-reanimated-carousel';
 export default function HomeScreen() {
   const width = Dimensions.get('window').width;
   const navigation = useNavigation();
-
   const [stories, setStories] = useState([]);
   const [images, setImages] = useState([]);
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    fetchStories();
+    fetchImpactStories();
   }, []);
 
-  const fetchStories = async () => {
+  const fetchImpactStories = async () => {
     const mediaArray = [];
     try {
       await fetch(`https://stories.nokidhungry.org/wp-json/wp/v2/pages?filter[orderby]=date&order=desc&per_page=10&offset=${offset}`)
       .then(rep1 => rep1.json())
       .then(res1 => {
-        (res1).map((story, i) => {
+        (res1).map((story) => {
           fetch(`https://stories.nokidhungry.org/wp-json/wp/v2/media/${story.featured_media}`)
           .then(rep2 => rep2.json())
           .then(res2 => {
@@ -46,19 +45,46 @@ export default function HomeScreen() {
     }
   }
 
-  /*const handleMore = async() => {
-    setOffset(prevOffset => prevOffset + 10)
-  }*/
-
   return (
+    /* Customized impact homescreen to personalize the donor journey inside the macro mission */
     <ThemedView style={styles.container}>
-      <ScrollView contentInsetAdjustmentBehavior="automatic"
-        style={{ paddingHorizontal: screenPadding.horizontal }}>
-        <ThemedText style={{fontWeight:'bold', paddingTop:20, paddingLeft:5, paddingBottom:20}}>IMPACT STORIES</ThemedText>
+      <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ paddingHorizontal: screenPadding.horizontal }}>
+        
+        <ThemedText style={{fontWeight:'bold', paddingTop:20, paddingLeft:5, paddingBottom:15}}>HELP WITH AN ISSUE</ThemedText>
+        <Carousel
+          width={width/3}
+          height={40}
+          style={{
+            width:width,
+            overflow:'visible',
+
+          }}
+          autoPlay={false}
+          data={[ "School Meals", "Summer Meals", "SNAP", "Afterschool" ]}
+          scrollAnimationDuration={1000}
+          renderItem={({ item: category }) => (
+            <TouchableOpacity style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:20, borderColor:'#000', marginLeft:5, marginRight:5}}>
+              <ThemedView>
+                <ThemedText>{category}</ThemedText>
+              </ThemedView>
+            </TouchableOpacity>
+          )}
+        />
+
+        <ThemedText style={{fontWeight:'bold', paddingTop:20, paddingLeft:5, paddingBottom:15}}>YOUR GIVING JOURNEY</ThemedText>
+
+        <ThemedView style={{flex:1, height:400, backgroundColor:'#ededed', overflow:'visible', borderRadius:40}}>
+          <ThemedText style={{flex:1, justifyContent:'center', alignItems:'center', textAlign:'center'}}>A timeline of your giving</ThemedText>
+        </ThemedView>
+
+        <ThemedText style={{fontWeight:'bold', paddingTop:20, paddingLeft:5, paddingBottom:15}}>READ STORIES OF IMPACT</ThemedText>
         <Carousel
             width={width*0.72}
             height={80}
-            style={{ width: width }}
+            style={{ 
+              width: width,
+              overflow:'visible',
+            }}
             autoPlay={false}
             data={stories}
             scrollAnimationDuration={1000}
@@ -66,42 +92,17 @@ export default function HomeScreen() {
             renderItem={({ item: story }) => (
               <TouchableOpacity style={{flex:1}}>
                 <Image source={{ uri: story.image }} style={{alignItems:'flex-start', width:width/1.5, height:80, borderRadius: 25}} />
-                <ThemedView style={{position:'relative', left:10, bottom:30, padding:20, color:'#f27622', fontWeight:'bold', backgroundColor:'transparent'}}>
+                <ThemedView>
                   <ThemedText>{story.title}</ThemedText>
                 </ThemedView>
               </TouchableOpacity>
             )}
         />
+
       </ScrollView>
     </ThemedView>
   );
 }
-
-/*      <FlatList
-        data={stories}
-        style={{padding:15}}
-        ListHeaderComponent={() => (
-          <ThemedView>
-            <ThemedText style={styles.small}>Stories of Impact</ThemedText>
-          </ThemedView>
-        )}
-        ListFooterComponent={() => (
-          <ThemedText>Load More</ThemedText>
-        )}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item, index}) => (
-          <TouchableOpacity onPress={() => navigation.push('story', {story: item})} style={styles.card}>
-            <Image source={{ uri: item.image }} style={styles.img} />
-            <ThemedView style={styles.carddetails}>
-              <ThemedText style={styles.small}>{item.date}</ThemedText>
-              <ThemedText style={styles.h3}>{item.title}</ThemedText>
-              <ThemedText style={styles.p}>{item.excerpt}</ThemedText>
-            </ThemedView>
-          </TouchableOpacity>
-        )}
-      />
-      */
 
 const styles = StyleSheet.create({
   container: {

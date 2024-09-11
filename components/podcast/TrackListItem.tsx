@@ -25,13 +25,13 @@ export const TrackListItem = ({track, onTrackSelect: handleTrackSelect}: TrackLi
             uri: track.image 
           }} style={{
             ...styles.trackImage,
-            opacity: isActiveTrack ? 0.4 : 1
+            opacity: isActiveTrack ? 0.5 : 1
           }} />
 
           {isActiveTrack && ( playing ? (
             <LoaderKit style={styles.trackPlayingIconIndicator} name="AudioEqualizer" color="#fff" />
             ) : (
-            <MaterialCommunityIcons style={styles.trackPausedIndicator} name="play" size={32} color="#fff" /> 
+            <MaterialCommunityIcons style={styles.trackPausedIndicator} name="play" size={32} color="#f27622" /> 
           ))}
         </ThemedView>
         <ThemedView style={{
@@ -46,7 +46,7 @@ export const TrackListItem = ({track, onTrackSelect: handleTrackSelect}: TrackLi
               numberOfLines={1} 
               style={{
                 ...styles.trackTitleText,
-                color: isActiveTrack ? "#e3dd2b": "#000"
+                color: isActiveTrack ? "#f27622": "#000"
               }}>
               {track.title}
             </ThemedText>
@@ -54,12 +54,12 @@ export const TrackListItem = ({track, onTrackSelect: handleTrackSelect}: TrackLi
               numberOfLines={1} 
               style={{
                 ...styles.trackDateText,
-                color: isActiveTrack ? "#e3dd2b": "#000"
+                color: isActiveTrack ? "#f27622": "#000"
               }}>
               {track.date}
             </ThemedText>
           </ThemedView>
-          <MaterialCommunityIcons name="dots-horizontal" size={25} color={'#000'} />
+          <MaterialCommunityIcons name="dots-horizontal" size={25} color={isActiveTrack ? '#f27622' : '#000'} />
         </ThemedView>
       </ThemedView>
     </TouchableHighlight>
