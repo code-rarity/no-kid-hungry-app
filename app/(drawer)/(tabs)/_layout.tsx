@@ -178,8 +178,8 @@ export default function TabLayout() {
         position:'absolute',
         left:8,
         right:8,
-        bottom:79,
-        backgroundColor:'#f27622',
+        bottom:109,
+        backgroundColor:'rgba(242,118,34,0.9)',
       }} />
     </>
   );

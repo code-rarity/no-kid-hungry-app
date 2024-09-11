@@ -6,10 +6,6 @@ export const StackScreenWithSearchBar: NativeStackNavigationOptions = {
 	headerLargeStyle: {
 		backgroundColor:'#fff',
 		//position: 'relative', // <==== Comment this out and the header would show
-		top: 100,
-		left: 0,
-		right: 0,
-		bottom: 0,
 	},
 	headerLargeTitleStyle: {
 		color: "#000",
