@@ -56,7 +56,7 @@ export const EventListItem = ({event}: EventListItemProps) => {
 const styles = StyleSheet.create({
   eventItemContainer: {
     flexDirection: 'row',
-    columngap: 14,
+    columnGap: 8,
     alignItems: 'center',
     backgroundColor:'#fff',
     overflow:'hidden',
@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
   },
   eventDateText: {
     fontSize: 12,
-    fontWeight:'bold',
+    fontWeight:'normal',
     maxWidth: '90%',
     backgroundColor:'#fff'
   },
   eventTitleText: {
     fontSize: 16,
-    fontWeight:'bold',
+    fontWeight:'normal',
     maxWidth: '90%',
     backgroundColor:'#fff'
   }

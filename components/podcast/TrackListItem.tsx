@@ -97,13 +97,13 @@ const styles = StyleSheet.create({
   },
   trackDateText: {
     fontSize: 12,
-    fontWeight:'bold',
+    fontWeight:'normal',
     maxWidth: '90%',
     backgroundColor:'#fff'
   },
   trackTitleText: {
     fontSize: 16,
-    fontWeight:'bold',
+    fontWeight:'normal',
     maxWidth: '90%',
     backgroundColor:'#fff'
   }

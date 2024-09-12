@@ -28,7 +28,7 @@ export const TrackList = ({tracks, ...flatlistProps}: TrackListProps) => {
       ItemSeparatorComponent={ItemDivider}
       ListEmptyComponent={
         <ThemedView style={styles.emptyContainer}>
-          <LoaderKit style={styles.tracksLoadingIconIndicator} name="LineScalePulseOutRapid" color="#e3dd2b" />
+          <LoaderKit style={styles.tracksLoadingIconIndicator} name="LineScalePulseOutRapid" color="#f27622" />
           <ThemedText style={styles.emptyContainerText}>Episodes are loading...</ThemedText>
         </ThemedView>
       }
