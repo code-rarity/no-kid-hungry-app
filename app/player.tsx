@@ -9,24 +9,15 @@ import { PlayerProgressBar } from '@/components/podcast/PlayerProgressBar';
 import { PlayerVolumeBar } from '@/components/podcast/PlayerVolumeBar';
 import { PlayerControls } from '@/components/podcast/PlayerControls';
 import { PlayerRepeatToggle } from '@/components/podcast/PlayerRepeatToggle';
+import { DismissSymbol } from '@/components/DismissSymbol';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
-const DismissPlayerSymbol = () => {
-  const {top, bottom} = useSafeAreaInsets();
-
-  return (
-    <ThemedView style={{position:'absolute', top: top+16, left:0, right:0, flexDirection:'row', justifyContent:'center', backgroundColor:'transparent'}}>
-      <ThemedView accessible={false} style={{ width:60, height:8, borderRadius:8, backgroundColor:'#fff', opacity: 0.7}} />
-    </ThemedView>
-  )
-}
 
 const PlayerScreen = () => {
   const {top, bottom} = useSafeAreaInsets();
   const activeTrack = useActiveTrack();
   const isFavorite = false;
-  const toggleFavorite = () => {
 
+  const toggleFavorite = () => {
   }
 
   if(!activeTrack) {
@@ -39,7 +30,7 @@ const PlayerScreen = () => {
 
   return (
     <ThemedView style={styles.overlayContainer}>
-      <DismissPlayerSymbol />
+      <DismissSymbol viewHeight={null} />
       <ThemedView style={{flex:1, marginTop:top+70, marginBottom:bottom, backgroundColor:'transparent'}}>
         <ThemedView style={styles.artworkImageContainer}>
           <Image source={{ uri: activeTrack.image }} resizeMode="cover" style={styles.artworkImage} />

@@ -5,6 +5,8 @@ import { screenPadding } from '@/constants/Layout';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Carousel from 'react-native-reanimated-carousel';
+import CategoryDonateModal from '@/components/modals/CategoryDonateModal';
+import { set } from 'ts-pattern/dist/patterns';
 
 export default function HomeScreen() {
   const width = Dimensions.get('window').width;
@@ -12,6 +14,7 @@ export default function HomeScreen() {
   const [stories, setStories] = useState([]);
   const [images, setImages] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     fetchImpactStories();
@@ -45,6 +48,11 @@ export default function HomeScreen() {
     }
   }
 
+  // Toggle modal visibility
+  const toggleModal = () => {
+    setVisible(!visible);
+  };
+
   return (
     /* Customized impact homescreen to personalize the donor journey inside the macro mission */
     <ThemedView style={styles.container}>
@@ -63,7 +71,7 @@ export default function HomeScreen() {
           data={[ "School Meals", "Summer Meals", "SNAP", "Afterschool" ]}
           scrollAnimationDuration={1000}
           renderItem={({ item: category }) => (
-            <TouchableOpacity style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:20, borderColor:'#000', marginLeft:5, marginRight:5}}>
+            <TouchableOpacity onPress={toggleModal} style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:20, borderColor:'#000', marginLeft:5, marginRight:5}}>
               <ThemedView>
                 <ThemedText>{category}</ThemedText>
               </ThemedView>
@@ -88,17 +96,16 @@ export default function HomeScreen() {
             autoPlay={false}
             data={stories}
             scrollAnimationDuration={1000}
-            //onSnapToItem={(index) => console.log('current index:', index)}
             renderItem={({ item: story }) => (
-              <TouchableOpacity style={{flex:1}}>
-                <Image source={{ uri: story.image }} style={{alignItems:'flex-start', width:width/1.5, height:80, borderRadius: 25}} />
-                <ThemedView>
-                  <ThemedText>{story.title}</ThemedText>
+              <TouchableOpacity onPress={() => navigation.navigate('story', {story})} style={{flex:1}}>
+                <ThemedView style={{position:'absolute'}}>
+                  <Image source={{ uri: story.image }} style={{width:width/1.5, height:80, borderRadius: 40}} />
                 </ThemedView>
               </TouchableOpacity>
             )}
         />
 
+        <CategoryDonateModal visible={visible} onClose={toggleModal} />
       </ScrollView>
     </ThemedView>
   );
