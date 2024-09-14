@@ -3,12 +3,13 @@ import { Modal, StyleSheet, TouchableOpacity, Animated, Dimensions } from 'react
 import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
-import { DismissSymbol } from '@/components/DismissSymbol';
+import CategoryDonateSlider from './CategoryDonateSlider';
 
-export default function CategoryDonateModal({visible, onClose}) {
+
+export default function CategoryDonateModal({...props}) {
   const color = useThemeColor({ light: '#fff', dark: '#000'}, 'text');
-  const viewHeight = (Dimensions.get('window').height)*0.9;
+  const { visible, category, onClose } = props;
+  const viewHeight = (Dimensions.get('window').height);
   const translateY = useRef(new Animated.Value(0)).current;
   const overlayOpacity = useRef(new Animated.Value(0)).current;
 
@@ -66,9 +67,7 @@ export default function CategoryDonateModal({visible, onClose}) {
         <ThemedView style={[styles.modalOverlay]}>
           <PanGestureHandler onGestureEvent={onGestureEvent} onEnded={handleGestureEnd}>
             <Animated.View style={[styles.modalContainer, { transform: [{ translateY }], height: viewHeight }]}>
-              <ThemedView style={styles.modalContent}>
-                <DismissSymbol viewHeight={viewHeight} />
-              </ThemedView>
+              <CategoryDonateSlider category={category} />
             </Animated.View>
           </PanGestureHandler>
         </ThemedView>
@@ -90,16 +89,11 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: 'white',
-    padding: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     alignItems: 'center',
   },
   modalContent: {
     alignItems: 'center',
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 20,
   },
 });

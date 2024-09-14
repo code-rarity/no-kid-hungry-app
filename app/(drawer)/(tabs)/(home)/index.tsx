@@ -12,9 +12,9 @@ export default function HomeScreen() {
   const width = Dimensions.get('window').width;
   const navigation = useNavigation();
   const [stories, setStories] = useState([]);
-  const [images, setImages] = useState([]);
   const [offset, setOffset] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [category, setCategory] = useState();
 
   useEffect(() => {
     fetchImpactStories();
@@ -48,9 +48,10 @@ export default function HomeScreen() {
     }
   }
 
-  // Toggle modal visibility
-  const toggleModal = () => {
+  // Toggle modal visibility & pass pressed category to modal
+  const toggleModal = (category) => {
     setVisible(!visible);
+    setCategory(category);
   };
 
   return (
@@ -68,12 +69,12 @@ export default function HomeScreen() {
 
           }}
           autoPlay={false}
-          data={[ "School Meals", "Summer Meals", "SNAP", "Afterschool" ]}
+          data={[ "School Meals", "Summer Meals", "SNAP", "Afterschool Meals" ]}
           scrollAnimationDuration={1000}
           renderItem={({ item: category }) => (
-            <TouchableOpacity onPress={toggleModal} style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:20, borderColor:'#000', marginLeft:5, marginRight:5}}>
+            <TouchableOpacity onPress={() => toggleModal(category)} style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:20, borderColor:'#000', marginLeft:5, marginRight:5}}>
               <ThemedView>
-                <ThemedText>{category}</ThemedText>
+                <ThemedText style={{fontSize:14}}>{category}</ThemedText>
               </ThemedView>
             </TouchableOpacity>
           )}
@@ -99,13 +100,13 @@ export default function HomeScreen() {
             renderItem={({ item: story }) => (
               <TouchableOpacity onPress={() => navigation.navigate('story', {story})} style={{flex:1}}>
                 <ThemedView style={{position:'absolute'}}>
-                  <Image source={{ uri: story.image }} style={{width:width/1.5, height:80, borderRadius: 40}} />
+                  <Image source={{ uri: story.image }} style={{width:width/1.5, height:80, borderRadius: 25}} />
                 </ThemedView>
               </TouchableOpacity>
             )}
         />
 
-        <CategoryDonateModal visible={visible} onClose={toggleModal} />
+        <CategoryDonateModal visible={visible} category={category} onClose={toggleModal} />
       </ScrollView>
     </ThemedView>
   );
