@@ -7,7 +7,7 @@ export const DismissSymbol = ({...props}) => {
   const { top } = useSafeAreaInsets();
 
   if(viewHeight) {
-    topDistance = top - 32;
+    topDistance = top + 12;
   } else {
     topDistance = top + 16;
   }
@@ -21,7 +21,7 @@ export const DismissSymbol = ({...props}) => {
 
 const styles = StyleSheet.create({
   symbolContainer: {
-    position:'absolute', 
+    position:'absolute',
     left:0, 
     right:0, 
     flexDirection:'row', 
@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
     height:8, 
     borderRadius:8, 
     backgroundColor:'#ededed', 
-    opacity: 0.7,
+    opacity: 1,
   },
 });
