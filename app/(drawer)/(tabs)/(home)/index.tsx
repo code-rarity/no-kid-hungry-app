@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Image, StyleSheet, Platform, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { screenPadding } from '@/constants/Layout';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Carousel from 'react-native-reanimated-carousel';
 import CategoryDonateModal from '@/components/modals/CategoryDonateModal';
-import { set } from 'ts-pattern/dist/patterns';
+import { LoggedInUserDetails } from '@/components/account/LoggedInAccountDetails';
+import { FlatList } from 'react-native-gesture-handler';
 
 export default function HomeScreen() {
   const width = Dimensions.get('window').width;
@@ -19,6 +20,37 @@ export default function HomeScreen() {
   useEffect(() => {
     fetchImpactStories();
   }, []);
+
+  const userDonationData = [
+    {
+      id: 1,
+      date: new Date(2012,10,30).toDateString(),
+      amount: 10,
+      type: "carousel",
+      source: "SNAP"
+    },
+    {
+      id: 2,
+      date: new Date(2017,4,23).toDateString(),
+      amount: 50,
+      type: "general",
+      source: "App Donation"
+    },
+    {
+      id: 3,
+      date: new Date(2021,2,12).toDateString(),
+      amount: 25,
+      type: "fundraiser",
+      source: "Bake Sale"
+    },
+    {
+      id: 4,
+      date: new Date(2014,19,8).toDateString(),
+      amount: 99,
+      type: "event",
+      source: "Taste Of The Nation"
+    },
+  ];
 
   const fetchImpactStories = async () => {
     const mediaArray = [];
@@ -58,21 +90,22 @@ export default function HomeScreen() {
     /* Customized impact homescreen to personalize the donor journey inside the macro mission */
     <ThemedView style={styles.container}>
       <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ paddingHorizontal: screenPadding.horizontal }}>
-        
-        <ThemedText style={{fontWeight:'bold', paddingTop:20, paddingLeft:5, paddingBottom:15}}>HELP WITH AN ISSUE</ThemedText>
+
+        {true ? <LoggedInUserDetails /> : null}
+
+        <ThemedText style={{paddingTop:25, paddingBottom:10, fontSize:12}}>DONATE TO HELP EASE CHILD HUNGER</ThemedText>
         <Carousel
-          width={width/3}
+          width={width/1.75}
           height={40}
           style={{
             width:width,
-            overflow:'visible',
-
+            overflow:'hidden',
           }}
           autoPlay={false}
           data={[ "School Meals", "Summer Meals", "SNAP", "Afterschool Meals" ]}
           scrollAnimationDuration={1000}
           renderItem={({ item: category }) => (
-            <TouchableOpacity onPress={() => toggleModal(category)} style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:20, borderColor:'#000', marginLeft:5, marginRight:5}}>
+            <TouchableOpacity onPress={() => toggleModal(category)} style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:15, borderColor:'#000', marginRight:15}}>
               <ThemedView>
                 <ThemedText style={{fontSize:14}}>{category}</ThemedText>
               </ThemedView>
@@ -80,30 +113,32 @@ export default function HomeScreen() {
           )}
         />
 
-        <ThemedText style={{fontWeight:'bold', paddingTop:20, paddingLeft:5, paddingBottom:15}}>YOUR GIVING JOURNEY</ThemedText>
-
-        <ThemedView style={{flex:1, height:400, backgroundColor:'#ededed', overflow:'visible', borderRadius:40}}>
-          <ThemedText style={{flex:1, justifyContent:'center', alignItems:'center', textAlign:'center'}}>A timeline of your giving</ThemedText>
+        <ThemedView style={{flex:1, flexDirection:'row'}}>
+          <ThemedText style={{flex:1, paddingTop:20, fontSize:12}}>FEATURED FUNDRAISERS</ThemedText>
+          <ThemedText style={{flex:1, paddingTop:20, fontSize:12, textAlign:'right'}}>SEE ALL</ThemedText>
         </ThemedView>
 
-        <ThemedText style={{fontWeight:'bold', paddingTop:20, paddingLeft:5, paddingBottom:15}}>READ STORIES OF IMPACT</ThemedText>
+        
+
         <Carousel
-            width={width*0.72}
-            height={80}
-            style={{ 
-              width: width,
-              overflow:'visible',
-            }}
-            autoPlay={false}
-            data={stories}
-            scrollAnimationDuration={1000}
-            renderItem={({ item: story }) => (
-              <TouchableOpacity onPress={() => navigation.navigate('story', {story})} style={{flex:1}}>
-                <ThemedView style={{position:'absolute'}}>
-                  <Image source={{ uri: story.image }} style={{width:width/1.5, height:80, borderRadius: 25}} />
-                </ThemedView>
-              </TouchableOpacity>
-            )}
+          width={width/1.4}
+          height={80}
+          style={{ 
+            width: width,
+            overflow:'visible',
+            marginTop:25
+          }}
+          autoPlay={false}
+          data={stories}
+          scrollAnimationDuration={1000}
+          renderItem={({ item: story }) => (
+            <TouchableOpacity onPress={() => navigation.navigate('story', {story})} style={{flex:1}}>
+              <ThemedView>
+                <Image source={{ uri: story.image }} style={{width:width/1.5, height:80, borderRadius: 25}} />
+                <ThemedText style={{position:'absolute', bottom:0, padding: 10, color:'#fff', fontWeight:'bold'}}>{story.title}</ThemedText>
+              </ThemedView>
+            </TouchableOpacity>
+          )}
         />
 
         <CategoryDonateModal visible={visible} category={category} onClose={toggleModal} />
@@ -151,6 +186,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FDB917',
     borderBottomLeftRadius:40,
     borderBottomRightRadius:40,
+  },
+  donateTimeLineEntry: {
+    flex:1,
+    width:'100%',
+    flexDirection:'row',
+    paddingTop:25,
+    paddingBottom:25,
+    backgroundColor:'transparent'
   },
   p: {
     fontSize: 16,
