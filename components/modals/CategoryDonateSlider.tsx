@@ -62,7 +62,7 @@ export default function CategoryDonateSlider({...props}) {
   const renderBelowThumbComponent = () => {
     return (
       <ThemedView style={styles.belowThumbContainer}>
-        <ThemedText style={styles.donationText}>${slideCompletionValue}</ThemedText>
+        <ThemedText style={[styles.donationText, {color:'#f27622'}]}>${slideCompletionValue}</ThemedText>
       </ThemedView>
     );
   };
@@ -159,11 +159,11 @@ export default function CategoryDonateSlider({...props}) {
       <ThemedText style={styles.categoryText}>{category}: {categoryDescription}</ThemedText>
       <Image source={ require("../../assets/images/food-image.png") } style={styles.donateSlideImage} />
       <ThemedView style={styles.donateContainer}>
-        <ThemedText style={styles.mealsText}>
-          Give
-          <ThemedText style={{marginBottom:1, fontSize:48, lineHeight:54, color:'#f27622', borderBottomWidth:5, borderBottomColor:'#f27622'}}> {slideMealEquivalency} </ThemedText>
-          meals
-        </ThemedText>
+        <ThemedView style={{flexDirection:'row'}}>
+          <ThemedText style={styles.mealsText}>Give </ThemedText>
+          <ThemedText style={[styles.mealsTextNumber, {}]}>{slideMealEquivalency}</ThemedText>
+          <ThemedText style={styles.mealsText}> meals to hungry kids</ThemedText>
+        </ThemedView>
         <ThemedView style={[styles.sliderContainer, {width:Dimensions.get('window').width-30}]}>
           <Slider
             containerStyle={{width:'100%'}}
@@ -190,7 +190,7 @@ export default function CategoryDonateSlider({...props}) {
           />
         </ThemedView>
         <TouchableOpacity style={[styles.donateButton, {width:Dimensions.get('window').width-30}]}>
-          <ThemedText style={styles.continueText}>Continue</ThemedText>
+          <ThemedText style={styles.continueText}>Continue to donate ${slideCompletionValue}</ThemedText>
         </TouchableOpacity>
       </ThemedView>
     </ThemedView>
@@ -223,12 +223,22 @@ const styles = StyleSheet.create({
     backgroundColor:'transparent'
   },
   mealsText: {
-    fontSize:40,
-    lineHeight:46,
+    fontSize:24,
+    lineHeight:30,
     fontWeight:'bold',
     paddingTop:25,
     paddingBottom:25,
     backgroundColor:'transparent'
+  },
+  mealsTextNumber: {
+    fontSize:40,
+    lineHeight:30,
+    fontWeight:'bold',
+    paddingTop:25,
+    paddingBottom:25,
+    backgroundColor:'transparent',
+    color:'#f27622', 
+    textDecorationLine:'underline'    
   },
   donateContainer: {
     flex:1,
@@ -275,7 +285,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     width:'100%',
-    height:90,
+    height:80,
     left: -30,
     backgroundColor:'transparent'
   },
@@ -289,7 +299,7 @@ const styles = StyleSheet.create({
   },
   heartContainer: {
     position:'absolute',
-    bottom:5,
+    bottom:0,
     backgroundColor:'transparent'
   },
   heart: {
