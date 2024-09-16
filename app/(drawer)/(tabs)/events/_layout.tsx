@@ -1,7 +1,9 @@
-import { StackScreenWithSearchBar } from '@/constants/Layout';
-import { Stack } from 'expo-router';
+import { TouchableOpacity } from 'react-native';
+import { Stack, router } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
+import { StackScreenWithSearchBar } from '@/constants/Layout';
 import { ThemedView } from '@/components/ThemedView';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const EventsScreenLayout = () => {
   return (
@@ -30,6 +32,11 @@ const EventsScreenLayout = () => {
               <ThemedView style={{marginLeft:-20, marginRight:20, backgroundColor:'transparent'}}>
                 <DrawerToggleButton tintColor='#000' />
               </ThemedView>,
+            headerRight: () => (
+              <TouchableOpacity onPress={() => router.push('login')} style={{color:"#000", marginRight:-5}}>
+                <MaterialCommunityIcons name="account-circle-outline" tintColor='#000' size={25} />
+              </TouchableOpacity>
+            ),
             }}
         />
         <Stack.Screen name="event" options={{ headerShown: false }} />
