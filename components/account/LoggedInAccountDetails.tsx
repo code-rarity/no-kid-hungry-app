@@ -4,8 +4,6 @@ import { ThemedText } from "@/components/ThemedText";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const LoggedInUserDetails = ({...props}) => {
-  const { top } = useSafeAreaInsets();
-
   return (
     <ThemedView style={styles.container}>
       <ThemedView style={{flex:1, flexDirection:'row', paddingTop:25, paddingBottom:15}}>
@@ -17,7 +15,6 @@ export const LoggedInUserDetails = ({...props}) => {
           <ThemedText style={{fontSize:18, lineHeight:24, textAlign:'right'}}></ThemedText>
         </ThemedView>
       </ThemedView>
-
       <ThemedView style={{flex:1, flexDirection:'row', paddingTop:25, paddingBottom:25, paddingLeft:15, paddingRight:15, backgroundColor:'#FDB917', borderRadius:25}}>
         <ThemedView style={{flex:1, backgroundColor:'transparent'}}>
           <ThemedText style={{fontSize:12, lineHeight:20, paddingBottom:10, color:'#fff'}}>TOTAL DONATIONS</ThemedText>

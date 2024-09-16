@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
@@ -11,6 +11,7 @@ import { FloatingPlayer } from "@/components/podcast/FloatingPlayer";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import CustomTabButton from '@/components/CustomTabButton';
 import { BlurView } from 'expo-blur';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const navigation = useNavigation();
@@ -60,7 +61,6 @@ export default function TabLayout() {
 
     if (initPaymentSheetError) {
       console.log(initPaymentSheetError);
-
       return;
     }
 
@@ -68,7 +68,6 @@ export default function TabLayout() {
 
     if (presentPaymentSheetError) {
       console.log(presentPaymentSheetError);
-
       return;
     }
 
@@ -114,6 +113,11 @@ export default function TabLayout() {
             tabBarActiveTintColor: "#f27622",
             tabBarInactiveTintColor: "#000",
             headerLeft: () => <DrawerToggleButton tintColor='#000' />,
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate('login')} style={{color:"#000", paddingRight:15}}>
+                <MaterialCommunityIcons name="account-circle-outline" tintColor='#000' size={25} />
+              </TouchableOpacity>
+            ),
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'home-outline' : 'home-outline'} color={color} />
             ),
@@ -150,6 +154,11 @@ export default function TabLayout() {
             tabBarActiveTintColor: "#f27622",
             tabBarInactiveTintColor: "#000",
             headerLeft: () => <DrawerToggleButton tintColor='#000' />,
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate('login')} style={{color:"#000", paddingRight:15}}>
+                <MaterialCommunityIcons name="account-circle-outline" tintColor='#000' size={25} />
+              </TouchableOpacity>
+            ),
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'wallet-giftcard' : 'wallet-giftcard'} color={color} />
             ),
@@ -164,7 +173,6 @@ export default function TabLayout() {
             headerStyle: {
               backgroundColor:'#000',
             },
-            //tabBarStyle: {backgroundColor: '#000'},
             tabBarActiveTintColor: "#f27622",
             tabBarInactiveTintColor: "#000",
             tabBarIcon: ({ color, focused }) => (
