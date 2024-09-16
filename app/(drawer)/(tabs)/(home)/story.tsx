@@ -9,14 +9,20 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 export default function StoryScreen() {
   const route = useRoute();
   const { width } = useWindowDimensions();
-  const { title, date, content, image } = route.params.story;
+ // const { title, date, content, image } = route.params.story;
 
   const source = {
-    html: content
+    //html: content
   };
 
   return (
     <ThemedView style={styles.container}>
+
+    </ThemedView>
+  );
+}
+
+/*
       <ScrollView>
         <Image source={{ uri: image }} style={styles.img_banner} />
         <ThemedView style={{padding: 15}}>
@@ -25,9 +31,7 @@ export default function StoryScreen() {
           <RenderHtml source={source} contentWidth={width} tagsStyles={tagsStyles} />
         </ThemedView>
       </ScrollView>
-    </ThemedView>
-  );
-}
+      */
 
 const tagsStyles = {
   a: {
