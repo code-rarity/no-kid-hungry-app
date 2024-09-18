@@ -164,7 +164,7 @@ export default function CategoryDonateSlider({...props}) {
           <ThemedText style={[styles.mealsTextNumber, {}]}>{slideMealEquivalency}</ThemedText>
           <ThemedText style={styles.mealsText}> meals to hungry kids</ThemedText>
         </ThemedView>
-        <ThemedView style={[styles.sliderContainer, {width:Dimensions.get('window').width-30}]}>
+        <ThemedView style={[styles.sliderContainer, {width:Dimensions.get('window').width-80}]}>
           <Slider
             containerStyle={{width:'100%'}}
             minimumValue={10}
@@ -189,7 +189,7 @@ export default function CategoryDonateSlider({...props}) {
             }}
           />
         </ThemedView>
-        <TouchableOpacity style={[styles.donateButton, {width:Dimensions.get('window').width-30}]}>
+        <TouchableOpacity style={[styles.donateButton, {width:Dimensions.get('window').width-80}]}>
           <ThemedText style={styles.continueText}>Continue to donate ${slideCompletionValue}</ThemedText>
         </TouchableOpacity>
       </ThemedView>

@@ -5,7 +5,7 @@ import { PlayPauseButton, SkipToNextButton } from '@/components/podcast/PlayerCo
 import { useRouter } from 'expo-router';
 import { MovingText } from '@/components/podcast/MovingText';
 import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
+import { useState } from 'react';
 
 export const FloatingPlayer = ({style}: ViewProps) => {
   const router = useRouter();
@@ -14,7 +14,7 @@ export const FloatingPlayer = ({style}: ViewProps) => {
   const displayedTrack = activeTrack ?? lastActiveTrack;
 
   const handlePress = () => {
-    router.navigate('player')
+    router.navigate('(drawer)/(tabs)/podcast/player');
   }
 
   if(!displayedTrack) {

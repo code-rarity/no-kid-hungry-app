@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
@@ -11,9 +11,10 @@ import { FloatingPlayer } from "@/components/podcast/FloatingPlayer";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import CustomTabButton from '@/components/CustomTabButton';
 import { BlurView } from 'expo-blur';
+import { ThemedView } from '@/components/ThemedView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function TabLayout() {
+export default function TabLayout({route}) {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const [isApplePaySupported, setIsApplePaySupported] = useState(false);
@@ -71,7 +72,7 @@ export default function TabLayout() {
       return;
     }
 
-    navigation.push('thankyou', {details: requestBody});
+    navigation.navigate('other/thankyou', {details: requestBody});
   }
 
   return (
@@ -114,7 +115,7 @@ export default function TabLayout() {
             tabBarInactiveTintColor: "#000",
             headerLeft: () => <DrawerToggleButton tintColor='#000' />,
             headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('login')} style={{color:"#000", paddingRight:15}}>
+              <TouchableOpacity onPress={() => navigation.navigate('account/login')} style={{color:"#000", paddingRight:15}}>
                 <MaterialCommunityIcons name="account-circle-outline" tintColor='#000' size={25} />
               </TouchableOpacity>
             ),
@@ -155,7 +156,7 @@ export default function TabLayout() {
             tabBarInactiveTintColor: "#000",
             headerLeft: () => <DrawerToggleButton tintColor='#000' />,
             headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('login')} style={{color:"#000", paddingRight:15}}>
+              <TouchableOpacity onPress={() => navigation.navigate('account/login')} style={{color:"#000", paddingRight:15}}>
                 <MaterialCommunityIcons name="account-circle-outline" tintColor='#000' size={25} />
               </TouchableOpacity>
             ),
