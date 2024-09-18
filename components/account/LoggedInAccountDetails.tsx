@@ -1,9 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export const LoggedInUserDetails = ({...props}) => {
+export const LoggedInAccountDetails = ({...props}) => {
   return (
     <ThemedView style={styles.container}>
       <ThemedView style={{flex:1, flexDirection:'row', paddingTop:25, paddingBottom:15}}>

@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Image, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, Dimensions, ScrollView, SafeAreaView } from 'react-native';
 import { screenPadding } from '@/constants/Layout';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Carousel from 'react-native-reanimated-carousel';
 import CategoryDonateModal from '@/components/modals/CategoryDonateModal';
-import { LoggedInUserDetails } from '@/components/account/LoggedInAccountDetails';
-import { getCurrentUser } from 'aws-amplify/auth';
+import { LoggedInAccountDetails } from '@/components/account/LoggedInAccountDetails';
 import { parseDateString } from '@/helpers/misc';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useAuthenticator } from "@aws-amplify/ui-react-native";
 
 export default function HomeScreen() {
-  const width = Dimensions.get('window').width;
   const navigation = useNavigation();
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const width = Dimensions.get('window').width;
   const [category, setCategory] = useState();
   const [events, setEvents] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
   const [stories, setStories] = useState([]);
+  const [visible, setVisible] = useState(false);
+
+  const { authStatus } = useAuthenticator();
 
   useEffect(() => {
-    isLoggedIn();
     fetchFeaturedEvent();
     fetchFeaturedFundraisers();
     fetchImpactStories();
@@ -59,23 +59,9 @@ export default function HomeScreen() {
     },
   ];
 
-  const isLoggedIn = async () => {
-    await getCurrentUser().then(response => {
-      if(response.userId) {
-        setLoggedIn(true);
-        navigation.navigate('story');
-      } else {
-        setLoggedIn(false);
-        navigation.navigate('story');
-      }
-    }).catch(error => {
-      setLoggedIn(false);
-      navigation.navigate('index');
-    });
-  }
-
   const fetchFeaturedEvent = async () => {
     try {
+      
       await fetch(`https://events.nokidhungry.org/wp-json/wp/v2/events?filter[orderby]=event_date&order=desc&per_page=1`)
       .then(rep => rep.json())
       .then(res => {
@@ -98,7 +84,7 @@ export default function HomeScreen() {
               event_year: event_year,
               event_type: event.event_type_name,
               link: event.link,
-              image: event.image_paths["culinary-square"],
+              image: ( event.image_paths["culinary-square"] ? event.image_paths["culinary-square"] : 'https://www.nokidhungry.org/sites/default/files/styles/mobile_2x_scale/public/2023-03/homepage_hero_v3.jpg.webp?itok=R0XglCQC' ),
               address: event.location.address,
               desc: event.yoast_head_json.description,
             }
@@ -174,9 +160,9 @@ export default function HomeScreen() {
   return (
     /* Customized impact homescreen to personalize the donor journey inside the macro mission */
     <ThemedView style={styles.container}>
-      <ScrollView contentInsetAdjustmentBehavior="automatic" style={{ paddingHorizontal: screenPadding.horizontal }}>
+      <ScrollView style={{paddingHorizontal: screenPadding.horizontal, flex:1}} contentContainerStyle={{paddingBottom:120}}>
 
-        {loggedIn ? <LoggedInUserDetails /> : null}
+        {authStatus === 'authenticated' ? <LoggedInAccountDetails /> : null}
 
         <ThemedText style={{paddingTop:25, paddingBottom:10, fontSize:12}}>DONATE TO HELP EASE CHILD HUNGER</ThemedText>
         <Carousel
@@ -202,15 +188,15 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </ThemedView>
         <TouchableOpacity onPress={() => navigation.navigate('events', {events})} style={{marginTop:15, marginBottom:25}}>
-          <Image source={{ uri: events[0].image }} style={{width:'100%', height:200, borderTopLeftRadius: 15, borderTopRightRadius: 15}} />
+          <Image source={{ uri: 'https://www.nokidhungry.org/sites/default/files/styles/mobile_2x_scale/public/2023-03/homepage_hero_v3.jpg.webp?itok=R0XglCQC' }} style={{width:'100%', height:200, borderTopLeftRadius: 15, borderTopRightRadius: 15}} />
           <ThemedView style={{ padding: 15, borderBottomLeftRadius:15, borderBottomRightRadius:15, backgroundColor:'#FDB917'}}>
-            <ThemedText style={{color:'#000', fontWeight:'bold'}}>{events[0].title}</ThemedText>
+            <ThemedText style={{color:'#000', fontWeight:'bold'}}></ThemedText>
             <ThemedView style={{backgroundColor:'#f27622', padding:10, borderRadius:15, marginTop:15, maxWidth:180, justifyContent:'center', alignItems:'center', }}>
               <ThemedText style={{color:'#fff', fontWeight:'bold'}}>Book Tickets</ThemedText>
             </ThemedView>
           </ThemedView>
         </TouchableOpacity>
-        
+
         <TouchableOpacity onPress={() => navigation.navigate('podcast')} style={{flex:1, flexDirection:'row', backgroundColor:'rgba(99,200,204, 0.4)', borderRadius:10, paddingTop:25, paddingBottom:25, paddingLeft:15, paddingRight:15}}>
           <ThemedView style={{flex:1, backgroundColor:'transparent'}}>
             <ThemedText style={{fontWeight:'bold'}}>Listen to our Podcast!</ThemedText>
@@ -244,8 +230,9 @@ export default function HomeScreen() {
               </ThemedView>
             </TouchableOpacity>
           )}
-        />        
+        />
 
+      <ThemedText style={{paddingBottom:10, fontSize:24, lineHeight:30, fontWeight:'bold'}}>Real stories and real impact from your donations.</ThemedText>
         <Carousel
           width={width/1.4}
           height={80}

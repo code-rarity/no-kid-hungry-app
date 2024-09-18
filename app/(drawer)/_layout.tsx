@@ -27,7 +27,7 @@ const CustomDrawerContent = (props) => {
         label={"FAQs"}
         labelStyle={styles.navItemLabel}
         onPress={() => {
-          router.push('/(drawer)/(tabs)/faqs');
+          router.push('other/faqs');
         }}
       />
       <DrawerItem 
@@ -37,7 +37,7 @@ const CustomDrawerContent = (props) => {
         label={"Settings"}
         labelStyle={styles.navItemLabel}
         onPress={() => {
-          router.push('/(drawer)/(tabs)/settings');
+          router.push('other/settings');
         }}
       />
     </DrawerContentScrollView>

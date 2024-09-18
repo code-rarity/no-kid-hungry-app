@@ -10,7 +10,7 @@ export default function ThankYouScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <MaterialCommunityIcons name="check-circle" style={{fontSize: 100, color:'#fff', backgroundColor:'#64BD44'}} />
+      <MaterialCommunityIcons name="check-circle" style={{fontSize: 80, color:'#fff', backgroundColor:'#64BD44'}} />
       <ThemedText style={styles.thankyou}>
         Thank you! You have successfully donated ${amount/100} to No Kid Hungry.
       </ThemedText>
