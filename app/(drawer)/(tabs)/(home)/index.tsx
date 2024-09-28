@@ -190,7 +190,7 @@ export default function HomeScreen() {
         <TouchableOpacity onPress={() => navigation.navigate('events', {events})} style={{marginTop:15, marginBottom:25}}>
           <Image source={{ uri: 'https://www.nokidhungry.org/sites/default/files/styles/mobile_2x_scale/public/2023-03/homepage_hero_v3.jpg.webp?itok=R0XglCQC' }} style={{width:'100%', height:200, borderTopLeftRadius: 15, borderTopRightRadius: 15}} />
           <ThemedView style={{ padding: 15, borderBottomLeftRadius:15, borderBottomRightRadius:15, backgroundColor:'#FDB917'}}>
-            <ThemedText style={{color:'#000', fontWeight:'bold'}}></ThemedText>
+            <ThemedText style={{color:'#000', fontWeight:'bold'}}>Title of Event</ThemedText>
             <ThemedView style={{backgroundColor:'#f27622', padding:10, borderRadius:15, marginTop:15, maxWidth:180, justifyContent:'center', alignItems:'center', }}>
               <ThemedText style={{color:'#fff', fontWeight:'bold'}}>Book Tickets</ThemedText>
             </ThemedView>
