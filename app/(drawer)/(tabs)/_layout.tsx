@@ -109,7 +109,7 @@ export default function TabLayout({route}) {
           name="(home)"
           options={{
             title: 'Home',
-            headerTitle: '',
+            headerTitle: 'No Kid Hungry',
             headerStyle: {backgroundColor:'#fff'},
             tabBarActiveTintColor: "#f27622",
             tabBarInactiveTintColor: "#000",
