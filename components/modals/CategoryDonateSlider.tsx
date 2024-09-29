@@ -12,7 +12,6 @@ export default function CategoryDonateSlider({...props}) {
   const viewHeight = (Dimensions.get('window').height);
   const [value, setValue] = useState();
   const [slideCompletionValue, setSlideCompletionValue] = useState(10);
-  const [slideMealEquivalency, setSlideMealEquivalency] = useState(5);
   const [hearts, setHearts] = useState([]);
   const [heartCount, setHeartCount] = useState(1);
 
@@ -39,7 +38,7 @@ export default function CategoryDonateSlider({...props}) {
       categoryImage = ("../../assets/images/icon.png");
       break;
     default:
-      categoryDescription = ("Feed kids who are hungry during the summer.");
+      categoryDescription = ("Donate to help kids");
       categoryImage = ("../../assets/images/icon.png");
   }
 
@@ -52,17 +51,9 @@ export default function CategoryDonateSlider({...props}) {
       <ThemedView style={styles.aboveThumbContainer}>
         {
           hearts.map((heart, index) => (
-            <HeartContainer key={heart.id} index={index}  style={{right:heart.right}} onComplete={() => removeHeart(heart.id)} />
+            <HeartContainer key={heart.id} index={index} style={{right:heart.right}} onComplete={() => removeHeart(heart.id)} />
           ))
         }
-      </ThemedView>
-    );
-  };
-
-  const renderBelowThumbComponent = () => {
-    return (
-      <ThemedView style={styles.belowThumbContainer}>
-        <ThemedText style={[styles.donationText, {color:'#f27622'}]}>${slideCompletionValue}</ThemedText>
       </ThemedView>
     );
   };
@@ -121,7 +112,7 @@ export default function CategoryDonateSlider({...props}) {
 
     return (
       <Animated.View style={[styles.heartContainer, getHeartStyle(), props.style]}>
-        <Heart color="#f27622" size={size} />
+        <Heart color="#64BD44" size={size} />
       </Animated.View>
     )
   }
@@ -156,42 +147,49 @@ export default function CategoryDonateSlider({...props}) {
   return (
     <ThemedView style={styles.container}>
       <DismissSymbol viewHeight={viewHeight} />
-      <ThemedText style={styles.categoryText}>{category}: {categoryDescription}</ThemedText>
-      <Image source={ require("../../assets/images/food-image.png") } style={styles.donateSlideImage} />
+      <ThemedText style={styles.categoryText}>{categoryDescription}</ThemedText>
+      <ThemedText style={styles.subCategoryText}>NO COMMITMENT</ThemedText>
       <ThemedView style={styles.donateContainer}>
-        <ThemedView style={{flexDirection:'row'}}>
-          <ThemedText style={styles.mealsText}>Give </ThemedText>
-          <ThemedText style={[styles.mealsTextNumber, {}]}>{slideMealEquivalency}</ThemedText>
-          <ThemedText style={styles.mealsText}> meals to hungry kids</ThemedText>
-        </ThemedView>
-        <ThemedView style={[styles.sliderContainer, {width:Dimensions.get('window').width-80}]}>
+        <Image source={require("../../assets/images/food-image.png")} style={styles.donateSlideImage} />
+        <ThemedText style={styles.donateTextNumber}>${slideCompletionValue} / month</ThemedText>
+        <ThemedText style={[styles.donateSubText]}>Your donation helps support SNAP benefits, school meals & more</ThemedText>
+        <ThemedView style={[styles.slider, {width:Dimensions.get('window').width-80}]}>
           <Slider
             containerStyle={{width:'100%'}}
-            minimumValue={10}
-            maximumValue={50}
-            step={1}
+            minimumValue={5}
+            maximumValue={15}
+            step={5}
             value={10}
-            minimumTrackTintColor="#f27622"
-            maximumTrackTintColor="rgba(242,118,34, 0.4)"
-            thumbImage={require('../../assets/images/heart-slider.png')}
-            thumbStyle={{backgroundColor:'transparent', width:44, height: 44}}
+            minimumTrackTintColor="#64BD44"
+            maximumTrackTintColor="rgba(44,44,44, 0.4)"
+            thumbStyle={{backgroundColor:'#fff', width:40, height: 40, borderRadius:40, shadowColor: "#000000",
+              shadowOpacity: 0.2,
+              shadowRadius: 5,
+              shadowOffset: {
+                height: 2,
+                width: 2
+              }}}
             thumbTouchSize={{width: 40, height: 40}}
             trackStyle={{width:'100%',height:12, borderRadius:5}}
             renderAboveThumbComponent={renderAboveThumbComponent}
-            renderBelowThumbComponent={renderBelowThumbComponent}
+            //renderBelowThumbComponent={renderBelowThumbComponent}
             onValueChange={value => {
               setValue(value);
               addHeart();
             }}
             onSlidingComplete={value => {
               setSlideCompletionValue(value);
-              setSlideMealEquivalency(value*0.5);
             }}
           />
         </ThemedView>
-        <TouchableOpacity style={[styles.donateButton, {width:Dimensions.get('window').width-80}]}>
-          <ThemedText style={styles.continueText}>Continue to donate ${slideCompletionValue}</ThemedText>
+        <TouchableOpacity style={[styles.donateButton, {width:Dimensions.get('window').width-30}]}>
+          <ThemedText style={styles.donateSubText}>Continue to donate ${slideCompletionValue}</ThemedText>
         </TouchableOpacity>
+        <ThemedView>
+          <ThemedText style={styles.explanationText}>
+            Payment will be charged to the card or account you provide. If you choose recurring donations, you will donate ${slideCompletionValue} every month until you cancel the recurring donation. You can cancel your recurring donation at any time.
+          </ThemedText>
+        </ThemedView>
       </ThemedView>
     </ThemedView>
   );
@@ -200,76 +198,74 @@ export default function CategoryDonateSlider({...props}) {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-    paddingTop:140,
-    paddingBottom:100,
+    paddingTop:120,
+    paddingLeft:25,
+    paddingRight:25,
   },
   categoryText: {
-    fontSize:24,
-    fontWeight:'bold',
-    lineHeight:30,
-    paddingBottom:15,
-    paddingLeft:15,
-    paddingRight:15,
-    textAlign:'center',
+    fontSize:32,
+    fontWeight:'800',
+    lineHeight:38,
+    textAlign:'left',
     backgroundColor:'transparent'
+  },
+  subCategoryText: {
+    fontSize:18,
+    fontWeight:'700',
+    color:'#ababab',
+    lineHeight:24,
+    textAlign:'left',
+    backgroundColor:'transparent'
+  },
+  donateContainer: {
+    justifyContent:'center',
+    alignItems:'center',
+    backgroundColor:'transparent',
   },
   donateSlideImage: {
     marginTop:25,
     marginBottom:25,
     width:280,
     height:180,
-    backgroundColor:'transparent'
+    backgroundColor:'transparent',    
   },
-  mealsText: {
-    fontSize:24,
-    lineHeight:30,
+  donateTextNumber: {
+    fontSize:42,
+    lineHeight:36,
     fontWeight:'bold',
     paddingTop:25,
-    paddingBottom:25,
-    backgroundColor:'transparent'
-  },
-  mealsTextNumber: {
-    fontSize:40,
-    lineHeight:30,
-    fontWeight:'bold',
-    paddingTop:25,
-    paddingBottom:25,
+    paddingBottom:15,
     backgroundColor:'transparent',
-    color:'#f27622', 
-    textDecorationLine:'underline'    
+    color:'#64BD44', 
+    textAlign:'center'
   },
-  donateContainer: {
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:'transparent'
+  donateSubText: {
+    fontSize:18,
+    lineHeight:24,
+    paddingLeft:15,
+    paddingRight:15,
+    fontWeight:'bold',
+    backgroundColor:'transparent',
+    textAlign:'center'
   },
-  sliderContainer: {
+  slider: {
     elevation:5,
     backgroundColor:"#fff",
     borderRadius:40,
-    shadowColor: "#000000",
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    shadowOffset: {
-      height: 2,
-      width: 2
-    },
-    marginTop:50,
-    paddingTop:5,
-    paddingBottom:5,
-    paddingLeft:20,
-    paddingRight:20,
+    paddingTop:50,
+    paddingBottom:50,
   },
   donateButton: {
-    marginTop:120,
     padding:15,
     borderRadius:15,
     backgroundColor:'rgba(253,185,23, 1)',
     justifyContent:'center',
     alignItems:'center'
+  },
+  explanationText: {
+    fontSize:14,
+    paddingTop:25,
+    paddingBottom:25,
   },
   aboveThumbContainer: {
     flex:1,
@@ -280,23 +276,6 @@ const styles = StyleSheet.create({
     left: -50,
     backgroundColor:'transparent'
   },
-  belowThumbContainer: {
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-    width:'100%',
-    height:80,
-    left: -30,
-    backgroundColor:'transparent'
-  },
-  donationText: {
-    fontSize:28,
-    lineHeight:36,
-    fontWeight:'bold',
-    backgroundColor:'transparent',
-    justifyContent:'center',
-    alignItems:'center'
-  },
   heartContainer: {
     position:'absolute',
     bottom:0,
@@ -306,10 +285,5 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     backgroundColor:'transparent'
-  },
-  continueText: {
-    fontSize:16,
-    lineHeight:22,
-    fontWeight:'bold',
   },
 });
