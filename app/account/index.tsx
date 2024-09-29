@@ -4,7 +4,7 @@ import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
 import { Button, StyleSheet } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { LoggedInAccountDetails } from "@/components/account/LoggedInAccountDetails";
-import outputs from "./../../amplify_outputs.json";
+import outputs from "@/amplify_outputs.json";
 Amplify.configure(outputs);
 
 const SignOutButton = () => {
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     paddingHorizontal:15,
   },
   signOutButton: {
-    alignSelf: "flex-end",
+    alignSelf: "flex-start",
   },
 });
 
