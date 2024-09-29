@@ -30,7 +30,7 @@ const PodcastScreenLayout = () => {
                 <DrawerToggleButton tintColor='#000' />
               </ThemedView>,
             headerRight: () => (
-              <TouchableOpacity onPress={() => router.push('account/login')} style={{color:"#000", marginRight:-5}}>
+              <TouchableOpacity onPress={() => router.navigate('account')} style={{color:"#000", marginRight:-5}}>
                 <MaterialCommunityIcons name="account-circle-outline" tintColor='#000' size={25} />
               </TouchableOpacity>
             ),

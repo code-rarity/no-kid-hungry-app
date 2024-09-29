@@ -5,11 +5,10 @@ import { ThemedView } from '@/components/ThemedView';
 import { useNavigationSearch } from '@/hooks/useNavigationSearch';
 import { TrackList } from '@/components/podcast/TrackList';
 import { screenPadding } from '@/constants/Layout';
-
 // place this in first layout file or before to pre-load data
-import { fetchMP3DataFromXML } from '@/helpers/services';
-
+import { fetchMP3DataFromXML } from '@/model/dataAPI';
 import { episodeTitleFilter } from '@/helpers/filters';
+
 const parseString = require('react-native-xml2js').parseString;
 
 export default function PodcastScreen() {

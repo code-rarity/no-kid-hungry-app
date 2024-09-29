@@ -12,8 +12,8 @@ import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState';
 import { ThemedText } from '@/components/ThemedText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
+import { authenticateLuminateUser } from '@/model/loginAPI';
 import 'react-native-reanimated';
-
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
 
 
@@ -35,10 +35,10 @@ const App = () => {
   useLogTrackPlayerState();
 
   // Hub listens to Auth events and sets auth state to control app flow
-  Hub.listen('auth', ({ payload }) => {
+  Hub.listen('auth', async ({ payload }) => {
     switch (payload.event) {
       case 'signedIn':
-        router.navigate('(home)');
+        authenticateLuminateUser(payload);
         break;
       case 'signedOut':
         router.navigate('(home)');
@@ -78,24 +78,9 @@ const App = () => {
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack>
               <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
-              <Stack.Screen name="other/settings" options={{ headerTitle: 'Settings'}} />
-              <Stack.Screen name="other/faqs" options={{ headerTitle: 'Faqs'}} />
-              <Stack.Screen name="other/thankyou" options={{ 
-                headerTitle: '', 
-                headerStyle:{backgroundColor:'#64BD44'},
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.back()} style={{flexDirection:'row'}}>
-                    <MaterialCommunityIcons name="arrow-left-bold-outline" size={25} color={"white"} />
-                    <ThemedText style={{paddingLeft:10, color:'#fff'}}>Back</ThemedText>
-                  </TouchableOpacity> )
-              }} />
+              <Stack.Screen name="account" options={{ headerShown: false }} />
+              <Stack.Screen name="other" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
-              <Stack.Screen name="account/login" options={{ headerTitle: '', headerLeft: () => (
-                <TouchableOpacity onPress={() => router.back()} style={{flexDirection:'row'}}>
-                  <MaterialCommunityIcons name="arrow-left-bold-outline" size={25} />
-                  <ThemedText style={{paddingLeft:10}}>Back</ThemedText>
-                </TouchableOpacity> )
-              }} />
             </Stack>
           </ThemeProvider>
         </GestureHandlerRootView>

@@ -5,18 +5,19 @@ import { useNavigation } from '@react-navigation/native';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { isPlatformPaySupported } from '@stripe/stripe-react-native';
-import { initPaymentSheet, presentPaymentSheet } from "@/providers/stripe/stripeFunctions";
-import { createPaymentIntentClientSecret } from "@/helpers/services";
+import { initPaymentSheet, presentPaymentSheet } from "@/model/payment/stripe/stripeFunctions";
+import { createPaymentIntentClientSecret } from "@/model/payment/paymentAPI";
 import { FloatingPlayer } from "@/components/podcast/FloatingPlayer";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import CustomTabButton from '@/components/CustomTabButton';
 import { BlurView } from 'expo-blur';
-import { ThemedView } from '@/components/ThemedView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import ThankYouModal from '@/components/modals/ThankYouModal';
 
-export default function TabLayout({route}) {
+export default function TabLayout() {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
+  const [visible, setVisible] = useState(false);
   const [isApplePaySupported, setIsApplePaySupported] = useState(false);
 
   useEffect(() => {
@@ -72,8 +73,12 @@ export default function TabLayout({route}) {
       return;
     }
 
-    navigation.navigate('other/thankyou', {details: requestBody});
+    setVisible(true);
   }
+
+  const toggleModal = () => {
+    setVisible(!visible);
+  };
 
   return (
     <>
@@ -115,7 +120,7 @@ export default function TabLayout({route}) {
             tabBarInactiveTintColor: "#000",
             headerLeft: () => <DrawerToggleButton tintColor='#000' />,
             headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('account/login')} style={{color:"#000", paddingRight:15}}>
+              <TouchableOpacity onPress={() => navigation.navigate('account')} style={{color:"#000", paddingRight:15}}>
                 <MaterialCommunityIcons name="account-circle-outline" tintColor='#000' size={25} />
               </TouchableOpacity>
             ),
@@ -156,7 +161,7 @@ export default function TabLayout({route}) {
             tabBarInactiveTintColor: "#000",
             headerLeft: () => <DrawerToggleButton tintColor='#000' />,
             headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('account/login')} style={{color:"#000", paddingRight:15}}>
+              <TouchableOpacity onPress={() => navigation.navigate('account')} style={{color:"#000", paddingRight:15}}>
                 <MaterialCommunityIcons name="account-circle-outline" tintColor='#000' size={25} />
               </TouchableOpacity>
             ),
@@ -190,6 +195,9 @@ export default function TabLayout({route}) {
         bottom:109,
         backgroundColor:'rgba(242,118,34,0.9)',
       }} />
+    
+      <ThankYouModal visible={visible} onClose={toggleModal} />
+
     </>
   );
 }
