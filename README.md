@@ -1,50 +1,43 @@
-# Welcome to your Expo app 👋
+# No Kid Hungry App 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Purpose
 
-## Get started
+1. Create a new channel for donations
+2. Create a new channel to engage and inform users
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+1. Login + Social login + face_id
+2. Allow users to play, like, and easily access podcast content
+3. Allow users to read latest blog posts from stories.nokidhungry.org
+4. Allow users to donate through 1-click Apple pay / Google pay / credit card
+5. Allow users to explore and sign-up for events using stripe to buy tickets
+6. Allow users to create and donate to fundraisers
+7. Setup notifications for new posts, episodes, events (phase 2 update most likely)
+8. Potential for ad-space inside the app as well to drive conversions or other CTA
 
-2. Start the app
+## Platforms
 
-   ```bash
-    npx expo start
-   ```
+1. React native + Expo
+2. Redux or local storage
+3. AWS Amplify
+4.    AWS Cognito
+5.    AWS SNS
+6. Universe APIs
+7. Luminate APIs
 
-In the output, you'll find options to open the app in a
+## App Screens
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+ - Home screen
+ - Events screen
+ - Individual event screen
+ - Fundraise screen
+ - Individual fundraise screen
+ - Podcast screen
+ - Individual podcast popup
+ - Login screen
+ - My account screen
+ - Quick donate modals
+ - Settings screen
+ - FAQs screen
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
