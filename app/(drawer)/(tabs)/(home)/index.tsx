@@ -164,16 +164,17 @@ export default function HomeScreen() {
 
         {authStatus === 'authenticated' ? <LoggedInAccountDetails /> : null}
 
-        <ThemedText style={{paddingTop:25, paddingBottom:10, fontSize:12}}>DONATE TO HELP EASE CHILD HUNGER</ThemedText>
+        <ThemedText style={{paddingTop:25, paddingBottom:10, fontSize:12}}>HELP US WITH MEAL PROGRAMS, SNAP & MORE!</ThemedText>
         <Carousel
-          width={width/2.25}
+          width={width}
           height={40}
           style={{width:width, overflow:'hidden'}}
           autoPlay={false}
-          data={[ "School Meals", "Summer Meals", "SNAP", "Afterschool Meals" ]}
+          data={[ "Donate Now" ]}
+          enabled={false}
           scrollAnimationDuration={1000}
           renderItem={({ item: category }) => (
-            <TouchableOpacity onPress={() => toggleModal(category)} style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:15, borderColor:'#000', marginRight:15}}>
+            <TouchableOpacity onPress={() => toggleModal(category)} style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:15, borderColor:'#000', marginRight:30}}>
               <ThemedView>
                 <ThemedText style={{fontSize:14}}>{category}</ThemedText>
               </ThemedView>
