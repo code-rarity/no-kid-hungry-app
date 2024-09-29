@@ -9,7 +9,7 @@ export const DismissSymbol = ({...props}) => {
   if(viewHeight) {
     topDistance = top + 12;
   } else {
-    topDistance = top + 16;
+    topDistance = top;
   }
 
   return (
