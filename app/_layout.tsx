@@ -12,10 +12,9 @@ import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState';
 import { ThemedText } from '@/components/ThemedText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
-import { authenticateLuminateUser } from '@/model/loginAPI';
+import { createOrAuthUser } from '@/model/loginAPI';
 import 'react-native-reanimated';
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
-
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -34,11 +33,13 @@ const App = () => {
   });
   useLogTrackPlayerState();
 
-  // Hub listens to Auth events and sets auth state to control app flow
+  // Hub listens to Cognito Auth events which is used as a check for other Auth
   Hub.listen('auth', async ({ payload }) => {
     switch (payload.event) {
       case 'signedIn':
-        authenticateLuminateUser(payload);
+        createOrAuthUser(payload).then(() => {
+          router.navigate('(home)');
+        });
         break;
       case 'signedOut':
         router.navigate('(home)');
