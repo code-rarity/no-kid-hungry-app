@@ -13,15 +13,12 @@ export const createOrAuthUser = async (payload) => {
     })
     .then(rep => rep.json())
     .then(res => {
-      if(res) {
-        // User exists in luminate CRM, so save token
-        saveKeyValue("luminateToken", res.loginResponse.token);
-      } else {
-        // User does not exist in luminate CRM, so create them
-      }
+      //console.log(res);
+      // User exists in luminate CRM, so save token
+      saveKeyValue("luminateToken", res.loginResponse.token);
     });
   } catch (error) {
-    console.error(error);
+
   }
 }
 
