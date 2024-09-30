@@ -1,3 +1,5 @@
+import * as SecureStore from 'expo-secure-store';
+
 export const parseDateString = (dateString) => {
   if (!dateString) {
     return null;
@@ -29,4 +31,17 @@ export const formatSecondsToMinutes = (seconds: number) => {
 
 export const generateTracksListId = (trackListName: string, search?: string) => {
 	return `${trackListName}${`-${search}` || ''}`
+}
+
+export async function saveKeyValue(key, value) {
+  await SecureStore.setItemAsync(key, value);
+}
+
+export async function getValueFor(key) {
+  const result = await SecureStore.getItemAsync(key);
+  if (result) {
+    return result;
+  } else {
+    return null;
+  }
 }
