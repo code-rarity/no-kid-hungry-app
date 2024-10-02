@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Image, StyleSheet, Platform, TouchableOpacity, FlatList, useWindowDimensions, Linking } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, FlatList, useWindowDimensions, Linking } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import RenderHtml from 'react-native-render-html';
