@@ -37,6 +37,10 @@ export async function saveKeyValue(key, value) {
   await SecureStore.setItemAsync(key, value);
 }
 
+export async function deleteValueFor(key) {
+  await SecureStore.deleteItemAsync(key);
+}
+
 export async function getValueFor(key) {
   const result = await SecureStore.getItemAsync(key);
   if (result) {

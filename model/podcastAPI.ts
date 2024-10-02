@@ -1,26 +1,27 @@
+import { useState } from "react";
 const parseString = require('react-native-xml2js').parseString;
-const xmlPodcastURL = 'https://shareourstrength.org/feed/podcast/';
+const xmlPodcastURL = "https://shareourstrength.org/feed/podcast/";
+
+// ** Functions for displaying and interacting with podcast episodes ** //
 
 export const fetchMP3DataFromXML = async () => {
-  const audioArray = [];
+  const tracks = [];
   try {
     await fetch(xmlPodcastURL)
     .then(response => response.text())
     .then((result) => {
       parseString(result, function(err, res) {
         (res.rss.channel[0].item).map((episode, index) => {
-          audioArray.push({
+          tracks.push({
             title: episode.title[0], 
             url: episode.enclosure[0].$.url,
             image: episode['itunes:image'][0].$.href,
           });
         });
-        //console.log(res.rss.channel[0].item[0]['itunes:image'][0].$.href);
-        //console.log(res.rss.channel[0].item[0].enclosure[0].$.url);
       });
     });
-    return audioArray;
+    return tracks;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };

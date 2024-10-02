@@ -1,75 +1,64 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { StyleSheet, Image, Platform, FlatList, TouchableHighlight, ScrollView } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ScrollView } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { useNavigationSearch } from '@/hooks/useNavigationSearch';
 import { TrackList } from '@/components/podcast/TrackList';
 import { screenPadding } from '@/constants/Layout';
-// place this in first layout file or before to pre-load data
-import { fetchMP3DataFromXML } from '@/model/dataAPI';
+import { fetchMP3DataFromXML } from '@/model/podcastAPI';
 import { episodeTitleFilter } from '@/helpers/filters';
-
-const parseString = require('react-native-xml2js').parseString;
 
 export default function PodcastScreen() {
   const [episodes, setEpisodes] = useState([]);
-  const [images, setImages] = useState([]);
-  const [page, setPage] = useState(1);
-  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    fetchEpisodes();
+    fetchPodcastAudioTracks();
   }, []);
-
-  const fetchEpisodes = async () => {
-    const mediaArray = [];
-    const audioArray = await fetchMP3DataFromXML();
-
-    if(!audioArray) {
-      console.log("Figure out a way to change empty container text in component");
-    }
-
-    try {
-      await fetch(`https://dev-share-our-strength1.pantheonsite.io/wp-json/wp/v2/podcast?filter[orderby]=date&order=desc&page=${page}&per_page=10&offset=${offset}`)
-      .then(rep1 => rep1.json())
-      .then(res1 => {
-        (res1).map((episode, i) => {
-          fetch(`https://dev-share-our-strength1.pantheonsite.io/wp-json/wp/v2/media/${episode.featured_media}`)
-          .then(rep2 => rep2.json())
-          .then(res2 => {
-            (audioArray).map((audioFile, j) => {
-              if(audioFile.title == episode.title.rendered) {
-                setEpisodes(prevEpisodes => [
-                  ...prevEpisodes,
-                  {
-                    title: episode.title.rendered,
-                    date: (episode.date).split("T")[0],
-                    link: episode.link,
-                    image: (res2.source_url ? res2.source_url : audioFile.image),
-                    content: episode.content.rendered,
-                    url: audioFile.url,
-                  }
-                ]);
-              }
-            });
-          })
-        });
-        setPage(prevPage => prevPage + 1);
-        setOffset(prevOffset => prevOffset + 10);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   const search = useNavigationSearch({
     searchBarOptions: {
       placeholder:'Find an episode',
       tintColor: "white",
       textColor: "white",
-      placeholderTextColor: "white",
     }
   });
+
+  const fetchPodcastAudioTracks = async () => {
+    const wordPressURL = "https://dev-share-our-strength1.pantheonsite.io";
+
+    try {
+      await fetchMP3DataFromXML()
+      .then((trackList) => {
+        const episodes = [];
+        fetch(`${wordPressURL}/wp-json/wp/v2/podcast?filter[orderby]=date&order=desc`)
+        .then(rep1 => rep1.json())
+        .then(res1 => {
+          (res1).map((episode, i) => {
+            fetch(`${wordPressURL}/wp-json/wp/v2/media/${episode.featured_media}`)
+            .then(rep2 => rep2.json())
+            .then(res2 => {
+              trackList.map((track, j) => {
+                if(track.title == episode.title.rendered) {
+                  setEpisodes(prevEpisodes => [
+                    ...prevEpisodes,
+                    {
+                      title: episode.title.rendered,
+                      date: (episode.date).split("T")[0],
+                      link: episode.link,
+                      image: (res2.source_url ? res2.source_url : track.image),
+                      content: episode.content.rendered,
+                      url: track.url,
+                    }
+                  ]);
+                }
+              });
+            })
+          });
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const filteredEpisodes = useMemo(() => {
     if(!search) return episodes;
