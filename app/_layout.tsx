@@ -1,20 +1,17 @@
 import { Hub } from 'aws-amplify/utils';
 import { useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Stack, router, useNavigation } from 'expo-router';
+import { Stack, useNavigation } from 'expo-router';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { useFonts } from 'expo-font';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer';
 import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState';
-import { ThemedText } from '@/components/ThemedText';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
-import { createOrAuthUser } from '@/model/loginAPI';
+import { createOrGetAuthUser, logOutUser } from '@/model/userAPI';
 import 'react-native-reanimated';
-import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
+import { Authenticator } from "@aws-amplify/ui-react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -34,15 +31,13 @@ const App = () => {
   useLogTrackPlayerState();
 
   // Hub listens to Cognito Auth events which is used as a check for other Auth
-  Hub.listen('auth', async ({ payload }) => {
+  Hub.listen('auth', ({ payload }) => {
     switch (payload.event) {
       case 'signedIn':
-        createOrAuthUser(payload).then(() => {
-          router.navigate('(home)');
-        });
+        createOrGetAuthUser(payload);
         break;
       case 'signedOut':
-        router.navigate('(home)');
+        logOutUser();
         break;
       case 'tokenRefresh':
         console.log('Auth token refreshed');
@@ -79,8 +74,8 @@ const App = () => {
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack>
               <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
-              <Stack.Screen name="account" options={{ headerShown: false }} />
               <Stack.Screen name="other" options={{ headerShown: false }} />
+              <Stack.Screen name="account" options={{ headerShown: false}} />
               <Stack.Screen name="+not-found" />
             </Stack>
           </ThemeProvider>
