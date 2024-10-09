@@ -9,7 +9,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer';
 import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState';
 import * as SplashScreen from 'expo-splash-screen';
-import { createOrGetAuthUser, logOutUser } from '@/model/userAPI';
+import { fetchOrCreateLuminateUser, logOutLuminateUser } from '@/model/userAPI';
 import 'react-native-reanimated';
 import { Authenticator } from "@aws-amplify/ui-react-native";
 
@@ -34,10 +34,10 @@ const App = () => {
   Hub.listen('auth', ({ payload }) => {
     switch (payload.event) {
       case 'signedIn':
-        createOrGetAuthUser(payload);
+        fetchOrCreateLuminateUser(payload);
         break;
       case 'signedOut':
-        logOutUser();
+        logOutLuminateUser();
         break;
       case 'signUp':
         console.log("");
