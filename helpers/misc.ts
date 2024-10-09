@@ -49,3 +49,21 @@ export async function getValueFor(key) {
     return null;
   }
 }
+
+export function mergeObjects(obj1, obj2) {
+  const result = { ...obj1 }; // Start with properties from obj1
+
+  for (const key in obj2) {
+    if (key in result) {
+      // If the key exists in both, combine values
+      result[key] = Array.isArray(result[key]) 
+        ? [...result[key], obj2[key]] 
+        : [result[key], obj2[key]]; // Combine into an array
+    } else {
+      // Otherwise, just add the key-value pair
+      result[key] = obj2[key];
+    }
+  }
+  
+  return result;
+}
