@@ -39,6 +39,9 @@ const App = () => {
       case 'signedOut':
         logOutUser();
         break;
+      case 'signUp':
+        console.log("");
+        break;
       case 'tokenRefresh':
         console.log('Auth token refreshed');
         break;
