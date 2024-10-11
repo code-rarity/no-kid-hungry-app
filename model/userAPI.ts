@@ -1,4 +1,4 @@
-import { signOut } from 'aws-amplify/auth';
+import { getCurrentUser, signOut } from 'aws-amplify/auth';
 import { deleteValueFor, saveKeyValue } from "@/helpers/misc";
 
 const LUMINATE_CONS_CLIENT_URL = "https://secure.nokidhungry.org/site/CRConsAPI";
@@ -9,6 +9,19 @@ const RESPONSE_FORMAT = 'json';
 
 // LUMINATE CRM IS DATABASE OF RECORD - PULL AND PUSH UPDATES //
 // ** External functions to use elsewhere in the app ** //
+
+export const checkIfLoggedIn = async () => {
+  try {
+    const user = await getCurrentUser();
+    if(typeof user !== 'undefined') {
+      return user;
+    } else {
+      return undefined;
+    }
+  } catch(error) {
+    return undefined;
+  }
+}
 
 // Luminate functions for login, logout and more
 // fetchOrCreateLuminateUser gets or creates luminate user
