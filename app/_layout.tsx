@@ -1,7 +1,7 @@
 import { Hub } from 'aws-amplify/utils';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Stack, useNavigation } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { useFonts } from 'expo-font';
@@ -9,17 +9,17 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer';
 import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState';
 import * as SplashScreen from 'expo-splash-screen';
-import { fetchOrCreateLuminateUser, logOutLuminateUser } from '@/model/userAPI';
-import 'react-native-reanimated';
+import { fetchOrCreateLuminateUser, logOutLuminateUser } from '@/model/UserAPI';
 import { Authenticator } from "@aws-amplify/ui-react-native";
+import 'react-native-reanimated';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
-  const navigation = useNavigation();
+  // Allows app-level Auth functions for all screens
+  
   const colorScheme = useColorScheme();
-  //const [loggedIn, setLoggedIn] = useState(false);
   const [fontsLoaded] = useFonts({
     GothamBlack: require('../assets/fonts/Gotham-Black.ttf'),
   });

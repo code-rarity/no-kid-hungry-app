@@ -6,7 +6,7 @@ import { DrawerToggleButton } from '@react-navigation/drawer';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { isPlatformPaySupported } from '@stripe/stripe-react-native';
 import { initPaymentSheet, presentPaymentSheet } from "@/model/payment/stripe/stripeFunctions";
-import { createPaymentIntentClientSecret } from "@/model/payment/paymentAPI";
+import { createPaymentIntentClientSecret } from "@/model/payment/PaymentAPI";
 import { FloatingPlayer } from "@/components/podcast/FloatingPlayer";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import CustomTabButton from '@/components/CustomTabButton';

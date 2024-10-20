@@ -4,15 +4,21 @@ import { ThemedView } from '@/components/ThemedView';
 import { useNavigationSearch } from '@/hooks/useNavigationSearch';
 import { TrackList } from '@/components/podcast/TrackList';
 import { screenPadding } from '@/constants/Layout';
-import { fetchPodcastTracks } from '@/model/podcastAPI';
+import { fetchTrackData } from '@/model/PodcastAPI';
 import { episodeTitleFilter } from '@/helpers/filters';
 
 export default function PodcastScreen() {
   const [episodes, setEpisodes] = useState([]);
 
   useEffect(() => {
-    fetchTracks();
+    fetchEpisodes();
   }, []);
+
+  const fetchEpisodes = async () => {
+    const ep = await fetchTrackData();
+    setEpisodes(ep);
+    console.log(ep);
+  }
 
   const search = useNavigationSearch({
     searchBarOptions: {
@@ -21,12 +27,6 @@ export default function PodcastScreen() {
       textColor: "white",
     }
   });
-
-  const fetchTracks = async () => {
-    await fetchPodcastTracks().then(response => {
-      console.log(response);
-    });
-  }
 
   const filteredEpisodes = useMemo(() => {
     if(!search) return episodes;
