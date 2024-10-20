@@ -9,7 +9,7 @@ Amplify.configure(outputs);
 
 const AccountScreen = () => {
   return (
-    <Authenticator>
+    <Authenticator socialProviders={['amazon', 'apple', 'facebook', 'google']}>
       <ThemedView style={styles.container}>
         <LoggedInAccountDetails />
       </ThemedView>

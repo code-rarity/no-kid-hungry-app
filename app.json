@@ -3,6 +3,7 @@
     "name": "NoKidHungry",
     "slug": "NoKidHungry",
     "version": "1.0.0",
+    "owner": "coderaritylabs",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
