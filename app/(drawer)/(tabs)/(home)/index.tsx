@@ -9,55 +9,29 @@ import CategoryDonateModal from '@/components/modals/CategoryDonateModal';
 import { LoggedInAccountDetails } from '@/components/account/LoggedInAccountDetails';
 import { parseDateString } from '@/helpers/misc';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuthenticator } from "@aws-amplify/ui-react-native";
+import { checkIfLoggedIn } from '@/model/UserAPI';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
   const width = Dimensions.get('window').width;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [category, setCategory] = useState();
   const [events, setEvents] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
   const [stories, setStories] = useState([]);
   const [visible, setVisible] = useState(false);
 
-  const { authStatus } = useAuthenticator();
-
   useEffect(() => {
+    isLogged();
     fetchFeaturedEvent();
     fetchFeaturedFundraisers();
     fetchImpactStories();
   }, []);
 
-  const userDonationData = [
-    {
-      id: 1,
-      date: new Date(2012,10,30).toDateString(),
-      amount: 10,
-      type: "carousel",
-      source: "SNAP"
-    },
-    {
-      id: 2,
-      date: new Date(2017,4,23).toDateString(),
-      amount: 50,
-      type: "general",
-      source: "App Donation"
-    },
-    {
-      id: 3,
-      date: new Date(2021,2,12).toDateString(),
-      amount: 25,
-      type: "fundraiser",
-      source: "Bake Sale"
-    },
-    {
-      id: 4,
-      date: new Date(2014,19,8).toDateString(),
-      amount: 99,
-      type: "event",
-      source: "Taste Of The Nation"
-    },
-  ];
+  const isLogged = async () => {
+    const loggedIn = await checkIfLoggedIn();
+    setIsLoggedIn(loggedIn);
+  }
 
   const fetchFeaturedEvent = async () => {
     try {
@@ -162,7 +136,7 @@ export default function HomeScreen() {
     <ThemedView style={styles.container}>
       <ScrollView style={{paddingHorizontal: screenPadding.horizontal, flex:1}} contentContainerStyle={{paddingBottom:120}}>
 
-        {authStatus === 'authenticated' ? <LoggedInAccountDetails /> : null}
+        {isLoggedIn ? <LoggedInAccountDetails /> : null}
 
         <ThemedText style={{paddingTop:25, paddingBottom:10, fontSize:12}}>HELP US WITH MEAL PROGRAMS, SNAP & MORE!</ThemedText>
         <Carousel
