@@ -20,14 +20,14 @@
           "audio"
         ]
       },
-      "bundleIdentifier": "com.shareourstrength.NoKidHungry"
+      "bundleIdentifier": "com.coderaritylabs.nokidhungry"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.shareourstrength.NoKidHungry"
+      "package": "com.coderaritylabs.nokidhungry"
     },
     "web": {
       "bundler": "metro",
@@ -46,7 +46,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "ae815d17-e014-4de9-b42e-af50dbad395a"
+        "projectId": "1e1898aa-b96b-423d-ae84-402b96409fbb"
       }
     }
   }
