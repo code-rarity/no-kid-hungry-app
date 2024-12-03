@@ -1,4 +1,4 @@
-package com.shareourstrength.NoKidHungry
+package com.coderaritylabs.nokidhungry
 
 import android.os.Build
 import android.os.Bundle
