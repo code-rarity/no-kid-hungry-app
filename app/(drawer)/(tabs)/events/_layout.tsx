@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const EventsScreenLayout = () => {
   return (
-    <ThemedView style={{flex:1}}>
+    <ThemedView style={{flex:1, backgroundColor: '#000'}}>
       <Stack screenOptions={{
         headerStyle: {
           elevation: 0,
@@ -21,20 +21,23 @@ const EventsScreenLayout = () => {
             ...StackScreenWithSearchBar,
             headerTitle: 'Explore Events',
             headerShown:true,
+            headerStyle: {
+              backgroundColor: '#000', // Change header background to black
+            },
             headerLargeStyle: {
-              backgroundColor: '#fff',
+              backgroundColor: '#000', // Specifically for the large header area
             },
             headerLargeTitleStyle: {
-              color: '#000',
+              color: '#fff', // Change header title text to white
             },
-            headerTintColor: '#000',
+            headerTintColor: '#fff', // Change header tint color for other elements
             headerLeft: () => 
               <ThemedView style={{marginLeft:-20, marginRight:20, backgroundColor:'transparent'}}>
-                <DrawerToggleButton tintColor='#000' />
+                <DrawerToggleButton tintColor='#fff' />
               </ThemedView>,
             headerRight: () => (
-              <TouchableOpacity onPress={() => router.navigate('account')} style={{color:"#000", marginRight:-5}}>
-                <MaterialCommunityIcons name="account-circle-outline" tintColor='#000' size={25} />
+              <TouchableOpacity onPress={() => router.navigate('account')} style={{marginRight:-5}}>
+                <MaterialCommunityIcons name="account-circle-outline" color='#fff' size={25} />
               </TouchableOpacity>
             ),
             }}
@@ -46,3 +49,4 @@ const EventsScreenLayout = () => {
 }
 
 export default EventsScreenLayout
+

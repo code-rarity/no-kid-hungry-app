@@ -59,7 +59,8 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
     "react-native-xml2js": "^1.0.3",
-    "ts-pattern": "^5.2.0"
+    "ts-pattern": "^5.2.0",
+    "@react-native-masked-view/masked-view": "0.3.1"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.4.0",

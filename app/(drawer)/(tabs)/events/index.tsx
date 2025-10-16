@@ -23,7 +23,9 @@ export default function EventsScreen() {
   const search = useNavigationSearch({
     searchBarOptions: {
       placeholder:'Find an event',
-      textColor: "#000",
+      textColor: "#fff", // Change search text color to white
+      tintColor: "#fff", // Change search icon color to white
+      headerIconColor: "#fff", // Change search header icon color to white
     }
   });
 
@@ -94,7 +96,7 @@ export default function EventsScreen() {
     <ThemedView style={styles.container}>
       <ScrollView contentInsetAdjustmentBehavior="automatic"
         style={{ paddingHorizontal: screenPadding.horizontal }}>
-        <ThemedText style={{color:'#000', fontWeight:'bold', paddingLeft:5, paddingBottom:20}}>FEATURED</ThemedText>
+        <ThemedText style={{color:'#fff', fontWeight:'bold', paddingLeft:5, paddingBottom:20}}>FEATURED</ThemedText>
         <Carousel
             width={width*0.72}
             height={320}
@@ -106,17 +108,18 @@ export default function EventsScreen() {
             renderItem={({ item: event }) => (
               <TouchableOpacity style={{flex:1}}>
                 <Image source={{ uri: event.image }} style={{width:width/1.5, height:width/1.5, borderRadius: 25}} />
-                <ThemedView style={{position:'absolute', width:60, left:(width/1.5 - 80), top:10, padding:5, borderRadius:20, backgroundColor:'#ededed'}}>
-                  <ThemedText style={{textAlign:'center'}}>{event.event_month}</ThemedText>
-                  <ThemedText style={{textAlign:'center', fontWeight:'bold', fontSize:22}}>{event.event_day}</ThemedText>
+                <ThemedView style={{position:'absolute', width:60, left:(width/1.5 - 80), top:10, padding:5, borderRadius:20, backgroundColor:'rgba(40, 40, 40, 0.8)'}}>
+                  <ThemedText style={{textAlign:'center', color: '#fff'}}>{event.event_month}</ThemedText>
+                  <ThemedText style={{textAlign:'center', fontWeight:'bold', fontSize:22, color: '#fff'}}>{event.event_day}</ThemedText>
                 </ThemedView>
-                <ThemedView style={{position:'absolute', left:10, bottom:30, padding:20, color:'#f27622', fontWeight:'bold', backgroundColor:'transparent'}}>
-                  <ThemedText>{event.title}</ThemedText>
+                <ThemedView style={{position:'absolute', left:10, bottom:30, padding:20, fontWeight:'bold', backgroundColor:'transparent'}}>
+                  <ThemedText style={{color: '#fff', fontWeight: 'bold'}}>{event.title}</ThemedText>
                 </ThemedView>
               </TouchableOpacity>
             )}
         />
-        <ThemedText style={{color:'#000', fontWeight:'bold', paddingLeft:5, paddingBottom:20}}>ALL EVENTS</ThemedText>
+        <ThemedText style={{color:'#fff', fontWeight:'bold', paddingLeft:5, paddingBottom:20, paddingTop: 20}}>ALL EVENTS</ThemedText>
+        {/* Note: You may need to adjust text colors inside the EventList component as well */}
         <EventList scrollEnabled={false} events={filteredEvents} />
       </ScrollView>
     </ThemedView>
@@ -126,15 +129,16 @@ export default function EventsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex:1,
+    backgroundColor: '#000', // Change main background to black
   },
   emptyContainer: {
     flex:1,
     height: Dimensions.get('window').height,
-    backgroundColor:"#fff",
+    backgroundColor:"#000",
     alignItems: 'center',
   },
   emptyContainerText: {
-    backgroundColor:"#fff",
+    backgroundColor:"#000",
     fontSize: 24,
     fontWeight:'bold',
     color:"#fff",

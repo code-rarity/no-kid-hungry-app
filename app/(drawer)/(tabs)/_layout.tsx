@@ -90,20 +90,18 @@ export default function TabLayout() {
             borderTopWidth: 0,
             borderBottomWidth: 0,
           },
-          tabBarStyle: { 
+          tabBarStyle: {
             position:'absolute',
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
             borderTopWidth: 0,
-            elevation: 0,          
-            paddingTop: 0,
+            elevation: 0,
+            backgroundColor: 'transparent', // Make tab bar background transparent
           },
           tabBarBackground: () => (
-            <BlurView 
-              intensity={80} 
+            <BlurView
+              intensity={80}
               style={{
-                ...StyleSheet.absoluteFillObject, 
-                overflow:'hidden', 
+                ...StyleSheet.absoluteFillObject,
+                overflow:'hidden',
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
               }}
@@ -147,8 +145,7 @@ export default function TabLayout() {
           name="donate"
           options={{
             title: 'Donate',
-            tabBarStyle: {backgroundColor: 'transparent'},
-            tabBarButton: (props) => <CustomTabButton bgColor={"#000"} presentPayScreen={presentPayScreen} {...props} />
+            tabBarButton: (props) => <CustomTabButton presentPayScreen={presentPayScreen} {...props} />
           }}
         />
         <Tabs.Screen
@@ -195,7 +192,7 @@ export default function TabLayout() {
         bottom:109,
         backgroundColor:'rgba(242,118,34,0.9)',
       }} />
-    
+
       <ThankYouModal visible={visible} onClose={toggleModal} />
 
     </>
