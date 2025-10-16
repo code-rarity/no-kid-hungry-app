@@ -11,13 +11,13 @@ export type EventListItemProps = {
 
 export const EventListItem = ({event}: EventListItemProps) => {
   return (
-     <TouchableHighlight style={{marginVertical:10}}>
+     <TouchableHighlight style={{marginVertical:10, borderRadius: 20}}>
       <ThemedView style={styles.eventItemContainer}>
         <ThemedView style={{
             ...styles.eventImageContainer
           }}>
-          <Image source={{ 
-            uri: event.image 
+          <Image source={{
+            uri: event.image
           }} style={{
             ...styles.eventImage
           }} />
@@ -27,22 +27,22 @@ export const EventListItem = ({event}: EventListItemProps) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor:'#fff'
+            backgroundColor:'#1C1C1E' // Dark background for the text container
           }}>
-          <ThemedView style={{ flex:1, backgroundColor:'#fff', width:'100%', paddingLeft:15}}>
-            <ThemedText 
-              numberOfLines={1} 
+          <ThemedView style={{ flex:1, backgroundColor:'transparent', width:'100%', paddingLeft:15}}>
+            <ThemedText
+              numberOfLines={2}
               style={{
                 ...styles.eventTitleText,
-                color:'#000'
+                color:'#fff' // White text color
               }}>
               {event.title}
             </ThemedText>
-            <ThemedText 
-              numberOfLines={1} 
+            <ThemedText
+              numberOfLines={1}
               style={{
                 ...styles.eventDateText,
-                color:'#000'
+                color:'#ccc' // Light grey for the date
               }}>
               {event.event_day} {event.event_month} {event.event_year}
             </ThemedText>
@@ -58,8 +58,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 8,
     alignItems: 'center',
-    backgroundColor:'#fff',
+    backgroundColor:'#1C1C1E', // Dark background for the item container
     overflow:'hidden',
+    borderRadius: 20,
   },
   eventPlayingIconIndicator: {
     position:'absolute',
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
     left:14,
   },
   eventImageContainer: {
-    borderRadius:20,
     overflow:'hidden',
   },
   eventImage: {
@@ -86,12 +86,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight:'normal',
     maxWidth: '90%',
-    backgroundColor:'#fff'
+    backgroundColor:'transparent'
   },
   eventTitleText: {
     fontSize: 16,
     fontWeight:'normal',
     maxWidth: '90%',
-    backgroundColor:'#fff'
+    backgroundColor:'transparent',
+    paddingBottom: 5,
   }
 })
