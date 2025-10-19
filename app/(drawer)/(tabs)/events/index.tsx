@@ -1,154 +1,297 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { StyleSheet, Image, Platform, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
-import { EventList } from '@/components/events/EventList';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { useNavigationSearch } from '@/hooks/useNavigationSearch';
-import { screenPadding } from '@/constants/Layout';
-import { eventTitleFilter } from '@/helpers/filters';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Image, View, ScrollView, TouchableOpacity, Text, FlatList, TextInput } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { parseDateString } from '@/helpers/misc';
-import LoaderKit from 'react-native-loader-kit';
-import Carousel from 'react-native-reanimated-carousel';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useNavigation } from 'expo-router';
+import { DrawerToggleButton } from '@react-navigation/drawer';
+
+// --- Reusable Components for the new design ---
+
+// Pill-shaped category button
+const CategoryPill = ({ title, icon, active }) => (
+    <TouchableOpacity style={[styles.pill, active && styles.pillActive]}>
+        {icon && <MaterialCommunityIcons name={icon} size={20} color={active ? '#fff' : '#333'} style={{ marginRight: 8 }} />}
+        <Text style={[styles.pillText, active && styles.pillTextActive]}>{title}</Text>
+    </TouchableOpacity>
+);
+
+// Large card for the featured event with updated overlay style
+const FeaturedEventCard = ({ event }) => (
+    <View style={styles.featuredCard}>
+        <Image source={{ uri: event.image }} style={styles.featuredImage} />
+        {/* This is now a floating card instead of a full-width overlay */}
+        <View style={styles.featuredInfoBox}>
+            <View style={styles.featuredOverlayContent}>
+                <Text style={styles.featuredDonationText}>Recently donated: 55 People</Text>
+                <Text style={styles.featuredUrgentText}>Urgent</Text>
+            </View>
+            <TouchableOpacity style={styles.donateNowButton}>
+                <Text style={styles.donateNowText}>Donate Now</Text>
+            </TouchableOpacity>
+        </View>
+    </View>
+);
+
+// Smaller card for the horizontal carousel (now larger)
+const OngoingEventCard = ({ event }) => (
+    <TouchableOpacity style={styles.ongoingCard}>
+        <Image source={{ uri: event.image }} style={styles.ongoingImage} />
+        <View style={styles.ongoingContent}>
+            <Text style={styles.ongoingEventType}>{event.event_type}</Text>
+            <Text style={styles.ongoingTitle} numberOfLines={2}>{event.title}</Text>
+        </View>
+    </TouchableOpacity>
+);
+
 
 export default function EventsScreen() {
-  const width = Dimensions.get('window').width;
-  const [featuredEvents, setFeaturedEvents] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [offset, setOffset] = useState(0);
+  const [featuredEvent, setFeaturedEvent] = useState(null);
+  const [ongoingEvents, setOngoingEvents] = useState([]);
+  const insets = useSafeAreaInsets();
+  const [activeCategory, setActiveCategory] = useState('Taste of the Nation');
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchEvents();
   }, []);
 
-  const search = useNavigationSearch({
-    searchBarOptions: {
-      placeholder:'Find an event',
-      textColor: "#fff", // Change search text color to white
-      tintColor: "#fff", // Change search icon color to white
-      headerIconColor: "#fff", // Change search header icon color to white
-    }
-  });
-
-  const filteredEvents = useMemo(() => {
-    if(!search) return events;
-
-    return events.filter(eventTitleFilter(search));
-  }, [search, events]);
-
   const fetchEvents = async () => {
     try {
-      await fetch(`https://events.nokidhungry.org/wp-json/wp/v2/events?filter[orderby]=event_date&order=desc&per_page=10&offset=${offset}`)
-      .then(rep => rep.json())
-      .then(res => {
-        res.map((event, i) => {
-          if(event.event_date) {
-            // Date formatting and isolation
-            const date = parseDateString(event.event_date);
+      const response = await fetch(`https://events.nokidhungry.org/wp-json/wp/v2/events?filter[orderby]=event_date&order=desc&per_page=10`);
+      const res = await response.json();
+      
+      const formattedEvents = res
+        .filter(event => event.event_date)
+        .map(event => ({
+            id: event.id,
+            title: event.title.rendered,
+            event_type: event.event_type_name,
+            image: event.image_paths["culinary-square"],
+        }));
 
-            const event_day = date.getDate();
-            const event_month = date.toLocaleString('default', { month: 'short' });
-            const event_year = date.getFullYear();
+      if (formattedEvents.length > 0) {
+          setFeaturedEvent(formattedEvents[0]); // First event is featured
+          setOngoingEvents(formattedEvents.slice(1)); // The rest are ongoing
+      }
 
-            if(i < 5) {
-              setFeaturedEvents(prevFeaturedEvents => [
-                ...prevFeaturedEvents,
-                {
-                  title: event.title.rendered,
-                  event_date: event.event_date,
-                  event_day: event_day,
-                  event_month: event_month,
-                  event_year: event_year,
-                  event_type: event.event_type_name,
-                  link: event.link,
-                  image: event.image_paths["culinary-square"],
-                  address: event.location.address,
-                  desc: event.yoast_head_json.description,
-                }
-              ]);
-            } else {
-              setEvents(prevEvents => [
-                ...prevEvents,
-                {
-                  title: event.title.rendered,
-                  event_date: event.event_date,
-                  event_day: event_day,
-                  event_month: event_month,
-                  event_year: event_year,
-                  event_type: event.event_type_name,
-                  link: event.link,
-                  image: event.image_paths["culinary-square"],
-                  address: event.location.address,
-                  desc: event.yoast_head_json.description,
-                }
-              ]);
-            }
-          }
-        });
-        //setPage(prevPage => prevPage + 1);
-        setOffset(prevOffset => prevOffset + 10);
-      });
     } catch (error) {
       console.error(error);
     }    
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <ScrollView contentInsetAdjustmentBehavior="automatic"
-        style={{ paddingHorizontal: screenPadding.horizontal }}>
-        <ThemedText style={{color:'#fff', fontWeight:'bold', paddingLeft:5, paddingBottom:20}}>FEATURED</ThemedText>
-        <Carousel
-            width={width*0.72}
-            height={320}
-            style={{ width: width }}
-            autoPlay={false}
-            data={featuredEvents}
-            scrollAnimationDuration={1000}
-            //onSnapToItem={(index) => console.log('current index:', index)}
-            renderItem={({ item: event }) => (
-              <TouchableOpacity style={{flex:1}}>
-                <Image source={{ uri: event.image }} style={{width:width/1.5, height:width/1.5, borderRadius: 25}} />
-                <ThemedView style={{position:'absolute', width:60, left:(width/1.5 - 80), top:10, padding:5, borderRadius:20, backgroundColor:'rgba(40, 40, 40, 0.8)'}}>
-                  <ThemedText style={{textAlign:'center', color: '#fff'}}>{event.event_month}</ThemedText>
-                  <ThemedText style={{textAlign:'center', fontWeight:'bold', fontSize:22, color: '#fff'}}>{event.event_day}</ThemedText>
-                </ThemedView>
-                <ThemedView style={{position:'absolute', left:10, bottom:30, padding:20, fontWeight:'bold', backgroundColor:'transparent'}}>
-                  <ThemedText style={{color: '#fff', fontWeight: 'bold'}}>{event.title}</ThemedText>
-                </ThemedView>
-              </TouchableOpacity>
-            )}
-        />
-        <ThemedText style={{color:'#fff', fontWeight:'bold', paddingLeft:5, paddingBottom:20, paddingTop: 20}}>ALL EVENTS</ThemedText>
-        {/* Note: You may need to adjust text colors inside the EventList component as well */}
-        <EventList scrollEnabled={false} events={filteredEvents} />
+    <View style={styles.container}>
+      <ScrollView
+        style={{ backgroundColor: '#121212'}} // Add dark background to scrollview
+        contentInsetAdjustmentBehavior="automatic"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ 
+          paddingBottom: insets.bottom + 100,
+        }}>
+        
+        {/* --- Top Segment --- */}
+        <View style={styles.topSegment}>
+            {/* Search Bar is added back here */}
+            <View style={styles.searchContainer}>
+                <MaterialCommunityIcons name="magnify" size={24} color="#888" />
+                <TextInput style={styles.searchInput} placeholder="Find an event" />
+            </View>
+            <View>
+                <Text style={styles.subHeaderTitle}>Choose an event</Text>
+                <Text style={styles.subHeaderText}>These Events Help Feed Kids</Text>
+            </View>
+        </View>
+
+        {/* --- Main Content Segment --- */}
+        <View style={styles.mainSegment}>
+            {/* Category Pills */}
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillsContainer}>
+                <CategoryPill title="Taste of the Nation" icon="food-variant" active={activeCategory === 'Taste of the Nation'} />
+                <CategoryPill title="NKH Dinners" icon="food-dining" active={activeCategory === 'NKH Dinners'} />
+                <CategoryPill title="Chefs Cycle" icon="bike" active={activeCategory === 'Chefs Cycle'} />
+            </ScrollView>
+
+            {/* Featured Event */}
+            {featuredEvent && <FeaturedEventCard event={featuredEvent} />}
+
+            {/* Ongoing Events Section */}
+            <View style={styles.ongoingHeader}>
+                <Text style={styles.ongoingSectionTitle}>Ongoing Hunger Crises</Text>
+                <TouchableOpacity>
+                    <Text style={styles.seeAllText}>See all <MaterialCommunityIcons name="arrow-right" size={14} /></Text>
+                </TouchableOpacity>
+            </View>
+            <FlatList
+                horizontal
+                data={ongoingEvents}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item }) => <OngoingEventCard event={item} />}
+                keyExtractor={item => item.id.toString()}
+                contentContainerStyle={{ paddingLeft: 20 }}
+            />
+        </View>
       </ScrollView>
-    </ThemedView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    backgroundColor: '#000', // Change main background to black
+    flex: 1,
+    backgroundColor: '#FFFFFF', // Main container is white
   },
-  emptyContainer: {
-    flex:1,
-    height: Dimensions.get('window').height,
-    backgroundColor:"#000",
-    alignItems: 'center',
+  topSegment: {
+      backgroundColor: '#fff',
+      paddingHorizontal: 20,
+      paddingVertical: 20, 
+      borderBottomLeftRadius: 25,
+      borderBottomRightRadius: 25,
   },
-  emptyContainerText: {
-    backgroundColor:"#000",
-    fontSize: 24,
-    fontWeight:'bold',
-    color:"#fff",
-    textAlign:'center',
+  searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#f0f0f0',
+      borderRadius: 10,
+      paddingHorizontal: 15,
+      marginBottom: 20,
   },
-  eventsLoadingIconIndicator: {
-    fontWeight:'bold',
-    marginTop:180,
-    marginBottom:40,
-    width:180,
-    height:180,
+  searchInput: {
+      flex: 1,
+      paddingVertical: 12,
+      marginLeft: 10,
+      fontSize: 16,
   },
-})
+  subHeaderTitle: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 4,
+  },
+  subHeaderText: {
+      fontSize: 14,
+      color: '#888',
+  },
+  mainSegment: {
+      marginTop: 2,
+      backgroundColor: '#fff',
+      borderTopLeftRadius: 25,
+      borderTopRightRadius: 25,
+      borderBottomLeftRadius: 25,
+      borderBottomRightRadius: 25,
+      paddingTop: 20,
+      paddingBottom: 20,
+  },
+  pillsContainer: {
+      flexDirection: 'row',
+      paddingHorizontal: 20,
+      marginBottom: 20,
+  },
+  pill: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#f0f0f0',
+      paddingHorizontal: 15,
+      paddingVertical: 10,
+      borderRadius: 20,
+      marginRight: 10,
+  },
+  pillActive: {
+      backgroundColor: '#28a745',
+  },
+  pillText: {
+      fontWeight: 'bold',
+      color: '#333',
+  },
+  pillTextActive: {
+      color: '#fff',
+  },
+  featuredCard: {
+      marginHorizontal: 20,
+      position: 'relative', // Needed for absolute positioning of the info box
+  },
+  featuredImage: {
+      width: '100%',
+      height: 250,
+      borderRadius: 20,
+  },
+  featuredInfoBox: {
+      position: 'absolute',
+      bottom: -20, // Position it to hang off the bottom of the image
+      left: 15,
+      right: 15,
+      backgroundColor: '#fff',
+      borderRadius: 15,
+      padding: 15,
+      // Shadow for the floating effect
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 10,
+      elevation: 5,
+  },
+  featuredOverlayContent: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 10,
+  },
+  featuredDonationText: {
+      fontWeight: 'bold',
+  },
+  featuredUrgentText: {
+      color: 'red',
+      fontWeight: 'bold',
+  },
+  donateNowButton: {
+      backgroundColor: '#333',
+      padding: 15,
+      borderRadius: 10,
+      alignItems: 'center',
+  },
+  donateNowText: {
+      color: '#fff',
+      fontWeight: 'bold',
+  },
+  ongoingHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+      marginTop: 40, // Increased margin to avoid overlap with featured card shadow
+      marginBottom: 15,
+  },
+  ongoingSectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+  },
+  seeAllText: {
+      color: '#007AFF',
+      fontWeight: 'bold',
+  },
+  ongoingCard: {
+      width: 220, // Larger card width
+      marginRight: 15,
+  },
+  ongoingImage: {
+      width: '100%',
+      height: 120, // Larger image height
+      borderRadius: 15,
+  },
+  ongoingContent: {
+      marginTop: 8,
+  },
+  ongoingEventType: {
+      fontSize: 12,
+      color: '#888',
+      textTransform: 'uppercase',
+  },
+  ongoingTitle: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      marginTop: 4,
+  },
+});
+

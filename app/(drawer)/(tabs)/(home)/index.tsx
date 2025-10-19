@@ -1,289 +1,269 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { Image, StyleSheet, TouchableOpacity, Dimensions, ScrollView, SafeAreaView } from 'react-native';
-import { screenPadding } from '@/constants/Layout';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import Carousel from 'react-native-reanimated-carousel';
-import CategoryDonateModal from '@/components/modals/CategoryDonateModal';
-import { LoggedInAccountDetails } from '@/components/account/LoggedInAccountDetails';
-import { parseDateString } from '@/helpers/misc';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { checkIfLoggedIn } from '@/model/UserAPI';
+import React, { useContext } from 'react';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { StatusBar } from 'expo-status-bar';
+import { DonationModalContext } from '../_layout'; // Import the context
+
+// Mock data for the fundraiser card
+const fundraiser = {
+  title: 'Together We Can: Fundraiser Gala',
+  raised: '$15,435',
+  daysLeft: 12,
+  image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=2940&auto=format&fit=crop',
+};
+
+// Category component, styled to match reference
+const Category = ({ icon, name }) => (
+  <TouchableOpacity style={styles.category}>
+    <View style={styles.categoryIconContainer}>
+      <MaterialCommunityIcons name={icon} size={24} color="#333" />
+    </View>
+    <Text style={styles.categoryText}>{name}</Text>
+  </TouchableOpacity>
+);
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
-  const width = Dimensions.get('window').width;
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [category, setCategory] = useState();
-  const [events, setEvents] = useState([]);
-  const [campaigns, setCampaigns] = useState([]);
-  const [stories, setStories] = useState([]);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    isLogged();
-    fetchFeaturedEvent();
-    fetchFeaturedFundraisers();
-    fetchImpactStories();
-  }, []);
-
-  const isLogged = async () => {
-    const loggedIn = await checkIfLoggedIn();
-    setIsLoggedIn(loggedIn);
-  }
-
-  const fetchFeaturedEvent = async () => {
-    try {
-      
-      await fetch(`https://events.nokidhungry.org/wp-json/wp/v2/events?filter[orderby]=event_date&order=desc&per_page=1`)
-      .then(rep => rep.json())
-      .then(res => {
-        res.map((event, i) => {
-          //if(event.event_date) {
-          // Date formatting and isolation
-          const date = (event.event_date ? parseDateString(event.event_date) : new Date() );
-
-          const event_day = date.getDate();
-          const event_month = date.toLocaleString('default', { month: 'short' });
-          const event_year = date.getFullYear();
-
-          setEvents(prevEvents => [
-            ...prevEvents,
-            {
-              title: event.title.rendered,
-              event_date: event.event_date,
-              event_day: event_day,
-              event_month: event_month,
-              event_year: event_year,
-              event_type: event.event_type_name,
-              link: event.link,
-              image: ( event.image_paths["culinary-square"] ? event.image_paths["culinary-square"] : 'https://www.nokidhungry.org/sites/default/files/styles/mobile_2x_scale/public/2023-03/homepage_hero_v3.jpg.webp?itok=R0XglCQC' ),
-              address: event.location.address,
-              desc: event.yoast_head_json.description,
-            }
-          ]);
-          //}
-        });
-      });
-    } catch (error) {
-      console.error(error);
-    }    
-  }
-
-  const fetchFeaturedFundraisers = async () => {
-    try {
-      await fetch(`https://fundraise.nokidhungry.org/wp-json/wp/v2/campaign?per_page=3`)
-      .then(rep1 => rep1.json())
-      .then(res1 => {
-        (res1).map((campaign, i) => {
-          fetch(`https://fundraise.nokidhungry.org/wp-json/wp/v2/media/${campaign.featured_media}`)
-          .then(rep2 => rep2.json())
-          .then(res2 => {
-            setCampaigns(prevCampaigns => [
-              ...prevCampaigns,
-              {
-                title: campaign.title.rendered,
-                date: campaign.date,
-                link: campaign.link,
-                image: (res2.source_url ? res2.source_url : 'https://www.nokidhungry.org/sites/default/files/styles/mobile_2x_scale/public/2023-03/homepage_hero_v3.jpg.webp?itok=R0XglCQC'),
-                content: campaign.content.rendered,
-              }
-            ]);
-          })
-        });
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const fetchImpactStories = async () => {
-    try {
-      await fetch(`https://stories.nokidhungry.org/wp-json/wp/v2/pages?filter[orderby]=date&order=desc&per_page=10`)
-      .then(rep1 => rep1.json())
-      .then(res1 => {
-        (res1).map((story) => {
-          fetch(`https://stories.nokidhungry.org/wp-json/wp/v2/media/${story.featured_media}`)
-          .then(rep2 => rep2.json())
-          .then(res2 => {
-            setStories(prevStories => [
-              ...prevStories,
-              {
-                title: story.title.rendered,
-                date: story.date,
-                link: story.link,
-                image: (res2.source_url ? res2.source_url : 'https://www.nokidhungry.org/sites/default/files/styles/mobile_2x_scale/public/2023-03/homepage_hero_v3.jpg.webp?itok=R0XglCQC'),
-                content: story.content.rendered,
-              }
-            ]);
-          })
-        });
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // Toggle modal visibility & pass pressed category to modal
-  const toggleModal = (category) => {
-    setVisible(!visible);
-    setCategory(category);
-  };
+  const insets = useSafeAreaInsets();
+  const toggleDonationModal = useContext(DonationModalContext);
 
   return (
-    /* Customized impact homescreen to personalize the donor journey inside the macro mission */
-    <ThemedView style={styles.container}>
-      <ScrollView style={{paddingHorizontal: screenPadding.horizontal, flex:1}} contentContainerStyle={{paddingBottom:120}}>
-
-        {isLoggedIn ? <LoggedInAccountDetails /> : null}
-
-        <ThemedText style={{paddingTop:25, paddingBottom:10, fontSize:12}}>HELP US WITH MEAL PROGRAMS, SNAP & MORE!</ThemedText>
-        <Carousel
-          width={width}
-          height={40}
-          style={{width:width, overflow:'hidden'}}
-          autoPlay={false}
-          data={[ "Donate Now" ]}
-          enabled={false}
-          scrollAnimationDuration={1000}
-          renderItem={({ item: category }) => (
-            <TouchableOpacity onPress={() => toggleModal(category)} style={{flex:1, justifyContent:'center', alignItems:'center', borderWidth:1, borderRadius:15, borderColor:'#000', marginRight:30}}>
-              <ThemedView>
-                <ThemedText style={{fontSize:14}}>{category}</ThemedText>
-              </ThemedView>
-            </TouchableOpacity>
-          )}
-        />
-
-        <ThemedView style={{flex:1, flexDirection:'row'}}>
-          <ThemedText style={{flex:1, paddingTop:20, fontSize:12}}>FEATURED EVENT</ThemedText>
-          <TouchableOpacity style={{flex:1, paddingTop:20}} onPress={() => navigation.navigate('events')}>
-            <ThemedText style={{fontSize:12, textAlign:'right'}}>SEE ALL</ThemedText>
+    <ScrollView
+      style={styles.container}
+      // This property tells the ScrollView to automatically avoid the header
+      contentInsetAdjustmentBehavior="automatic"
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ 
+        paddingBottom: insets.bottom + 100,
+      }}
+    >
+      {/* Set status bar icons to dark to be visible on the white background */}
+      <StatusBar style="dark" />
+      
+      {/* Top Segment */}
+      <View style={styles.topSegment}>
+        <View style={styles.headerContent}>
+          <View>
+            <Text style={styles.welcomeText}>Welcome back!</Text>
+            <Text style={styles.userName}>Jaydon Dias</Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.topUpButton}
+            onPress={toggleDonationModal}
+          >
+            <Text style={styles.topUpText}>Top Up</Text>
+            <MaterialCommunityIcons name="plus" size={16} color="#333" />
           </TouchableOpacity>
-        </ThemedView>
-        <TouchableOpacity onPress={() => navigation.navigate('events', {events})} style={{marginTop:15, marginBottom:25}}>
-          <Image source={{ uri: 'https://www.nokidhungry.org/sites/default/files/styles/mobile_2x_scale/public/2023-03/homepage_hero_v3.jpg.webp?itok=R0XglCQC' }} style={{width:'100%', height:200, borderTopLeftRadius: 15, borderTopRightRadius: 15}} />
-          <ThemedView style={{ padding: 15, borderBottomLeftRadius:15, borderBottomRightRadius:15, backgroundColor:'#FDB917'}}>
-            <ThemedText style={{color:'#000', fontWeight:'bold'}}>Title of Event</ThemedText>
-            <ThemedView style={{backgroundColor:'#f27622', padding:10, borderRadius:15, marginTop:15, maxWidth:180, justifyContent:'center', alignItems:'center', }}>
-              <ThemedText style={{color:'#fff', fontWeight:'bold'}}>Book Tickets</ThemedText>
-            </ThemedView>
-          </ThemedView>
-        </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate('podcast')} style={{flex:1, flexDirection:'row', backgroundColor:'rgba(99,200,204, 0.4)', borderRadius:10, paddingTop:25, paddingBottom:25, paddingLeft:15, paddingRight:15}}>
-          <ThemedView style={{flex:1, backgroundColor:'transparent'}}>
-            <ThemedText style={{fontWeight:'bold'}}>Listen to our Podcast!</ThemedText>
-            <ThemedText>Add Passion & Stir</ThemedText>
-            <ThemedText style={{borderColor:'#63c8cc', marginTop:10, padding:10, borderWidth:2, textAlign:'center', borderRadius:15}}>Go To Episodes</ThemedText>
-          </ThemedView>
-          <MaterialCommunityIcons style={{flex:1, textAlign:'right'}} name="podcast" size={50} />
-        </TouchableOpacity>
+        <View style={styles.divider} />
 
-        <ThemedView style={{flex:1, flexDirection:'row'}}>
-          <ThemedText style={{flex:1, paddingTop:20, fontSize:12}}>FEATURED FUNDRAISERS</ThemedText>
-          <TouchableOpacity style={{flex:1, paddingTop:20}} onPress={() => navigation.navigate('fundraise')}>
-            <ThemedText style={{fontSize:12, textAlign:'right'}}>SEE ALL</ThemedText>
+        <View style={styles.pointsContainer}>
+          <View style={styles.pointsIcon}>
+            <MaterialCommunityIcons name="trophy-outline" size={32} color="#333" />
+          </View>
+          <View style={styles.pointsTextContainer}>
+            <Text style={styles.pointsTitle}>Donation point</Text>
+            <Text style={styles.pointsValue}>1800<Text style={styles.pointsUnit}>Pts</Text></Text>
+            <Text style={styles.pointsSubtitle}>200 point till your next reward</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Categories Segment */}
+      <View style={styles.segment}>
+        <Text style={styles.sectionTitle}>Categories</Text>
+        <View style={styles.categoriesContainer}>
+          <Category icon="book-open-page-variant-outline" name="Education" />
+          <Category icon="heart-outline" name="Medical" />
+          <Category icon="home-group" name="Nonprofit" />
+          <Category icon="account-group-outline" name="Community" />
+        </View>
+      </View>
+
+      {/* Discover Events Segment */}
+      <View style={styles.segment}>
+        <Text style={styles.sectionTitle}>Discover Events</Text>
+        <View style={styles.discoverCard}>
+          <Image source={{ uri: fundraiser.image }} style={styles.discoverImage} />
+          <TouchableOpacity style={styles.heartIcon}>
+            <MaterialCommunityIcons name="heart-outline" size={24} color="#333" />
           </TouchableOpacity>
-        </ThemedView>
-        <Carousel
-          width={width/1.4}
-          height={340}
-          style={{flex:1, width: width, overflow:'visible', marginTop:10, backgroundColor:'transparent'}}
-          autoPlay={false}
-          data={campaigns}
-          scrollAnimationDuration={1000}
-          renderItem={({ item: campaign }) => (
-            <TouchableOpacity onPress={() => navigation.navigate('fundraise', {campaign})} style={{marginRight:25}}>
-              <Image source={{ uri: campaign.image }} style={{width:'100%', height:200, borderTopLeftRadius: 15, borderTopRightRadius: 15}} />
-              <ThemedView style={{ padding: 15, borderBottomLeftRadius:15, borderBottomRightRadius:15, backgroundColor:'#FDB917'}}>
-                <ThemedText style={{color:'#000', fontWeight:'bold'}}>{campaign.title}</ThemedText>
-                <ThemedView style={{backgroundColor:'#f27622', padding:10, borderRadius:15, marginTop:15, maxWidth:100, justifyContent:'center', alignItems:'center', }}>
-                  <ThemedText style={{color:'#fff', fontWeight:'bold'}}>Create</ThemedText>
-                </ThemedView>
-              </ThemedView>
-            </TouchableOpacity>
-          )}
-        />
-
-      <ThemedText style={{paddingBottom:10, fontSize:24, lineHeight:30, fontWeight:'bold'}}>Real stories and real impact from your donations.</ThemedText>
-        <Carousel
-          width={width/1.4}
-          height={80}
-          style={{flex:1, width: width, overflow:'visible', marginTop:10, backgroundColor:'transparent'}}
-          autoPlay={false}
-          data={stories}
-          scrollAnimationDuration={1000}
-          renderItem={({ item: story }) => (
-            <TouchableOpacity onPress={() => navigation.navigate('story', {story})} style={{marginRight:25}}>
-              <ThemedView>
-                <Image source={{ uri: story.image }} style={{width:'100%', height:80, borderRadius: 25}} />
-                <ThemedText style={{position:'absolute', bottom:0, padding: 10, color:'#fff', fontWeight:'bold'}}>{story.title}</ThemedText>
-              </ThemedView>
-            </TouchableOpacity>
-          )}
-        />
-
-        <CategoryDonateModal visible={visible} category={category} onClose={toggleModal} />
-      </ScrollView>
-    </ThemedView>
+          <View style={styles.discoverContent}>
+            <Text style={styles.discoverUser}>Insan Pribadi</Text>
+            <Text style={styles.discoverTitle}>{fundraiser.title}</Text>
+            <View style={styles.discoverFooter}>
+              <Text style={styles.daysLeft}>{fundraiser.daysLeft} days left</Text>
+              <Text style={styles.discoverRaised}>{fundraiser.raised}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#121212', // Dark background for the scrollable area
   },
-  h1: {
-    fontSize: 100,
+  topSegment: {
+      backgroundColor: '#fff',
+      // The top corners are no longer rounded
+      borderBottomLeftRadius: 25,
+      borderBottomRightRadius: 25,
+      padding: 20, 
+      marginBottom: 2,
+  },
+  segment: {
+    backgroundColor: '#fff',
+    borderRadius: 25, 
+    padding: 20, 
+    marginBottom: 2,
+    marginHorizontal: 4, // Add horizontal margin to create space
+  },
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  welcomeText: {
+    fontSize: 16,
+    color: '#888',
+  },
+  userName: {
+    fontSize: 24,
     fontWeight: 'bold',
-    lineHeight: 100,
-    color: '#F26722',
+    color: '#000',
   },
-  h2: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    lineHeight: 36,
+  pointsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  h3: {
+  pointsIcon: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#eee',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 20,
+  },
+  pointsTextContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  pointsTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#555',
+  },
+  pointsValue: {
     fontSize: 26,
     fontWeight: 'bold',
-    lineHeight: 32,
+    color: '#000',
   },
-  img: {
-    width:'100%',
-    height:80,
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
+  pointsUnit: {
+    fontSize: 18,
+    fontWeight: 'normal',
+    color: '#555',
   },
-  card: {
-    flex:1,
-    marginTop: 15,
-    marginBottom:15,
+  pointsSubtitle: {
+    fontSize: 14,
+    color: '#aaa',
+    marginTop: 2,
   },
-  carddetails: {
-    paddingTop:15,
-    paddingLeft:25,
-    paddingRight:25,
-    paddingBottom:50,
-    backgroundColor: '#FDB917',
-    borderBottomLeftRadius:40,
-    borderBottomRightRadius:40,
+  divider: {
+    height: 1,
+    backgroundColor: '#f0f0f0',
+    marginVertical: 25,
   },
-  donateTimeLineEntry: {
-    flex:1,
-    width:'100%',
-    flexDirection:'row',
-    paddingTop:25,
-    paddingBottom:25,
-    backgroundColor:'transparent'
+  topUpButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f0f2f5',
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    borderRadius: 20,
   },
-  p: {
+  topUpText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333',
+    marginRight: 5,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 20,
+  },
+  categoriesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  category: {
+    alignItems: 'center',
+  },
+  categoryIconContainer: {
+    backgroundColor: '#f0f2f5',
+    width: 60,
+    height: 60,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  categoryText: {
+    fontSize: 12,
+    color: '#555',
+    textAlign: 'center',
+  },
+  discoverCard: {
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  discoverImage: {
+    width: '100%',
+    height: 180,
+  },
+  heartIcon: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    padding: 8,
+    borderRadius: 20,
+  },
+  discoverContent: {
+    paddingTop: 15,
+  },
+  discoverUser: {
+    fontSize: 14,
+    color: '#888',
+  },
+  discoverTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    marginVertical: 2,
+  },
+  discoverFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  daysLeft: {
+    fontSize: 14,
+    color: '#888',
+  },
+  discoverRaised: {
     fontSize: 16,
-    paddingTop: 10,
+    fontWeight: 'bold',
+    color: '#000',
   },
-  small: {
-    fontSize:12,
-  }
 });
+

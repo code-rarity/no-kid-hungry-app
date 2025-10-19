@@ -1,52 +1,47 @@
-import { TouchableOpacity } from 'react-native';
-import { Stack, router } from 'expo-router';
+import React, { useLayoutEffect } from 'react';
+import { Stack, useNavigation } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
-import { StackScreenWithSearchBar } from '@/constants/Layout';
-import { ThemedView } from '@/components/ThemedView';
+import { TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const EventsScreenLayout = () => {
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerSearchBarOptions: undefined,
+    });
+  }, [navigation]);
+
   return (
-    <ThemedView style={{flex:1, backgroundColor: '#000'}}>
-      <Stack screenOptions={{
-        headerStyle: {
-          elevation: 0,
-          shadowOpacity: 0,
-          borderBottomWidth: 0,
-        }
-      }}>
-        <Stack.Screen
-          name="index"
-          options={{
-            ...StackScreenWithSearchBar,
-            headerTitle: 'Explore Events',
-            headerShown:true,
-            headerStyle: {
-              backgroundColor: '#000', // Change header background to black
-            },
-            headerLargeStyle: {
-              backgroundColor: '#000', // Specifically for the large header area
-            },
-            headerLargeTitleStyle: {
-              color: '#fff', // Change header title text to white
-            },
-            headerTintColor: '#fff', // Change header tint color for other elements
-            headerLeft: () => 
-              <ThemedView style={{marginLeft:-20, marginRight:20, backgroundColor:'transparent'}}>
-                <DrawerToggleButton tintColor='#fff' />
-              </ThemedView>,
-            headerRight: () => (
-              <TouchableOpacity onPress={() => router.navigate('account')} style={{marginRight:-5}}>
-                <MaterialCommunityIcons name="account-circle-outline" color='#fff' size={25} />
-              </TouchableOpacity>
-            ),
-            }}
-        />
-        <Stack.Screen name="event" options={{ headerShown: false }} />
-      </Stack>
-    </ThemedView>
+    <Stack>
+      <Stack.Screen
+        name="index"
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: '#fff' },
+          headerShadowVisible: false,
+          headerTitle: '',
+          headerLeftContainerStyle: {
+            paddingLeft: 20,
+          },
+          headerRightContainerStyle: {
+            paddingRight: 20,
+          },
+          headerLeft: () => (
+            <DrawerToggleButton tintColor={'#000'} />
+          ),
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('account')}>
+              <MaterialCommunityIcons name="account-circle-outline" color={'#000'} size={28} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen name="event" options={{ headerShown: false }} />
+    </Stack>
   )
 }
 
-export default EventsScreenLayout
+export default EventsScreenLayout;
 
