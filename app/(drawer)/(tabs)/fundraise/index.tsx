@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     topSegment: {
         backgroundColor: '#fff',
         paddingHorizontal: 20,
-        paddingBottom: 20,
+        paddingVertical: 20, 
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
     },

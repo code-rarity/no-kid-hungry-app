@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 import { Stack, useNavigation } from 'expo-router';
-import { DrawerToggleButton } from '@react-navigation/drawer';
-import { TouchableOpacity, View } from 'react-native';
+import { DrawerActions } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const EventsScreenLayout = () => {
@@ -28,8 +28,11 @@ const EventsScreenLayout = () => {
           headerRightContainerStyle: {
             paddingRight: 20,
           },
+          // Replace the default button with a custom one for consistent styling
           headerLeft: () => (
-            <DrawerToggleButton tintColor={'#000'} />
+            <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
+              <MaterialCommunityIcons name="menu" color={'#000'} size={28} />
+            </TouchableOpacity>
           ),
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('account')}>
