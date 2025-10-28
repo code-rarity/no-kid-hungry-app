@@ -8,7 +8,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const { height } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 
 // Define the different donation levels
 const oneTimeAmounts = [50, 100, 250, 500];
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: '#fff',
-    width: '90%', 
+    width: screenWidth - 8, // Match segment width
     borderRadius: 20, 
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 5 },
@@ -608,13 +608,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f27622',
     paddingVertical: 15,
     borderRadius: 30,
-    marginHorizontal: 20,
+    width: screenWidth - 8,
+    alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     position: 'absolute',
-    left: 20,
-    right: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,

@@ -34,35 +34,7 @@ export default function TabLayout() {
             headerShown: false, 
           }}
         >
-          <Tabs.Screen
-            name="(home)"
-            options={{
-              headerShown: true,
-              // Apply the same solid white header style as the Events screen
-              headerStyle: { backgroundColor: '#fff' },
-              headerShadowVisible: false,
-              headerTitle: '',
-              // Apply the same container styles for consistent padding
-              headerLeftContainerStyle: {
-                paddingLeft: 20,
-              },
-              headerRightContainerStyle: {
-                paddingRight: 20,
-              },
-              headerLeft: () => (
-                <DrawerToggleButton tintColor={'#000'} />
-              ),
-              headerRight: () => (
-                <TouchableOpacity onPress={() => navigation.navigate('account')}>
-                  <MaterialCommunityIcons 
-                    name="account-circle-outline" 
-                    size={28} 
-                    color={'#000'} 
-                  />
-                </TouchableOpacity>
-              ),
-            }}
-          />
+          <Tabs.Screen name="(home)" options={{ title: 'Events' }} />
           <Tabs.Screen name="events" options={{ title: 'Events' }} />
           <Tabs.Screen
             name="donate"
@@ -74,21 +46,25 @@ export default function TabLayout() {
               },
             }}
           />
-          <Tabs.Screen name="fundraise" options={{ title: 'Fundraise' }} />
+           <Tabs.Screen name="fundraise" options={{ title: 'Fundraise' }} />
           <Tabs.Screen name="podcast" options={{ title: 'Podcast' }} />
-        </Tabs>
+      </Tabs>
 
-        <FloatingPlayer style={{
-          position:'absolute',
-          left:8,
-          right:8,
-          bottom: 100, 
-          backgroundColor:'rgba(242,118,34,0.9)',
-        }} />
+      <FloatingPlayer style={{
+        position:'absolute',
+        // Match the tab bar's horizontal positioning
+        left: 20,
+        right: 20,
+        bottom: 100,
+        backgroundColor:'rgba(242,118,34,0.9)',
+        // Match the tab bar's pill shape
+        borderRadius: 32.5, 
+      }} />
 
-        {donationModalVisible && <DonationModal visible={donationModalVisible} onClose={toggleDonationModal} />}
-        <ThankYouModal visible={thankYouVisible} onClose={toggleThankYouModal} />
-      </View>
-    </DonationModalContext.Provider>
+      {donationModalVisible && <DonationModal visible={donationModalVisible} onClose={toggleDonationModal} />}
+      <ThankYouModal visible={thankYouVisible} onClose={toggleThankYouModal} />
+    </View>
+  </DonationModalContext.Provider>
   );
 }
+
