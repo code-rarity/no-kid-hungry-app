@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { View, StyleSheet, TextInput, FlatList } from 'react-native';
 import { TrackListItem } from '@/components/podcast/TrackListItem';
-import { fetchTrackData } from '@/model/PodcastAPI';
+import { fetchTrackData } from '@/model/podcastAPI';
 import { episodeTitleFilter } from '@/helpers/filters';
 import LoaderKit from 'react-native-loader-kit';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

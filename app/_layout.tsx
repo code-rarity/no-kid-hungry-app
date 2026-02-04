@@ -9,7 +9,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer';
 import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState';
 import * as SplashScreen from 'expo-splash-screen';
-import { fetchOrCreateLuminateUser, logOutLuminateUser } from '@/model/UserAPI';
+import { fetchOrCreateLuminateUser, logOutLuminateUser } from '@/model/userAPI';
 import { Authenticator } from "@aws-amplify/ui-react-native";
 import 'react-native-reanimated';
 // Import the SafeAreaProvider

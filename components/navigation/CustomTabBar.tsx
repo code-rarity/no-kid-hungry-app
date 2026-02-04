@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const iconMap = {
   '(home)': 'home',
   'events': 'calendar-blank-outline',
-  'donate': 'heart-outline',
+  'donate': 'cart-outline',
   'fundraise': 'wallet-giftcard',
   'podcast': 'podcast',
 };
